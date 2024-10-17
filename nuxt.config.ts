@@ -34,6 +34,12 @@ export default defineNuxtConfig({
       },
     },
   },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
   devServer: {
     port: 3011
   }
