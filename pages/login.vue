@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'short'
+})
 import { useField, useForm } from 'vee-validate';
 
 // document.title = 'Авторизация — Ищу наставника'
@@ -28,7 +31,7 @@ const login = handleSubmit(async values => {
   loading.value = true
   // await auth.login(values.email, values.password)
   loading.value = false
-  
+
   router.push('/')
 })
 </script>
@@ -38,48 +41,26 @@ const login = handleSubmit(async values => {
     <BackButton></BackButton>
 
     <v-col cols="12" xs="12" md="6" lg="4" class="mt-4 ma-auto">
-      <v-card 
-        class="d-flex flex-column justify-center align-center text-center rounded-lg w-100 pl-6 pr-6 pt-4 pb-6"
-      >
+      <v-card class="d-flex flex-column justify-center align-center text-center rounded-lg w-100 pl-6 pr-6 pt-4 pb-6">
         <div class="text-h6 font-weight-bold">Вход</div>
-  
-        <v-form @submit.prevent="login" class="d-flex mt-3 flex-column align-center justify-center w-100">
-          <v-text-field 
-            label="Email"
-            type="email"
-            placeholder="vasya@ya.ru"
-            v-model="email.value.value"
-            :error-messages="email.errorMessage.value"
-            variant="outlined"
-            density="compact"
-            class="w-100"
-          />          
 
-          <v-text-field 
-            label="Пароль"
-            v-model="password.value.value"
+        <v-form @submit.prevent="login" class="d-flex mt-3 flex-column align-center justify-center w-100">
+          <v-text-field label="Email" type="email" placeholder="vasya@ya.ru" v-model="email.value.value"
+            :error-messages="email.errorMessage.value" variant="outlined" density="compact" class="w-100" />
+
+          <v-text-field label="Пароль" v-model="password.value.value"
             :append-inner-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append-inner="show_password = !show_password"
-            :type="show_password ? 'text' : 'password'"
-            :error-messages="password.errorMessage.value"
-            variant="outlined"
-            density="compact"
-            class="w-100"
-          />
+            @click:append-inner="show_password = !show_password" :type="show_password ? 'text' : 'password'"
+            :error-messages="password.errorMessage.value" variant="outlined" density="compact" class="w-100" />
 
           <v-btn type="submit" :disabled="!meta.valid" color="accent" class="mt-4">Войти</v-btn>
         </v-form>
-  
-        <div 
-          @click="router.push('/registration')" 
-          :loading="loading"
-          class="text-body-2 w-100 cursor-pointer font-weight-semibold pa-1 mt-4"
-        >
+
+        <div @click="router.push('/registration')" :loading="loading"
+          class="text-body-2 w-100 cursor-pointer font-weight-semibold pa-1 mt-4">
           регистрация
         </div>
-        <div
-          class="text-body-2 w-100 cursor-pointer font-weight-semibold pa-1"
-        >
+        <div class="text-body-2 w-100 cursor-pointer font-weight-semibold pa-1">
           восстановить пароль
         </div>
       </v-card>
