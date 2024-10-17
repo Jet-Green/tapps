@@ -2,7 +2,7 @@
 
 <template>
   <v-app>
-    <NuxtPage />
+    <slot />
   </v-app>
 </template>
 
