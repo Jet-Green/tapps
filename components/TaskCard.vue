@@ -1,12 +1,17 @@
 <template>
-  <v-row class="border-2 border-indigo-600">
-    <v-col cols="12">
-      <h2>Task name</h2> and BUTTONS
+  <div class="border rounded-lg">
+    <v-col cols="12" class="d-flex justify-space-between">
+      <p class="text-2xl font-semibold">Task name</p>
+      <div>
+        <v-btn class="ma-1" variant="tonal" size="small" rounded="lg">Курс</v-btn> / <v-btn class="ma-1" variant="tonal" size="small" rounded="lg">Урок</v-btn>
+      </div>
     </v-col>
-    <v-col cols="12">
-      description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, obcaecati dolor? Necessitatibus repellat atque cupiditate temporibus. Ullam nobis magni id est, in vero. Qui, blanditiis quod labore vel excepturi deserunt.
+    <v-col cols="12" class="text-base">
+      <p>
+        description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, obcaecati dolor? Necessitatibus repellat atque cupiditate temporibus. Ullam nobis magni id est, in vero. Qui, blanditiis quod labore vel excepturi deserunt.
+      </p>
     </v-col>
-  </v-row>
+  </div>
 </template>
 <style scoped>
 /* .card {

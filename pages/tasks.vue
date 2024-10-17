@@ -1,8 +1,7 @@
 <template>
   <v-container>
-    <h1>Tasks</h1>
     <v-row>
-      <v-col cols="3">
+      <v-col cols="12" sm="6" md="4" lg="3" v-for="i in 7">
         <TaskCard />
       </v-col>
     </v-row>
