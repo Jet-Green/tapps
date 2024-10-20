@@ -1,4 +1,18 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useTheme } from "vuetify"
+
+const theme = useTheme()
+const savedTheme = useCookie('theme')
+
+if (['light', 'dark'].includes(String(savedTheme.value))) {
+  theme.global.name.value = String(savedTheme.value);
+}
+
+function toggleTheme() {
+  theme.global.name.value = theme.global.current.value.dark ? "light" : "dark"
+  savedTheme.value = theme.global.name.value
+}
+</script>
 
 <template>
   <v-app>
@@ -10,7 +24,7 @@
           </v-col>
           <v-col cols="9" md="2" class="flex justify-end items-center">
             <v-col cols="2">
-              <button type="button"
+              <button @click="toggleTheme" type="button"
                 class="text-zinc-700 border border-zinc-700 hover:bg-zinc-100  focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16"
                   height="16" class="g-icon" fill="currentColor" stroke="none" aria-hidden="true"><svg
