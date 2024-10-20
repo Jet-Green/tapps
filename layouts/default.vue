@@ -1,5 +1,14 @@
 <script lang="ts" setup>
+import { useTheme } from "vuetify"
+
+const theme = useTheme()
+
 const router = useRouter()
+const savedTheme = useCookie('theme')
+
+if (['light', 'dark'].includes(String(savedTheme.value))) {
+  theme.global.name.value = String(savedTheme.value);
+}
 
 // path of active tab
 let activeTab = ref<string>()
@@ -9,12 +18,17 @@ function setActiveTab(tabPath: string) {
   router.push(tabPath)
 }
 
+function toggleTheme() {
+  theme.global.name.value = theme.global.current.value.dark ? "light" : "dark"
+  savedTheme.value = theme.global.name.value
+}
+
 // set current active tab
-const fullPath = router.currentRoute.value.fullPath;
-if (fullPath.startsWith('/courses')) {
-  activeTab.value = '/courses'
-} else if (fullPath.startsWith('/tasks')) {
-  activeTab.value = '/tasks'
+const fullPath = router.currentRoute.value.fullPath
+if (fullPath.startsWith("/courses")) {
+  activeTab.value = "/courses"
+} else if (fullPath.startsWith("/tasks")) {
+  activeTab.value = "/tasks"
 }
 </script>
 <template>
@@ -27,16 +41,36 @@ if (fullPath.startsWith('/courses')) {
           </v-col>
 
           <v-col cols="6" class="d-flex justify-center align-center">
-            <div class="select-item" @click="setActiveTab('/courses')" :class="{ 'active-item': activeTab == '/courses' }">
+            <div
+              class="select-item"
+              @click="setActiveTab('/courses')"
+              :class="{
+                'active-item': activeTab == '/courses',
+                'black-border': activeTab == '/courses' && theme.global.name.value == 'light',
+                'white-border': activeTab == '/courses' && theme.global.name.value == 'dark',
+              }"
+            >
               Мои курсы
             </div>
-            <div class="select-item" @click="setActiveTab('/tasks')" :class="{ 'active-item': activeTab == '/tasks' }">Задания</div>
+            <div
+              class="select-item"
+              @click="setActiveTab('/tasks')"
+              :class="{
+                'active-item': activeTab == '/tasks',
+                'black-border': activeTab == '/tasks' && theme.global.name.value == 'light',
+                'white-border': activeTab == '/tasks' && theme.global.name.value == 'dark',
+              }"
+            >
+              Задания
+            </div>
           </v-col>
 
           <v-col cols="3" class="d-flex align-center justify-end">
-            sun
-            <v-avatar image="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg"></v-avatar>
-            username <br>
+            <v-btn @click="toggleTheme">ch theme</v-btn>
+            <v-avatar
+              image="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg"
+            ></v-avatar>
+            username <br />
             role
             <v-icon icon="mdi-dots-vertical"></v-icon>
           </v-col>
@@ -58,6 +92,13 @@ if (fullPath.startsWith('/courses')) {
 .active-item {
   transition: ease 0.2s;
   font-weight: 500;
+}
+
+.black-border {
   border-bottom: 2px solid black;
+}
+
+.white-border {
+  border-bottom: 2px solid white;
 }
 </style>
