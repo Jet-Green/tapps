@@ -1,5 +1,5 @@
   <template>
-    <div class="border-2 rounded-lg">
+    <div class="border rounded-lg">
       <v-col cols="12" class="flex justify-center">
         <img class="w-50"
           src="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg" />
