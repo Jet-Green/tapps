@@ -32,8 +32,8 @@ if (fullPath.startsWith("/courses")) {
 }
 </script>
 <template>
-  <v-app>
-    <v-app-bar :elevation="0">
+  <v-app class="relative min-h-screen">
+    <v-app-bar :elevation="0" >
       <v-container>
         <v-row>
           <v-col cols="3">
@@ -41,26 +41,18 @@ if (fullPath.startsWith("/courses")) {
           </v-col>
 
           <v-col cols="6" class="d-flex justify-center align-center">
-            <div
-              class="select-item"
-              @click="setActiveTab('/courses')"
-              :class="{
-                'active-item': activeTab == '/courses',
-                'black-border': activeTab == '/courses' && theme.global.name.value == 'light',
-                'white-border': activeTab == '/courses' && theme.global.name.value == 'dark',
-              }"
-            >
+            <div class="select-item" @click="setActiveTab('/courses')" :class="{
+              'active-item': activeTab == '/courses',
+              'black-border': activeTab == '/courses' && theme.global.name.value == 'light',
+              'white-border': activeTab == '/courses' && theme.global.name.value == 'dark',
+            }">
               Мои курсы
             </div>
-            <div
-              class="select-item"
-              @click="setActiveTab('/tasks')"
-              :class="{
-                'active-item': activeTab == '/tasks',
-                'black-border': activeTab == '/tasks' && theme.global.name.value == 'light',
-                'white-border': activeTab == '/tasks' && theme.global.name.value == 'dark',
-              }"
-            >
+            <div class="select-item" @click="setActiveTab('/tasks')" :class="{
+              'active-item': activeTab == '/tasks',
+              'black-border': activeTab == '/tasks' && theme.global.name.value == 'light',
+              'white-border': activeTab == '/tasks' && theme.global.name.value == 'dark',
+            }">
               Задания
             </div>
           </v-col>
@@ -68,8 +60,7 @@ if (fullPath.startsWith("/courses")) {
           <v-col cols="3" class="d-flex align-center justify-end">
             <v-btn @click="toggleTheme">ch theme</v-btn>
             <v-avatar
-              image="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg"
-            ></v-avatar>
+              image="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg"></v-avatar>
             username <br />
             role
             <v-icon icon="mdi-dots-vertical"></v-icon>
@@ -77,9 +68,10 @@ if (fullPath.startsWith("/courses")) {
         </v-row>
       </v-container>
     </v-app-bar>
-    <div class="mt-16">
+    <div class="mt-16 pb-20">
       <slot />
     </div>
+    <Footer />
   </v-app>
 </template>
 

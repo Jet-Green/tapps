@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Footer } from "#build/components";
 import { useTheme } from "vuetify"
 
 const theme = useTheme()
@@ -15,7 +16,7 @@ function toggleTheme() {
 </script>
 
 <template>
-  <v-app>
+  <v-app class="relative min-h-screen">
     <v-app-bar :elevation="0">
       <v-container>
         <v-row class="flex align-center justify-between">
@@ -53,10 +54,10 @@ function toggleTheme() {
         </v-row>
       </v-container>
     </v-app-bar>
-    <div class="mt-16">
+    <div class="mt-16 pb-20">
       <slot />
     </div>
-
+    <Footer />
   </v-app>
 </template>
 
