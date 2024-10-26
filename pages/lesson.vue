@@ -1,3 +1,4 @@
+<script setup lang="ts"></script>
 <template>
   <v-container class="mt-5">
     <v-row>
@@ -9,7 +10,7 @@
       </v-col>
       <v-col cols="12" md="3">
         <p class="text-4xl font-semibold mb-5">
-          Машиное обучение
+          Машинное обучение
         </p>
         <p class="text-base">
           Машинное обучение (англ. machine learning, ML) — класс методов искусственного интеллекта, характерной чертой

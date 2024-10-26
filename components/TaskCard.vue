@@ -1,3 +1,4 @@
+<script setup lang="ts"></script>
 <template>
   <div class="border rounded-lg">
     <v-col cols="12" class="d-flex justify-space-between">

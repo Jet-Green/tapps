@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { Footer } from "#build/components";
 import { useTheme } from "vuetify"
 
 const theme = useTheme()
@@ -14,7 +13,6 @@ function toggleTheme() {
   savedTheme.value = theme.global.name.value
 }
 </script>
-
 <template>
   <v-app class="relative min-h-screen">
     <v-app-bar :elevation="0">

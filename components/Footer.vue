@@ -1,3 +1,4 @@
+<script setup lang="ts"></script>
 <template>
   <v-footer class="max-h-32 w-100">
     <v-row justify="center" no-gutters>
