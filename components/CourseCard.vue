@@ -1,6 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+</script>
 <template>
-  <div class="border rounded-lg">
+  <div class="border rounded-lg" @click="router.push('/courses/id_of_course_will_be_there')">
     <v-col cols="12" class="flex justify-center">
       <img class="w-50" src="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg" />
     </v-col>
