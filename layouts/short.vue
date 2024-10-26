@@ -22,9 +22,9 @@ function toggleTheme() {
             <img class="h-[35px]" src="/assets/images/factum-logo.svg" />
           </v-col>
           <v-col cols="9" md="2" class="flex justify-end items-center">
-            <v-col cols="2">
+            <v-col class="flex justify-end">
               <button @click="toggleTheme" type="button"
-                class="text-zinc-700 border border-zinc-700 hover:bg-zinc-100  focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
+                class="text-zinc-700 border border-zinc-700 hover:bg-zinc-400 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:hover:bg-zinc-700">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16"
                   height="16" class="g-icon" fill="currentColor" stroke="none" aria-hidden="true"><svg
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
@@ -33,20 +33,6 @@ function toggleTheme() {
                       clip-rule="evenodd"></path>
                   </svg></svg>
               </button>
-            </v-col>
-            <v-col cols="3">
-              <v-avatar
-                image="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg" />
-            </v-col>
-            <v-col cols="5">
-              <p class="text-base">Савелий Ученик
-              </p>
-            </v-col>
-            <v-col cols="2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
-                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 1 1 0-2a1 1 0 0 1 0 2m0 7a1 1 0 1 1 0-2a1 1 0 0 1 0 2m0 7a1 1 0 1 1 0-2a1 1 0 0 1 0 2" />
-              </svg>
             </v-col>
           </v-col>
         </v-row>
