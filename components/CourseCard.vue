@@ -14,7 +14,7 @@ let { course } = props
 <template>
   <div class="border rounded-lg" @click="router.push(`/courses/${course._id}`)">
     <v-col cols="12" class="flex justify-center">
-      <img class="w-50" src="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg" />
+      <img class="w-50" :src="course.images[0]" />
     </v-col>
     <v-col cols="12">
       <p class="text-2xl font-semibold">{{ course.name }}</p>
