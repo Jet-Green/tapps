@@ -1,20 +1,27 @@
 <script setup lang="ts">
+import type { Lesson } from '~/types/lesson.interface';
+
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
+
+let { lesson } = defineProps<{
+  lesson: Lesson,
+}>()
 </script>
 <template>
-  <div class="border rounded-lg" @click="router.push(`/lesson?_id=12333`)">
+  <div class="border rounded-lg cursor-pointer" @click="router.push(`lesson?_id=${lesson._id}`)">
     <v-col cols="12" class="flex justify-center">
-      <img class="w-50" src="https://img.freepik.com/free-photo/beautiful-kitten-with-colorful-clouds_23-2150752964.jpg" />
+      <!-- тут превьюшку нужно делать из видоса или отдельно загружать -->
+      <img class="w-50"
+        src="https://img.freepik.com/free-photo/beautiful-kitten-with-colorful-clouds_23-2150752964.jpg" />
     </v-col>
     <v-col cols="12">
-      <p class="text-2xl font-semibold">Урок машинного обучения</p>
+      <p class="text-2xl font-semibold">{{ lesson.name }}</p>
     </v-col>
     <v-col cols="12">
       <p class="text-base">
-        Машинное обучение (англ. machine learning, ML) — класс методов искусственного интеллекта, характерной чертой
-        которых является не прямое решение задачи.
+        {{ lesson.shortDescription }}
       </p>
     </v-col>
   </div>

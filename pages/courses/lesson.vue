@@ -1,20 +1,34 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const courseStore = useCourse()
+
+let { currentCourse } = storeToRefs(courseStore)
+const route = useRoute()
+
+const lessonId = route.query._id
+
+let currentLesson = computed(() => {
+  if (!currentCourse.value) return null
+  for (let lesson of currentCourse.value.lessons) {
+    if (lesson._id == lessonId) return lesson
+  }
+  return null
+})
+</script>
 <template>
-  <v-container class="mt-5">
+  <v-container class="mt-5" v-if="currentLesson && currentCourse?._id">
     <v-row>
       <v-col cols="12" md="6">
-        <video class="w-full" controls>
+        <video class="w-full" controls :src="currentLesson.videos[0]">
           <!-- <source src="https://www.youtube.com/watch?v=NX4s0ZE97Kc" type="video/mp4">
           Your browser does not support the video tag. -->
         </video>
       </v-col>
       <v-col cols="12" md="3">
         <p class="text-4xl font-semibold mb-5">
-          Машинное обучение
+          {{ currentLesson.name }}
         </p>
         <p class="text-base">
-          Машинное обучение (англ. machine learning, ML) — класс методов искусственного интеллекта, характерной чертой
-          которых является не прямое решение задачи.
+          {{ currentLesson.shortDescription }}
         </p>
       </v-col>
       <v-col cols="12" md="3">
@@ -26,9 +40,7 @@
             Домашнее задание
           </p>
           <p class="text-lg">
-            - сделать chatGpt-10<br>
-            - выучить термины<br>
-            - решить 23 задание из решебника<br>
+            {{ currentLesson.homework }}
           </p>
         </v-col>
       </v-col>
@@ -43,5 +55,8 @@
         </v-col>
       </v-col>
     </v-row>
+  </v-container>
+  <v-container v-else>
+    писец...
   </v-container>
 </template>
