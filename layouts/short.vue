@@ -18,10 +18,10 @@ function toggleTheme() {
     <v-app-bar :elevation="0">
       <v-container>
         <v-row class="flex align-center justify-between">
-          <v-col cols="3">
+          <v-col cols="6">
             <img class="h-[35px]" src="/assets/images/factum-logo.svg" />
           </v-col>
-          <v-col cols="9" md="2" class="flex justify-end items-center">
+          <v-col cols="6" md="2" class="flex justify-end items-center">
             <v-col class="flex justify-end">
               <button @click="toggleTheme" type="button"
                 class="text-zinc-700 border border-zinc-700 hover:bg-zinc-400 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:hover:bg-zinc-700">
