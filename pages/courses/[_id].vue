@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"]
+  // or middleware: 'auth'
+})
+
 const courseStore = useCourse()
 const route = useRoute()
 

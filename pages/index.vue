@@ -1,18 +1,20 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'short'
+  layout: 'short',
+  middleware: 'login'
 })
 import { useField, useForm } from 'vee-validate';
 
 // document.title = 'Авторизация — Ищу наставника'
 
-let router = useRouter()
+const router = useRouter()
+const auth = useAuth()
 
 const { meta, handleSubmit, handleReset } = useForm({
   validationSchema: {
     password(value: string) {
-      if (value?.length >= 6) return true
-      return 'нужно 6 символов'
+      if (value?.length >= 8) return true
+      return 'нужно 8 символов'
     },
     email(value: string) {
       if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value)) return true
@@ -29,13 +31,16 @@ let loading = ref(false)
 
 const login = handleSubmit(async values => {
   loading.value = true
-  // await auth.login(values.email, values.password)
+
+  let res = await auth.login(values.email, values.password)
+
   loading.value = false
-
-  router.push('/')
+  if (res?.status?.value == "success") {
+    router.push('/courses')
+  }
 })
-</script>
 
+</script>
 <template>
   <v-container class="align-start">
     <!-- <BackButton></BackButton> -->
@@ -60,9 +65,9 @@ const login = handleSubmit(async values => {
           class="text-body-2 w-100 cursor-pointer font-weight-semibold pa-1 mt-4">
           регистрация
         </div> -->
-        <div class="text-body-2 w-100 cursor-pointer font-weight-semibold pa-1">
+        <!-- <div class="text-body-2 w-100 cursor-pointer font-weight-semibold pa-1">
           восстановить пароль
-        </div>
+        </div> -->
       </v-card>
     </v-col>
   </v-container>
