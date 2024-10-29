@@ -15,8 +15,7 @@ await courseStore.getCourseByIdWithLessons(String(route.params._id))
   <v-container v-if="currentCourse">
     <v-row>
       <v-col cols="12">
-        <p class="text-4xl">{{ currentCourse.name }}</p>
-        {{ currentCourse }}
+        <p class="text-4xl font-semibold">{{ currentCourse.name }}</p>
       </v-col>
     </v-row>
     <v-row>

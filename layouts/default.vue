@@ -77,7 +77,7 @@ if (fullPath.startsWith("/courses")) {
         </v-row>
       </v-container>
     </v-app-bar>
-    <div class="mt-16 pb-20">
+    <div class="mt-16 pb-28 md:pb-20">
       <slot />
     </div>
     <v-navigation-drawer v-model="drawer" location="right" temporary>
