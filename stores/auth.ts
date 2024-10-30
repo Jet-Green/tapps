@@ -63,6 +63,14 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
+  async function getAllUsers(): Promise<any> {
+    try {
+      return await AuthAPI.getAllUsers()
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // async function checkAdmin(): Promise<boolean | undefined> {
   //   try {
   //     if (!user.value?._id) {
@@ -136,6 +144,7 @@ export const useAuth = defineStore('auth', () => {
     user,
     // functions
     registration, login, checkAuth, logout,
-    updateUser, sendResetLink, resetPassword, registerStudent
+    updateUser, sendResetLink, resetPassword, registerStudent,
+    getAllUsers,
   }
 })

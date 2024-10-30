@@ -6,4 +6,5 @@ export interface Course {
   name: string,
   shortDescription: string,
   lessons: Lesson[],
+  students: string[]
 }

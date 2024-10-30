@@ -29,4 +29,9 @@ export default {
       body: { password, userId, token }
     })
   },
+  getAllUsers() {
+    return useApiFetch('/auth/get-all-users', {
+      method: 'GET',
+    })
+  }
 }

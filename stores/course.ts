@@ -10,6 +10,8 @@ export const useCourse = defineStore('course', () => {
   let currentCourse = ref<Course>()
 
   async function getAll() {
+    if (courses.value && courses.value?.length > 0) return null
+    
     let res = await CourseApi.getAll()
 
     courses.value = res.data.value
@@ -25,9 +27,13 @@ export const useCourse = defineStore('course', () => {
     }
   }
 
+  async function addUserToCourse(userId: string, courseId: string) {
+    return await CourseApi.addUserToCourse(userId, courseId)
+  }
+
   return {
     // functions
-    getAll, getCourseByIdWithLessons,
+    getAll, getCourseByIdWithLessons, addUserToCourse,
     // variables
     courses, currentCourse,
   }
