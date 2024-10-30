@@ -6,6 +6,8 @@ const theme = useTheme()
 const router = useRouter()
 const savedTheme = useCookie('theme')
 
+const userStore = useAuth();
+
 let drawer = ref(false);
 
 if (['light', 'dark'].includes(String(savedTheme.value))) {
@@ -62,13 +64,23 @@ if (fullPath.startsWith("/courses")) {
               Задания
             </div>
           </v-col>
-
-          <v-col cols="3" class="hidden md:flex align-center justify-end">
-            <v-btn @click="toggleTheme">ch theme</v-btn>
+          <v-spacer>
+          </v-spacer>
+          <v-col cols="2" class="hidden md:flex align-center justify-between px-10">
+            <button @click="toggleTheme" type="button"
+              class="text-zinc-700 border border-zinc-700 hover:bg-zinc-400 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:hover:bg-zinc-700">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
+                class="g-icon" fill="currentColor" stroke="none" aria-hidden="true"><svg
+                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M8 3a.75.75 0 0 1-.75-.75V.75a.75.75 0 0 1 1.5 0v1.5A.75.75 0 0 1 8 3m0 7.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8m-.75 3.25a.75.75 0 0 0 1.5 0v-1.5a.75.75 0 0 0-1.5 0zM13 8a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5A.75.75 0 0 1 13 8M.75 7.25a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5zm10.786-2.786a.75.75 0 0 1 0-1.06l1.06-1.06a.75.75 0 0 1 1.06 1.06l-1.06 1.06a.75.75 0 0 1-1.06 0m-9.193 8.132a.75.75 0 0 0 1.06 1.06l1.062-1.06a.75.75 0 0 0-1.061-1.06zm9.193-1.06a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 0-1.06M3.404 2.343a.75.75 0 0 0-1.06 1.06l1.06 1.061a.75.75 0 1 0 1.06-1.06z"
+                    clip-rule="evenodd"></path>
+                </svg></svg>
+            </button>
             <v-avatar
               image="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg"></v-avatar>
-            username <br />
-            role
+            {{ userStore.user?.name }} <br />
+            {{ userStore.user?.roles[0] }}
             <v-icon icon="mdi-dots-vertical"></v-icon>
           </v-col>
           <v-col cols="6" class="md:hidden flex align-center justify-end">
