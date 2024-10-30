@@ -1,6 +1,6 @@
 export default {
-  getAll(): Promise<any> {
-    return useApiFetch('/courses', { method: 'GET' })
+  getAll(courses: any): Promise<any> {
+    return useApiFetch('/courses', { method: 'POST', body: { courses } })
   },
   getCourseByIdWithLessons(courseId: string): Promise<any> {
     return useApiFetch(`/courses/one-with-lessons?course_id=${courseId}`, { method: 'GET' })
