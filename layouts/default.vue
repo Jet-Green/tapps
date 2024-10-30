@@ -95,8 +95,8 @@ if (fullPath.startsWith("/courses")) {
     <v-navigation-drawer v-model="drawer" location="right" temporary>
       <template v-slot:prepend>
         <div class="flex flex-row align-center">
-          <v-list-item lines="two" prepend-avatar="https://randomuser.me/api/portraits/women/27.jpg" subtitle="student"
-            title="Jane Smith">
+          <v-list-item lines="two" prepend-avatar="https://randomuser.me/api/portraits/women/27.jpg" :subtitle="userStore.user?.roles[0]"
+            :title="userStore.user?.name">
           </v-list-item>
           <button @click="toggleTheme" type="button"
             class="text-zinc-700 border border-zinc-700 hover:bg-zinc-400 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:hover:bg-zinc-700">
