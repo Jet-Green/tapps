@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
-  <div class="border rounded-lg cursor-pointer">
+  <div class="border rounded-lg cursor-pointer h-100">
     <v-col cols="12" class="d-flex justify-space-between">
       <p class="text-2xl font-semibold">Task name</p>
       <div>

@@ -12,7 +12,7 @@ const props = defineProps<{
 let { course } = props
 </script>
 <template>
-  <div class="border rounded-lg cursor-pointer" @click="router.push(`/courses/${course._id}`)">
+  <div class="border rounded-lg cursor-pointer h-100" @click="router.push(`/courses/${course._id}`)">
     <v-col cols="12" class="flex justify-center">
       <img class="w-50" :src="course.images[0]" />
     </v-col>

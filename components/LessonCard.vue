@@ -10,7 +10,7 @@ let { lesson } = defineProps<{
 }>()
 </script>
 <template>
-  <div class="border rounded-lg cursor-pointer" @click="router.push(`lesson?_id=${lesson._id}`)">
+  <div class="border rounded-lg cursor-pointer h-100" @click="router.push(`lesson?_id=${lesson._id}`)">
     <v-col cols="12" class="flex justify-center">
       <!-- тут превьюшку нужно делать из видоса или отдельно загружать -->
       <img class="w-50"
