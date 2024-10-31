@@ -18,12 +18,20 @@ async function submit() {
   if (courseId) {
     let res = await courseStore.createLesson(form.value, courseId)
     if (res.status.value == "success") {
-      loading.value = false;
+      loading.value = false
       toast("Урок создан", {
         type: "success",
         autoClose: 500,
         onClose: () => {
           router.back()
+        },
+      })
+    } else {
+      toast("Ошибка при создании", {
+        type: "error",
+        autoClose: 2000,
+        onClose: () => {
+          window.location.reload()
         },
       })
     }

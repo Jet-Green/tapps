@@ -1,31 +1,32 @@
 <script setup lang="ts">
-import type { Course } from '~/types/course.interface';
-import type { User } from '~/types/user.interface';
+import { toast } from "vue3-toastify"
 
 const courseStore = useCourse()
 const authStore = useAuth()
 
-let { courses } = storeToRefs(courseStore)
+const router = useRouter()
 
-let selectedCourseId = ref<string>('')
-let selectedCourse = ref<Course>();
+import type { User } from "~/types/user.interface"
 
-let form = ref({
-  name: '',
-  shortDescription: '',
+let form = ref<{
+  name: string
+  shortDescription: string
+  students: string[]
+}>({
+  name: "",
+  shortDescription: "",
+  students: [],
 })
 let users = ref<User[]>([])
 
 async function addUserToCourse(userId: string) {
-  let response = await courseStore.addUserToCourse(userId, selectedCourseId.value)
+  form.value.students.push(userId)
 }
 
 function isUserInCourse(userId: string) {
-  if (selectedCourse.value) {
-    for (let studentId of selectedCourse.value?.students) {
-      if (studentId == userId) {
-        return true
-      }
+  for (let studentId of form.value.students) {
+    if (studentId == userId) {
+      return true
     }
   }
   return false
@@ -33,8 +34,32 @@ function isUserInCourse(userId: string) {
 
 let response = await authStore.getAllUsers()
 
-if (response.status.value == 'success') {
+if (response.status.value == "success") {
   users.value = response.data.value
+}
+
+let loading = ref(false)
+async function submit() {
+  loading.value = true
+  let res = await courseStore.createCourse(form.value)
+  if (res.status.value == "success") {
+    loading.value = false
+    toast("Урок создан", {
+      type: "success",
+      autoClose: 500,
+      onClose: () => {
+        router.back()
+      },
+    })
+  } else {
+    toast("Ошибка при создании", {
+      type: "error",
+      autoClose: 2000,
+      onClose: () => {
+        window.location.reload()
+      },
+    })
+  }
 }
 </script>
 <template>
@@ -64,13 +89,14 @@ if (response.status.value == 'success') {
                 <v-icon icon="mdi-account"></v-icon>
                 {{ user.name }}
                 {{ user.surname }}
-                <v-btn class="ml-6" size="small" @click="addUserToCourse(user._id)"
-                  :disabled="isUserInCourse(user._id)">добавить</v-btn>
+                <v-btn class="ml-6" size="small" @click="addUserToCourse(user._id)" :disabled="isUserInCourse(user._id)"
+                  >добавить</v-btn
+                >
               </v-col>
             </v-row>
           </v-col>
           <v-col cols="12" class="flex justify-center">
-            <v-btn class=""size="x-large">Создать</v-btn>
+            <v-btn size="x-large" @click="submit" :loading="loading">Создать</v-btn>
           </v-col>
         </v-row>
       </v-col>
