@@ -12,5 +12,11 @@ export default {
         courseId
       }
     })
+  },
+  createLesson(body: any) {
+    return useApiFetch(`/courses/create-lesson`, {
+      method: 'POST',
+      body
+    })
   }
 }

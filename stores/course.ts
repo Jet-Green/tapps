@@ -23,7 +23,7 @@ export const useCourse = defineStore('course', () => {
       res = await CourseApi.getAll(auth.user?.courses)
     }
     // console.log(res.data.value);
-    
+
     courses.value = res.data.value
 
     return res
@@ -41,9 +41,13 @@ export const useCourse = defineStore('course', () => {
     return await CourseApi.addUserToCourse(userId, courseId)
   }
 
+  async function createLesson(form: any, courseId: string) {
+    return await CourseApi.createLesson({ lesson: form, courseId })
+  }
+
   return {
     // functions
-    getAll, getCourseByIdWithLessons, addUserToCourse,
+    getAll, getCourseByIdWithLessons, addUserToCourse, createLesson,
     // variables
     courses, currentCourse,
   }
