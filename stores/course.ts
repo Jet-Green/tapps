@@ -49,9 +49,14 @@ export const useCourse = defineStore('course', () => {
     return await CourseApi.createCourse(course)
   }
 
+  async function getLessonsByCourseId(courseId: string) {
+    return await CourseApi.getLessonsByCourseId(courseId)
+  }
+
   return {
     // functions
-    getAll, getCourseByIdWithLessons, addUserToCourse, createLesson, createCourse,
+    getAll, getCourseByIdWithLessons, addUserToCourse, createLesson, createCourse, 
+    getLessonsByCourseId,
     // variables
     courses, currentCourse,
   }

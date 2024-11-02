@@ -18,6 +18,8 @@ let currentLesson = computed(() => {
   }
   return null
 })
+
+await courseStore.getCourseByIdWithLessons(String(route.query.course_id))
 </script>
 <template>
   <v-container class="mt-5" v-if="currentLesson && currentCourse?._id">
@@ -37,7 +39,9 @@ let currentLesson = computed(() => {
         </p>
       </v-col>
       <v-col cols="12" md="3">
-        <v-btn v-for="i in 6" class="ma-1 w-100 border" variant="text" rounded="lg">подпись ссылка</v-btn>
+        <NuxtLink v-for="link of currentLesson.links" :to="link" target="blank">
+          <v-btn  class="ma-1 w-100 border" variant="text" rounded="lg">{{ link }}</v-btn>
+        </NuxtLink>
       </v-col>
       <v-col cols="12" md="6" class="flex flex-row">
         <v-col cols="12" md="6">

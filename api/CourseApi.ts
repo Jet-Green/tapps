@@ -24,5 +24,10 @@ export default {
       method: 'POST',
       body: { course }
     })
+  },
+  getLessonsByCourseId(courseId: string): Promise<any> {
+    return useApiFetch(`/courses/get-lessons-by-course?course_id=${courseId}`, {
+      method: 'GET'
+    })
   }
 }
