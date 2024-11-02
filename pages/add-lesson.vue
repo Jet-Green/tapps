@@ -5,10 +5,9 @@ const courseStore = useCourse()
 const route = useRoute()
 const router = useRouter()
 
-let form = ref<{ name: string; shortDescription: string; homework: string }>({
+let form = ref<{ name: string; shortDescription: string }>({
   name: "",
   shortDescription: "",
-  homework: "",
 })
 
 let loading = ref(false)
@@ -52,9 +51,6 @@ async function submit() {
       </v-col>
       <v-col cols="12">
         <v-textarea v-model="form.shortDescription" label="Описание" variant="outlined"></v-textarea>
-      </v-col>
-      <v-col cols="12">
-        <v-textarea v-model="form.homework" label="Домашнее задание" variant="outlined"></v-textarea>
       </v-col>
       <v-col cols="12">
         <i>videos are coming soon...</i>
