@@ -5,10 +5,11 @@ import type { User } from '~/types/user.interface';
 const courseStore = useCourse()
 const authStore = useAuth()
 
+let route = useRoute()
 let { courses } = storeToRefs(courseStore)
 
 let coursesToSelect = ref<any>([])
-let selectedCourseId = ref<string>('')
+let selectedCourseId = ref()
 let selectedCourse = ref<Course>();
 
 let form = ref({
@@ -34,7 +35,7 @@ async function addUserToCourse(userId: string) {
 
 function isUserInCourse(userId: string) {
   if (selectedCourse.value) {
-    for(let studentId of selectedCourse.value?.students) {
+    for (let studentId of selectedCourse.value?.students) {
       if (studentId == userId) {
         return true
       }
@@ -61,6 +62,10 @@ let response = await authStore.getAllUsers()
 if (response.status.value == 'success') {
   users.value = response.data.value
 }
+
+onMounted(() => {
+  selectedCourseId.value = route.query.id;
+})
 </script>
 <template>
   <v-container>
@@ -69,7 +74,8 @@ if (response.status.value == 'success') {
         <p class="text-2xl font-semibold">Редактировать курс</p>
       </v-col>
       <v-col cols="12" md="6">
-        <v-select label="выбрать курс" :items="coursesToSelect" variant="outlined" v-model="selectedCourseId"></v-select>
+        <v-select label="выбрать курс" :items="coursesToSelect" variant="outlined"
+          v-model="selectedCourseId"></v-select>
       </v-col>
       <v-col cols="12" v-if="selectedCourseId">
         <v-row>
@@ -87,12 +93,13 @@ if (response.status.value == 'success') {
             <p class="text-1xl font-semibold">Добавить пользователя в курс</p>
           </v-col>
           <v-col cols="12">
-            <v-row v-for="user of users" >
+            <v-row v-for="user of users">
               <v-col class="d-flex align-center">
                 <v-icon icon="mdi-account"></v-icon>
                 {{ user.name }}
                 {{ user.surname }}
-                <v-btn class="ml-6" size="small" @click="addUserToCourse(user._id)" :disabled="isUserInCourse(user._id)">добавить</v-btn>
+                <v-btn class="ml-6" size="small" @click="addUserToCourse(user._id)"
+                  :disabled="isUserInCourse(user._id)">добавить</v-btn>
               </v-col>
             </v-row>
           </v-col>

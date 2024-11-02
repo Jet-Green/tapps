@@ -82,7 +82,7 @@ function toggleTheme() {
 
         <v-divider></v-divider>
         <v-col class='flex justify-start' cols='12'>
-          <v-btn class="" rounded="xl" variant="outlined">
+          <v-btn @click="router.push('/settings')" class="" rounded="xl" variant="outlined">
             настройки
           </v-btn>
         </v-col>
@@ -109,7 +109,7 @@ function toggleTheme() {
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-cog-outline" title="настройки" value="1"></v-list-item>
+          <v-list-item @click="router.push('/settings')" prepend-icon="mdi-cog-outline" title="настройки" value="1"></v-list-item>
           <v-list-item prepend-icon="mdi-account-cog-outline" title="настройки аккаунта" value="2"></v-list-item>
           <v-list-item @click="router.push('/course-manage')" prepend-icon="mdi-book-education-outline" title="курс" value="3"></v-list-item>
           <v-list-item @click="router.push('/add-course')" prepend-icon="mdi-book-plus-outline" title="добавить курс" value="4"></v-list-item>

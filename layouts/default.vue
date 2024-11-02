@@ -128,7 +128,7 @@ if (fullPath.startsWith("/courses")) {
         </v-col>
         <v-divider></v-divider>
         <v-col class='flex justify-start' cols='12'>
-          <v-btn class="" rounded="xl" variant="outlined">
+          <v-btn @click="router.push('/settings')" class="" rounded="xl" variant="outlined">
             настройки
           </v-btn>
         </v-col>

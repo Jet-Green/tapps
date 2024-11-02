@@ -12,9 +12,10 @@ const props = defineProps<{
 let { course } = props
 </script>
 <template>
-  <div class="border rounded-lg cursor-pointer h-100" @click="router.push(`/courses/${course._id}`)">
+  <div class="border relative rounded-lg cursor-pointer h-100" @click="router.push(`/courses/${course._id}`)">
     <v-col cols="12" class="flex justify-center">
       <img class="w-50" :src="course.images[0]" />
+      <v-btn variant="text" @click.stop="router.push({ name: 'course-manage', query: { id: course._id } })" class="ma-2 z-50" icon="mdi-cog-outline"></v-btn>
     </v-col>
     <v-col cols="12">
       <p class="text-2xl font-semibold">{{ course.name }}</p>
@@ -26,3 +27,10 @@ let { course } = props
     </v-col>
   </div>
 </template>
+<style lang="css" scoped>
+.v-btn{
+  position: absolute;
+  right: 0%;
+  top: 0%;
+}
+</style>
