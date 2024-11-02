@@ -111,12 +111,13 @@ function toggleTheme() {
         <v-list density="compact" nav>
           <v-list-item prepend-icon="mdi-cog-outline" title="настройки" value="1"></v-list-item>
           <v-list-item prepend-icon="mdi-account-cog-outline" title="настройки аккаунта" value="2"></v-list-item>
-          <v-list-item prepend-icon="mdi-book-education-outline" title="курс" value="3"></v-list-item>
-          <v-list-item prepend-icon="mdi-book-plus-outline" title="добавить курс" value="4"></v-list-item>
+          <v-list-item @click="router.push('/course-manage')" prepend-icon="mdi-book-education-outline" title="курс" value="3"></v-list-item>
+          <v-list-item @click="router.push('/add-course')" prepend-icon="mdi-book-plus-outline" title="добавить курс" value="4"></v-list-item>
           <v-list-item prepend-icon="mdi-account-outline" title="пользователь" value="5"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-box-plus-outline" title="добавить пользователя"
+          <v-list-item @click="router.push('/teacher/add-new-student')" prepend-icon="mdi-account-box-plus-outline" title="добавить пользователя"
             value="6"></v-list-item>
           <v-list-item prepend-icon="mdi-account-group-outline" title="пользователи" value="7"></v-list-item>
+          <v-list-item @click="router.push('/courses')" prepend-icon="mdi-book-multiple-outline" title="курсы" value="8"></v-list-item>
         </v-list>
       </v-navigation-drawer>
     </div>
