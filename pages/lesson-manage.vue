@@ -139,7 +139,7 @@ onMounted(() => {
     selectedCourseId.value = route.query.course_id;
   }
   if (typeof route.query.lesson_id === 'string') {
-    selectedLessonId = route.query.lesson_id;
+    selectedLessonId.value = route.query.lesson_id;
   }
 })
 </script>
