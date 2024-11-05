@@ -81,7 +81,23 @@ if (fullPath.startsWith("/courses")) {
               image="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg"></v-avatar>
             {{ userStore.user?.name }} <br />
             {{ userStore.user?.roles[0] }}
-            <v-icon icon="mdi-dots-vertical"></v-icon>
+            <v-menu>
+              <template v-slot:activator="{ props }">
+                <v-btn icon="mdi-dots-vertical" variant="text" v-bind="props"></v-btn>
+              </template>
+              <v-list>
+                <v-col class='flex justify-start' cols='12'>
+                  <v-btn @click="router.push('/settings')" class="" rounded="xl" variant="outlined">
+                    настройки
+                  </v-btn>
+                </v-col>
+                <v-col class='flex pt-0 justify-start' cols='12'>
+                  <v-btn class="" rounded="xl" variant="outlined">
+                    выйти
+                  </v-btn>
+                </v-col>
+              </v-list>
+            </v-menu>
           </v-col>
           <v-col cols="6" class="md:hidden flex align-center justify-end">
             <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
