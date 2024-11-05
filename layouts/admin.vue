@@ -119,21 +119,22 @@ function toggleTheme() {
 
           <v-list-group>
             <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props"  prepend-icon="mdi-book-education-outline" title="курс"></v-list-item>
+              <v-list-item v-bind="props" prepend-icon="mdi-book-education-outline" title="курс"></v-list-item>
             </template>
-            <v-list-item class='group-elem' @click="router.push('/add-course')" prepend-icon="mdi-book-plus-outline" title="добавить курс"
-            value="4"></v-list-item>
-            <v-list-item class='group-elem' @click="router.push('/courses')" prepend-icon="mdi-book-multiple-outline" title="курсы"
-            value="8"></v-list-item>
+            <v-list-item class='group-elem' @click="router.push('/add-course')" prepend-icon="mdi-book-plus-outline"
+              title="добавить курс" value="4"></v-list-item>
+            <v-list-item class='group-elem' @click="router.push('/courses')" prepend-icon="mdi-book-multiple-outline"
+              title="курсы" value="8"></v-list-item>
           </v-list-group>
 
           <v-list-group>
             <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props"  prepend-icon="mdi-account-outline" title="пользователь"></v-list-item>
+              <v-list-item v-bind="props" prepend-icon="mdi-account-outline" title="пользователь"></v-list-item>
             </template>
-            <v-list-item class='group-elem' @click="router.push('/teacher/add-new-student')" prepend-icon="mdi-account-box-plus-outline"
-            title="добавить пользователя" value="6"></v-list-item>
-          <v-list-item class='group-elem' prepend-icon="mdi-account-group-outline" title="пользователи" value="7"></v-list-item>
+            <v-list-item class='group-elem' @click="router.push('/teacher/add-new-student')"
+              prepend-icon="mdi-account-box-plus-outline" title="добавить пользователя" value="6"></v-list-item>
+            <v-list-item class='group-elem' prepend-icon="mdi-account-group-outline" title="пользователи"
+              value="7"></v-list-item>
           </v-list-group>
         </v-list>
       </v-navigation-drawer>
@@ -151,6 +152,10 @@ function toggleTheme() {
 <style scoped>
 .group-elem {
   padding-left: 20px !important;
+}
+
+.v-list-group__items .v-list-item {
+  padding-inline-start: 20px !important;
 }
 
 .logo {
