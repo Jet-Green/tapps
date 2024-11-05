@@ -4,6 +4,8 @@ import type { Lesson } from '~/types/lesson.interface';
 const router = useRouter()
 const route = useRoute()
 
+const authStore = useAuth();
+
 let { lesson } = defineProps<{
   lesson: Lesson,
 }>()
@@ -14,8 +16,8 @@ let { lesson } = defineProps<{
     <v-col cols="12" class="flex justify-center">
       <img class="w-50"
         src="https://img.freepik.com/free-photo/beautiful-kitten-with-colorful-clouds_23-2150752964.jpg" />
-      <v-btn variant="text"
-        @click.stop="router.push({ name: 'lesson-manage', query: { lesson_id: lesson._id, course_id: route.params?._id} })"
+      <v-btn v-if="authStore.user?.roles[0] == 'teacher'" variant="text"
+        @click.stop="router.push({ name: 'lesson-manage', query: { lesson_id: lesson._id, course_id: route.params?._id } })"
         class="ma-2 z-50" icon="mdi-pencil-outline"></v-btn>
     </v-col>
     <v-col cols="12">
