@@ -19,7 +19,7 @@ let homework = ref(
       <v-col cols="12" md="4" lg="3">
         <v-row>
           <v-col cols="12" md="4" class='flex flex-row'>
-            <p class="text-xl">{{ homework.name }}</p>
+            <p class="text-lg">{{ homework.name }}</p>
           </v-col>
           <v-col cols="12" md="8">
             <v-select density="compact" label="статус" :items="['Отказано', 'Принято']" variant="outlined"></v-select>
@@ -39,7 +39,7 @@ let homework = ref(
             </v-carousel>
           </v-col>
           <v-col cols="12" md="6">
-            <p class="text-xl">{{ homework.text }}</p>
+            <p class="text-base">{{ homework.text }}</p>
           </v-col>
         </v-row>
       </v-col>

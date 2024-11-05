@@ -60,7 +60,7 @@ function toggleTheme() {
       </v-container>
     </v-app-bar>
 
-    <div v-if="drawer2"> 
+    <div v-if="drawer2">
       <v-navigation-drawer v-model="drawer2" location="right" temporary>
         <template v-slot:prepend>
           <div class="flex flex-row align-center">
@@ -109,15 +109,32 @@ function toggleTheme() {
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
-          <v-list-item @click="router.push('/settings')" prepend-icon="mdi-cog-outline" title="настройки" value="1"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-cog-outline" title="настройки аккаунта" value="2"></v-list-item>
-          <v-list-item @click="router.push('/course-manage')" prepend-icon="mdi-book-education-outline" title="курс" value="3"></v-list-item>
-          <v-list-item @click="router.push('/add-course')" prepend-icon="mdi-book-plus-outline" title="добавить курс" value="4"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-outline" title="пользователь" value="5"></v-list-item>
-          <v-list-item @click="router.push('/teacher/add-new-student')" prepend-icon="mdi-account-box-plus-outline" title="добавить пользователя"
-            value="6"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-group-outline" title="пользователи" value="7"></v-list-item>
-          <v-list-item @click="router.push('/courses')" prepend-icon="mdi-book-multiple-outline" title="курсы" value="8"></v-list-item>
+          <v-list-group>
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props" prepend-icon="mdi-cog-outline" title="настройки"></v-list-item>
+            </template>
+            <v-list-item @click="router.push('/settings')" class="group-elem" prepend-icon="mdi-account-cog-outline"
+              title="настройки аккаунта" value="2"></v-list-item>
+          </v-list-group>
+
+          <v-list-group>
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props"  prepend-icon="mdi-book-education-outline" title="курс"></v-list-item>
+            </template>
+            <v-list-item class='group-elem' @click="router.push('/add-course')" prepend-icon="mdi-book-plus-outline" title="добавить курс"
+            value="4"></v-list-item>
+            <v-list-item class='group-elem' @click="router.push('/courses')" prepend-icon="mdi-book-multiple-outline" title="курсы"
+            value="8"></v-list-item>
+          </v-list-group>
+
+          <v-list-group>
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props"  prepend-icon="mdi-account-outline" title="пользователь"></v-list-item>
+            </template>
+            <v-list-item class='group-elem' @click="router.push('/teacher/add-new-student')" prepend-icon="mdi-account-box-plus-outline"
+            title="добавить пользователя" value="6"></v-list-item>
+          <v-list-item class='group-elem' prepend-icon="mdi-account-group-outline" title="пользователи" value="7"></v-list-item>
+          </v-list-group>
         </v-list>
       </v-navigation-drawer>
     </div>
@@ -132,6 +149,10 @@ function toggleTheme() {
 </template>
 
 <style scoped>
+.group-elem {
+  padding-left: 20px !important;
+}
+
 .logo {
   position: absolute;
   left: 0;
