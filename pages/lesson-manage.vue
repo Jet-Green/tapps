@@ -16,6 +16,7 @@ let form = ref<any>({
   links: [],
   homework: [],
 })
+let videos = ref([])
 
 let newLink = ref<string>("")
 
@@ -82,14 +83,22 @@ async function submit() {
 
   let res = await lessonStore.updateLesson(toSend, homeworksToSend)
   if (res.status.value == "success") {
-    loading.value = false
-    toast("Успешно", {
-      type: "success",
-      autoClose: 600,
-      onClose: () => {
-        router.back()
-      },
-    })
+    let videosFormData = new FormData()
+
+    videosFormData.append(`video`, videos.value[0], `video_${res.data.value._id}`)
+
+    res = await lessonStore.uploadVideo(videosFormData, res.data.value._id)
+
+    if (res.status.value == "success") {
+      loading.value = false
+      toast("Успешно", {
+        type: "success",
+        autoClose: 600,
+        onClose: () => {
+          router.back()
+        },
+      })
+    }
   }
 }
 
@@ -194,6 +203,10 @@ if (typeof route.query.course_id === "string") {
           density="compact"
         ></v-text-field>
         <v-btn class="ml-4" icon="mdi-plus" size="small" @click="form.links.push(newLink), (newLink = '')"></v-btn>
+      </v-col>
+
+      <v-col cols="12">
+        <v-file-input label="Видео" show-size variant="outlined" accept="video/*" v-model="videos"></v-file-input>
       </v-col>
 
       <v-col cols="12">

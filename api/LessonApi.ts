@@ -9,5 +9,12 @@ export default {
         newHomeworks
       }
     })
+  },
+  uploadVideo(videoFormData: FormData, lessonId: string): Promise<any> {
+    return useApiFetch(`/video/upload?lesson_id=${lessonId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      body: videoFormData
+    })
   }
 }
