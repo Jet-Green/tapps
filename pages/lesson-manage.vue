@@ -27,13 +27,13 @@ let newHomework = ref<any>({
 })
 
 let coursesToSelect = ref<any>([])
-let selectedCourseId = ref<string>('')
+let selectedCourseId = ref<string>("")
 let selectedCourse = ref<Course>()
 
 let lessons = ref<Lesson[]>()
 
 let lessonsToSelect = ref<any>([])
-let selectedLessonId = ref<string>('')
+let selectedLessonId = ref<string>("")
 let selectedLesson = ref<Lesson>()
 
 let { courses } = storeToRefs(courseStore)
@@ -82,14 +82,13 @@ async function submit() {
   let res = await lessonStore.updateLesson(toSend, homeworksToSend)
   if (res.status.value == "success") {
     loading.value = false
-    toast("Урок создан", {
+    toast("Успешно", {
       type: "success",
-      autoClose: 500,
+      autoClose: 600,
       onClose: () => {
         router.back()
       },
     })
-    router.back()
   }
 }
 
@@ -101,6 +100,10 @@ watch(selectedCourseId, async (newSelectedCourseId) => {
 
         // get all course's lessons
         let res = await courseStore.getLessonsByCourseId(newSelectedCourseId)
+
+        if (typeof route.query.lesson_id === "string") {
+          selectedLessonId.value = route.query.lesson_id
+        }
 
         if (res.status.value == "success") {
           lessons.value = res.data.value.lessons
@@ -134,14 +137,9 @@ watch(selectedLessonId, (newSelectedLessonId) => {
     }
   }
 })
-onMounted(() => {
-  if (typeof route.query.course_id === 'string') {
-    selectedCourseId.value = route.query.course_id;
-  }
-  if (typeof route.query.lesson_id === 'string') {
-    selectedLessonId.value = route.query.lesson_id;
-  }
-})
+if (typeof route.query.course_id === "string") {
+  selectedCourseId.value = route.query.course_id
+}
 </script>
 <template>
   <v-container>
@@ -150,13 +148,23 @@ onMounted(() => {
         <p class="text-2xl font-semibold">Редактировать урок</p>
       </v-col>
       <v-col cols="6">
-        <v-select label="выбрать курс" :items="coursesToSelect" variant="outlined" v-model="selectedCourseId"
-          hide-details></v-select>
+        <v-select
+          label="выбрать курс"
+          :items="coursesToSelect"
+          variant="outlined"
+          v-model="selectedCourseId"
+          hide-details
+        ></v-select>
         <span class="text-caption">Сначала выберите курс, а затем урок, который хотите отредактировать</span>
       </v-col>
       <v-col cols="6" v-if="lessonsToSelect?.length > 0">
-        <v-select label="выбрать урок" :items="lessonsToSelect" variant="outlined" v-model="selectedLessonId"
-          hide-details></v-select>
+        <v-select
+          label="выбрать урок"
+          :items="lessonsToSelect"
+          variant="outlined"
+          v-model="selectedLessonId"
+          hide-details
+        ></v-select>
       </v-col>
     </v-row>
     <v-row v-if="selectedLesson?._id">
@@ -177,8 +185,13 @@ onMounted(() => {
         </v-chip>
       </v-col>
       <v-col cols="12" class="d-flex">
-        <v-text-field v-model="newLink" hide-details max-width="500" variant="outlined"
-          density="compact"></v-text-field>
+        <v-text-field
+          v-model="newLink"
+          hide-details
+          max-width="500"
+          variant="outlined"
+          density="compact"
+        ></v-text-field>
         <v-btn class="ml-4" icon="mdi-plus" size="small" @click="form.links.push(newLink), (newLink = '')"></v-btn>
       </v-col>
 
@@ -186,21 +199,28 @@ onMounted(() => {
         <p class="text-1xl font-semibold">Домашнее задание</p>
       </v-col>
       <v-col cols="3">
-        <div class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
-          @click="newHomeworkDialog = true" style="font-size: 40px">
+        <div
+          class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
+          @click="newHomeworkDialog = true"
+          style="font-size: 40px"
+        >
           <v-icon class="text-zinc-600 ma-8" icon="mdi-plus"></v-icon>
         </div>
       </v-col>
 
       <v-col v-if="form.homework.length > 0" v-for="(hw, index) of form.homework" :key="hw._id" cols="3">
-        <div class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
-          style="min-height: 200px">
+        <div
+          class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
+          style="min-height: 200px"
+        >
           {{ hw.hwText }}
         </div>
       </v-col>
       <v-col v-if="homeworks.length > 0" v-for="(hw, index) of homeworks" :key="index" cols="3">
-        <div class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
-          style="position: relative; min-height: 200px">
+        <div
+          class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
+          style="position: relative; min-height: 200px"
+        >
           <div style="position: absolute; top: -12px; right: -12px; color: red">
             <v-icon icon="mdi-circle-medium"></v-icon>
           </div>
