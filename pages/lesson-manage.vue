@@ -22,6 +22,7 @@ let newLink = ref<string>("")
 let newHomeworkDialog = ref<boolean>(false)
 let homeworks = ref<any>([])
 let newHomework = ref<any>({
+  name: "",
   hwText: "",
   materials: [],
 })
@@ -210,21 +211,31 @@ if (typeof route.query.course_id === "string") {
 
       <v-col v-if="form.homework.length > 0" v-for="(hw, index) of form.homework" :key="hw._id" cols="3">
         <div
-          class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
+          class="border rounded-lg cursor-pointer h-100 d-flex flex-column justify-center align-center"
           style="min-height: 200px"
         >
-          {{ hw.hwText }}
+          <p class="text-1xl font-semibold">
+            {{ hw.name }}
+          </p>
+          <p>
+            {{ hw.hwText }}
+          </p>
         </div>
       </v-col>
       <v-col v-if="homeworks.length > 0" v-for="(hw, index) of homeworks" :key="index" cols="3">
         <div
-          class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
+          class="border rounded-lg cursor-pointer h-100 d-flex flex-column justify-center align-center"
           style="position: relative; min-height: 200px"
         >
           <div style="position: absolute; top: -12px; right: -12px; color: red">
             <v-icon icon="mdi-circle-medium"></v-icon>
           </div>
-          {{ hw.hwText }}
+          <p class="text-1xl font-semibold">
+            {{ hw.name }}
+          </p>
+          <p>
+            {{ hw.hwText }}
+          </p>
         </div>
       </v-col>
 
@@ -238,7 +249,20 @@ if (typeof route.query.course_id === "string") {
         <v-card-text>
           <v-row>
             <v-col cols="12">
-              <v-textarea label="Текст" variant="outlined" hide-details v-model="newHomework.hwText"></v-textarea>
+              <v-text-field
+                label="Название задания"
+                hide-details
+                variant="outlined"
+                v-model="newHomework.name"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-textarea
+                label="Текст задания"
+                variant="outlined"
+                hide-details
+                v-model="newHomework.hwText"
+              ></v-textarea>
             </v-col>
             <v-col cols="12">
               <p class="text-1xl font-semibold">Материалы</p>
