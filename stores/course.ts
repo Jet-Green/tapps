@@ -16,6 +16,7 @@ export const useCourse = defineStore('course', () => {
     const auth = useAuth();
     // когда админ - получает все курсы
     // когда обычный пользователь только свои курсы
+    
     let res;
     if (auth.user?.roles[0] == 'teacher') {
       res = await CourseApi.getAll(null)
@@ -53,10 +54,14 @@ export const useCourse = defineStore('course', () => {
     return await CourseApi.getLessonsByCourseId(courseId)
   }
 
+  async function getHomeworksByCourses(courses: string[]) {
+    return await CourseApi.getHomeworksByCourses(courses)
+  }
+
   return {
     // functions
-    getAll, getCourseByIdWithLessons, addUserToCourse, createLesson, createCourse, 
-    getLessonsByCourseId,
+    getAll, getCourseByIdWithLessons, addUserToCourse, createLesson, createCourse,
+    getLessonsByCourseId, getHomeworksByCourses,
     // variables
     courses, currentCourse,
   }

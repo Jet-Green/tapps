@@ -11,21 +11,21 @@ const route = useRoute()
 
 const lessonId = route.query._id
 
-let currentLesson = computed(() => {
-  if (!currentCourse.value) return null
+let currentLesson = computed(() => {  
+  if (!currentCourse.value) return {}
   for (let lesson of currentCourse.value.lessons) {
     if (lesson._id == lessonId) return lesson
   }
-  return null
+  return {}
 })
 
 await courseStore.getCourseByIdWithLessons(String(route.query.course_id))
 </script>
 <template>
-  <v-container class="mt-5" v-if="currentLesson && currentCourse?._id">
+  <v-container class="mt-5" v-if="currentLesson?._id">
     <v-row>
       <v-col cols="12" md="6">
-        <video class="w-full" controls :src="currentLesson.videos[0]">
+        <video class="w-full" controls :src="currentLesson?.videos[0]">
           <!-- <source src="https://www.youtube.com/watch?v=NX4s0ZE97Kc" type="video/mp4">
           Your browser does not support the video tag. -->
         </video>
