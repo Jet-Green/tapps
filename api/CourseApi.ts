@@ -29,5 +29,13 @@ export default {
     return useApiFetch(`/courses/get-lessons-by-course?course_id=${courseId}`, {
       method: 'GET'
     })
+  },
+  getHomeworksByCourses(courses: string[]): Promise<any> {
+    return useApiFetch('/lesson/homeworks-by-courses', {
+      method: 'POST',
+      body: {
+        courses
+      }
+    })
   }
 }

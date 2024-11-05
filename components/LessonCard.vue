@@ -16,7 +16,7 @@ let { lesson } = defineProps<{
         src="https://img.freepik.com/free-photo/beautiful-kitten-with-colorful-clouds_23-2150752964.jpg" />
       <v-btn variant="text"
         @click.stop="router.push({ name: 'lesson-manage', query: { lesson_id: lesson._id, course_id: route.params?._id} })"
-        class="ma-2 z-50" icon="mdi-cog-outline"></v-btn>
+        class="ma-2 z-50" icon="mdi-pencil-outline"></v-btn>
     </v-col>
     <v-col cols="12">
       <p class="text-2xl font-semibold">{{ lesson.name }}</p>

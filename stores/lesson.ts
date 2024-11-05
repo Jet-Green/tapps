@@ -8,9 +8,16 @@ export const useLesson = defineStore('lesson', () => {
     return await LessonApi.updateLesson(lesson, newHomeworks)
   }
 
+  async function uploadVideo(videoFormData: FormData, lessonId: string) {
+    return await LessonApi.uploadVideo(videoFormData, lessonId)
+  }
+  async function newSolution(solution: any) {
+    return await LessonApi.newSolution(solution)
+  }
+
   return {
     // functions
-    updateLesson,
+    updateLesson, uploadVideo, newSolution,
     // variables
   }
 })
