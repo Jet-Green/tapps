@@ -1,27 +1,27 @@
 export default {
-  uploadFolder(folderFD: any): Promise<any> {
-    return useApiFetch(`/solution/upload/folder`, {
+  uploadFolder(folderFD: any, destination: string): Promise<any> {
+    return useApiFetch(`/solution/upload/folder?destination=${destination}`, {
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       body: folderFD
     })
   },
-  uploadArchive(archivesFD: any): Promise<any> {
-    return useApiFetch(`/solution/upload/archives`, {
+  uploadArchive(archivesFD: any, destination: string): Promise<any> {
+    return useApiFetch(`/solution/upload/archives?destination=${destination}`, {
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       body: archivesFD
     })
   },
-  uploadAnyFiles(anyFilesFD: any): Promise<any> {
-    return useApiFetch(`/solution/upload/any-files`, {
+  uploadAnyFiles(anyFilesFD: any, destination: string): Promise<any> {
+    return useApiFetch(`/solution/upload/any-files?destination=${destination}`, {
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       body: anyFilesFD
     })
   },
-  uploadCode(codeFD: any): Promise<any> {
-    return useApiFetch(`/solution/upload/code`, {
+  uploadCode(codeFD: any, destination: string): Promise<any> {
+    return useApiFetch(`/solution/upload/code?destination=${destination}`, {
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       body: codeFD

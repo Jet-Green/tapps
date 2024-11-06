@@ -25,7 +25,6 @@ async function handleFolderChange(event: any) {
     return
   }
   folderDataLength.value = files.length
-  // formData.append('folder', this.folderData, this.folderData.name);
 }
 
 let archives = ref<any>()
@@ -78,6 +77,9 @@ async function onCodeFilesChange(event: any) {
   }
   codeFilesLength.value = files.length
 }
+
+
+
 let loading = ref<boolean>(false)
 async function submit() {
   loading.value = true
@@ -99,10 +101,18 @@ async function submit() {
     let anyFilesFD = new FormData()
     let codeFD = new FormData()
 
+    let destination = `solution_${solutionId}_${Date.now()}`
+
     // upload folder
     if (folderDataLength.value > 0) {
-      folderFD.append("folder", folderData.value, `solution_folder_${solutionId}_${Date.now()}`)
-      res = await UploadApi.uploadFolder(folderFD)
+      for (let file of folderData.value) {
+        let relativePath = file.webkitRelativePath
+        let splitted = relativePath.split("/") // last element of splitted will be the name of file
+        let path = splitted.join("___") // cuz filename dont accept /
+
+        folderFD.append("files", file, path)
+      }
+      res = await UploadApi.uploadFolder(folderFD, destination)
     }
 
     // upload archives
@@ -110,40 +120,46 @@ async function submit() {
       if (archivesLength.value > 0) {
         // there are many archives
         for (let arch of archives.value) {
-          archiveFD.append("file", arch, `solution_archive_${solutionId}_${Date.now()}.zip`)
+          archiveFD.append("files", arch)
         }
         // upload archive to server
-        res = await UploadApi.uploadArchive(archiveFD)
+        res = await UploadApi.uploadArchive(archiveFD, destination)
       }
     } else {
       displayError("Ошибка при загрузке папки! 😭")
       return
     }
+
     // upload any files
     if (res?.status?.value == "success") {
       if (anyFilesLength.value > 0) {
         for (let f of anyFiles.value) {
-          // it can be main.production.cs
-          let spl = f.split(".")
-          let fType = spl[spl.length - 1] // .doc, .docx, .png etc.
-          anyFilesFD.append("file", f, `solution_archive_${solutionId}_${Date.now()}.${fType}`)
+          anyFilesFD.append("files", f)
         }
-        res = await UploadApi.uploadAnyFiles(anyFilesFD)
+        res = await UploadApi.uploadAnyFiles(anyFilesFD, destination)
       }
     } else {
       displayError("Ошибка при загрузке архивов! 😭")
       return
     }
+
     // upload code
     if (res?.status?.value == "success") {
       if (codeFilesLength.value > 0) {
         for (let f of codeFiles.value) {
-          codeFD.append("file", f, `solution_code_${solutionId}_${Date.now()}.txt`)
+          let filename = '';
+          let spl = f.name.split(".")
+          for (let i = 0; i < spl.length - 1; i++) {
+            filename += spl[i] + "."
+          }
+          filename += "txt"
+          codeFD.append("files", f, filename)
         }
-        res = await UploadApi.uploadCode(anyFilesFD)
+
+        res = await UploadApi.uploadCode(codeFD, destination)
       }
     } else {
-      displayError("Ошибка при загрузке файлов! 😭")
+      displayError("Ошибка при загрузке кода! 😭")
       return
     }
 
@@ -156,7 +172,7 @@ async function submit() {
         },
       })
     } else {
-      displayError("Ошибка при загрузке архивов! 😭")
+      displayError("Ошибка при загрузке файлов! 😭")
       return
     }
   }
@@ -179,11 +195,12 @@ async function submit() {
       <v-col cols="12">
         <p class="text-1xl font-semibold mb-4">Загрузка кода</p>
         <div class="folder-input-container border rounded-lg cursor-pointer">
+          <!-- .cs,.cpp,.js,.ts,.java,.json,.mvn,.xml,.pom,.sql,.sh,.bat,.env -->
           <input
             type="file"
             multiple
             @change="onCodeFilesChange"
-            accept=".cs,.cpp,.js,.ts,.java,.json,.mvn,.xml,.pom,.sql,.sh,.bat,.env"
+            accept=""
             class="cursor-pointer"
           />
           <v-icon class="centered" icon="upload-icon mdi-code-block-braces" v-if="codeFilesLength == 0"></v-icon>
