@@ -112,7 +112,7 @@ async function submit() {
 
         folderFD.append("files", file, path)
       }
-      res = await UploadApi.uploadFolder(folderFD, destination)
+      res = await UploadApi.uploadFolder(folderFD, destination, solutionId)
     }
 
     // upload archives
@@ -123,7 +123,7 @@ async function submit() {
           archiveFD.append("files", arch)
         }
         // upload archive to server
-        res = await UploadApi.uploadArchive(archiveFD, destination)
+        res = await UploadApi.uploadArchive(archiveFD, destination, solutionId)
       }
     } else {
       displayError("Ошибка при загрузке папки! 😭")
@@ -136,7 +136,7 @@ async function submit() {
         for (let f of anyFiles.value) {
           anyFilesFD.append("files", f)
         }
-        res = await UploadApi.uploadAnyFiles(anyFilesFD, destination)
+        res = await UploadApi.uploadAnyFiles(anyFilesFD, destination, solutionId)
       }
     } else {
       displayError("Ошибка при загрузке архивов! 😭")
@@ -156,7 +156,7 @@ async function submit() {
           codeFD.append("files", f, filename)
         }
 
-        res = await UploadApi.uploadCode(codeFD, destination)
+        res = await UploadApi.uploadCode(codeFD, destination, solutionId)
       }
     } else {
       displayError("Ошибка при загрузке кода! 😭")
