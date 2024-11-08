@@ -6,6 +6,7 @@ const route = useRoute()
 const router = useRouter()
 
 const lessonStore = useLesson()
+const auth = useAuth()
 
 let form = ref({
   links: "",
@@ -82,6 +83,7 @@ async function onCodeFilesChange(event: any) {
 
 let loading = ref<boolean>(false)
 async function submit() {
+  if (!auth?.user?._id) return;
   loading.value = true
   let toSend = {
     homework: route.query.homework_id,
@@ -89,6 +91,10 @@ async function submit() {
     lesson: route.query.lesson_id,
     links: form.value.links,
     notes: form.value.notes,
+    date: new Date(),
+    status: 'not_checked',
+    student: auth.user?._id,
+    studentName: auth.user?.name + ' ' + auth.user?.surname
   }
   let res = await lessonStore.newSolution(toSend)
   if (res.status.value == "success") {
@@ -195,14 +201,7 @@ async function submit() {
       <v-col cols="12">
         <p class="text-1xl font-semibold mb-4">Загрузка кода</p>
         <div class="folder-input-container border rounded-lg cursor-pointer">
-          <!-- .cs,.cpp,.js,.ts,.java,.json,.mvn,.xml,.pom,.sql,.sh,.bat,.env -->
-          <input
-            type="file"
-            multiple
-            @change="onCodeFilesChange"
-            accept=""
-            class="cursor-pointer"
-          />
+          <input type="file" multiple @change="onCodeFilesChange" accept=".cs,.cpp,.js,.ts,.java,.json,.mvn,.xml,.pom,.sql,.sh,.bat,.env,.psd" class="cursor-pointer" />
           <v-icon class="centered" icon="upload-icon mdi-code-block-braces" v-if="codeFilesLength == 0"></v-icon>
           <div v-else class="centered">
             <b>
