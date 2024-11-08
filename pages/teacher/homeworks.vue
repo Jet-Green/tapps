@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
-let router = useRouter();
+const router = useRouter();
+// const 
 
 let homeworks = ref([
   {

@@ -82,7 +82,7 @@ async function submit() {
   }
 
   let res = await lessonStore.updateLesson(toSend, homeworksToSend)
-  if (res.status.value == "success") {
+  if (videos.value.length > 0 && res.status.value == "success") {
     let videosFormData = new FormData()
 
     videosFormData.append(`video`, videos.value[0], `video_${res.data.value._id}.mp4`)

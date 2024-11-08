@@ -96,7 +96,9 @@ async function submit() {
     student: auth.user?._id,
     studentName: auth.user?.name + ' ' + auth.user?.surname
   }
+  
   let res = await lessonStore.newSolution(toSend)
+
   if (res.status.value == "success") {
     function displayError(msg: string) {
       toast(msg, { type: "error" })

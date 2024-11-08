@@ -20,8 +20,7 @@ export default {
   newSolution(solution: any): Promise<any> {
     return useApiFetch(`/solution`, {
       method: 'POST',
-      headers: { 'Content-Type': 'multipart/form-data' },
-      body: solution
+      body: { solution }
     })
   }
 }

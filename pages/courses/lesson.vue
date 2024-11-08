@@ -58,7 +58,7 @@ await courseStore.getCourseByIdWithLessons(String(route.query.course_id))
         <v-row>
           <v-col cols="12" md="6" v-for="task in homeworks">
             <div class="border rounded-lg cursor-pointer h-100"
-              @click="router.push(`/add-solution?homework_id=${task._id}?lesson_id=${task.lesson}?course_id=${task.course}`)">
+              @click="router.push(`/add-solution?homework_id=${task._id}&lesson_id=${task.lesson}&course_id=${task.course}`)">
               <v-col cols="12" class="d-flex justify-space-between">
                 <p class="text-2xl font-semibold">{{ task.name }}</p>
               </v-col>
