@@ -92,7 +92,7 @@ if (fullPath.startsWith("/courses")) {
                   </v-btn>
                 </v-col>
                 <v-col class='flex pt-0 justify-start' cols='12'>
-                  <v-btn class="" rounded="xl" variant="outlined">
+                  <v-btn class="" rounded="xl" variant="outlined" @click="userStore.logout()">
                     выйти
                   </v-btn>
                 </v-col>

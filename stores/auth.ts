@@ -111,8 +111,7 @@ export const useAuth = defineStore('auth', () => {
       let res = await AuthAPI.logout()
 
       user.value = null
-
-      localStorage.removeItem('newUser')
+      useRouter().push('/')
       return res
     } catch { }
   }
