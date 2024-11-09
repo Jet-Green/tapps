@@ -2,6 +2,9 @@ export default {
   getAll(courses: any): Promise<any> {
     return useApiFetch('/courses', { method: 'POST', body: { courses } })
   },
+  uploadImages(formData: FormData, _id: string): Promise<any> {
+    return useApiFetch(`/courses/images?course_id=${_id}`, { method: 'POST', headers: { 'Content-Type': 'multipart/form-data' }, body: formData })
+  },
   getCourseByIdWithLessons(courseId: string): Promise<any> {
     return useApiFetch(`/courses/one-with-lessons?course_id=${courseId}`, { method: 'GET' })
   },

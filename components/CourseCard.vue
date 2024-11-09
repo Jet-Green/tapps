@@ -12,11 +12,13 @@ const props = defineProps<{
 }>()
 
 let { course } = props
+
+console.log()
 </script>
 <template>
   <div class="border relative rounded-lg cursor-pointer h-100" @click="router.push(`/courses/${course._id}`)">
     <v-col cols="12" class="flex justify-center">
-      <img class="w-50" :src="course.images[0]" />
+      <img class="w-50" :src="course.images?.logo" />
       <v-btn v-if="authStore.user?.roles[0] == 'teacher'" variant="text"
         @click.stop="router.push({ name: 'course-manage', query: { id: course._id } })" class="ma-2 z-50"
         icon="mdi-pencil-outline"></v-btn>

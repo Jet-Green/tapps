@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { toast } from "vue3-toastify"
+import ImageInput from "~/components/ImageInput.vue";
 
 const courseStore = useCourse()
 const authStore = useAuth()
@@ -7,6 +8,20 @@ const authStore = useAuth()
 const router = useRouter()
 
 import type { User } from "~/types/user.interface"
+
+let imagesFormData = new FormData()
+
+let photoPreview = ref()
+function uploadLogo(file: File) {
+  // example filename: logo_216262666_best-burger.jpg
+  imagesFormData.set('logo', file, 'logo_' + String(Date.now()) + '.jpg')
+  // make a preview
+  let reader = new FileReader();
+  reader.onloadend = function () {
+    photoPreview.value = reader.result
+  }
+  reader.readAsDataURL(file);
+}
 
 let form = ref<{
   name: string
@@ -43,22 +58,26 @@ async function submit() {
   loading.value = true
   let res = await courseStore.createCourse(form.value)
   if (res.status.value == "success") {
-    loading.value = false
-    toast("Урок создан", {
-      type: "success",
-      autoClose: 500,
-      onClose: () => {
-        router.back()
-      },
-    })
-  } else {
-    toast("Ошибка при создании", {
-      type: "error",
-      autoClose: 2000,
-      onClose: () => {
-        window.location.reload()
-      },
-    })
+    let uplRes = await courseStore.uploadImages(imagesFormData, res.data.value._id)
+    if (uplRes.status.value == 'success') {
+      loading.value = false
+      toast("Урок создан", {
+        type: "success",
+        autoClose: 500,
+        onClose: () => {
+          router.back()
+        },
+      })
+    } else {
+      console.log(uplRes);
+      toast("Ошибка при создании", {
+        type: "error",
+        autoClose: 2000,
+        onClose: () => {
+          window.location.reload()
+        },
+      })
+    }
   }
 }
 </script>
@@ -76,7 +95,12 @@ async function submit() {
           <v-col cols="12">
             <v-textarea variant="outlined" label="Описание" v-model="form.shortDescription"></v-textarea>
           </v-col>
-          <v-col cols="12">фотографии coming soon</v-col>
+          <v-col cols="12">
+            <ImageInput @uploadImage="uploadLogo" />
+            <div class="logo" v-if="photoPreview">
+              <img :src="photoPreview" alt="">
+            </div>
+          </v-col>
         </v-row>
 
         <v-row>
@@ -89,9 +113,8 @@ async function submit() {
                 <v-icon icon="mdi-account"></v-icon>
                 {{ user.name }}
                 {{ user.surname }}
-                <v-btn class="ml-6" size="small" @click="addUserToCourse(user._id)" :disabled="isUserInCourse(user._id)"
-                  >добавить</v-btn
-                >
+                <v-btn class="ml-6" size="small" @click="addUserToCourse(user._id)"
+                  :disabled="isUserInCourse(user._id)">добавить</v-btn>
               </v-col>
             </v-row>
           </v-col>

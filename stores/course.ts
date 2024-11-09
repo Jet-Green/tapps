@@ -38,6 +38,10 @@ export const useCourse = defineStore('course', () => {
     }
   }
 
+  async function uploadImages(formData: FormData, courseId: string) {
+    return await CourseApi.uploadImages(formData, courseId)
+  }
+
   async function addUserToCourse(userId: string, courseId: string) {
     return await CourseApi.addUserToCourse(userId, courseId)
   }
@@ -61,7 +65,7 @@ export const useCourse = defineStore('course', () => {
   return {
     // functions
     getAll, getCourseByIdWithLessons, addUserToCourse, createLesson, createCourse,
-    getLessonsByCourseId, getHomeworksByCourses,
+    getLessonsByCourseId, getHomeworksByCourses, uploadImages,
     // variables
     courses, currentCourse,
   }
