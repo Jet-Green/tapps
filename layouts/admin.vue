@@ -10,6 +10,7 @@ const savedTheme = useCookie('theme')
 let drawer = ref(true);
 let drawer2 = ref(false);
 let rail = ref(true);
+let dialog = ref(false)
 
 if (['light', 'dark'].includes(String(savedTheme.value))) {
   theme.global.name.value = String(savedTheme.value);
@@ -18,6 +19,10 @@ if (['light', 'dark'].includes(String(savedTheme.value))) {
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? "light" : "dark"
   savedTheme.value = theme.global.name.value
+}
+
+async function logOut() {
+  await userStore.logout()
 }
 </script>
 <template>
@@ -35,7 +40,7 @@ function toggleTheme() {
 
           <v-spacer class="hidden md:flex"></v-spacer>
 
-          <v-col cols="3" md="2" class="hidden md:flex px-0 md:px-10 align-center justify-between">
+          <v-col cols="3" lg="2" class="hidden md:flex px-0 md:px-10 align-center justify-between">
             <button @click="toggleTheme" type="button"
               class="text-zinc-700 border border-zinc-700 hover:bg-zinc-400 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:hover:bg-zinc-700">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
@@ -46,8 +51,10 @@ function toggleTheme() {
                     clip-rule="evenodd"></path>
                 </svg></svg>
             </button>
-            <v-avatar
-              image="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg"></v-avatar>
+            <div
+              class="w-10 h-10 relative inline-flex items-center justify-center overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+              <span class="font-medium text-gray-600 dark:text-gray-300">{{ userStore.user?.name[0] }}</span>
+            </div>
             {{ userStore.user?.name }} <br />
             {{ userStore.user?.roles[0] }}
             <v-menu>
@@ -60,7 +67,7 @@ function toggleTheme() {
                     настройки
                   </v-btn>
                 </v-col>
-                <v-col class='flex pt-0 justify-start' cols='12'>
+                <v-col @click="dialog = true;" class='flex pt-0 justify-start' cols='12'>
                   <v-btn class="" rounded="xl" variant="outlined">
                     выйти
                   </v-btn>
@@ -80,8 +87,11 @@ function toggleTheme() {
       <v-navigation-drawer v-model="drawer2" location="right" temporary>
         <template v-slot:prepend>
           <div class="flex flex-row align-center">
-            <v-list-item lines="two" prepend-avatar="https://randomuser.me/api/portraits/women/27.jpg"
-              :subtitle="userStore.user?.roles[0]" :title="userStore.user?.name">
+            <div
+              class="ml-3 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+              <span class="font-medium text-gray-600 dark:text-gray-300">{{ userStore.user?.name[0] }}</span>
+            </div>
+            <v-list-item lines="two" :subtitle="userStore.user?.roles[0]" :title="userStore.user?.name">
             </v-list-item>
             <button @click="toggleTheme" type="button"
               class="text-zinc-700 border border-zinc-700 hover:bg-zinc-400 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:hover:bg-zinc-700">
@@ -103,12 +113,21 @@ function toggleTheme() {
           </v-btn>
         </v-col>
         <v-col class='flex pt-0 justify-start' cols='12'>
-          <v-btn class="" rounded="xl" variant="outlined">
+          <v-btn @click="dialog = true;" class="" rounded="xl" variant="outlined">
             выйти
           </v-btn>
         </v-col>
       </v-navigation-drawer>
     </div>
+
+    <v-dialog v-model="dialog" width="auto">
+      <v-card max-width="400" title="Выйти из аккаунта?">
+        <template v-slot:actions>
+          <v-btn text="нет" @click="dialog = false;"></v-btn>
+          <v-btn text="да" @click="dialog = false; logOut()"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
 
     <div v-if="drawer">
       <v-navigation-drawer v-model="drawer" :rail="rail" permanent persistent @click="rail = false">
@@ -129,25 +148,25 @@ function toggleTheme() {
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" prepend-icon="mdi-cog-outline" title="настройки"></v-list-item>
             </template>
-            <v-list-item @click="router.push('/settings')" class="group-elem" prepend-icon="mdi-account-cog-outline"
-              title="настройки аккаунта" value="2"></v-list-item>
+            <v-list-item @click.stop="router.push('/settings'); rail = !rail" class="group-elem"
+              prepend-icon="mdi-account-cog-outline" title="настройки аккаунта" value="2"></v-list-item>
           </v-list-group>
 
           <v-list-group>
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" prepend-icon="mdi-book-education-outline" title="курс"></v-list-item>
             </template>
-            <v-list-item class='group-elem' @click="router.push('/add-course')" prepend-icon="mdi-book-plus-outline"
-              title="добавить курс" value="4"></v-list-item>
-            <v-list-item class='group-elem' @click="router.push('/courses')" prepend-icon="mdi-book-multiple-outline"
-              title="курсы" value="8"></v-list-item>
+            <v-list-item class='group-elem' @click.stop="router.push('/add-course'); rail = !rail"
+              prepend-icon="mdi-book-plus-outline" title="добавить курс" value="4"></v-list-item>
+            <v-list-item class='group-elem' @click.stop="router.push('/courses'); rail = !rail"
+              prepend-icon="mdi-book-multiple-outline" title="курсы" value="8"></v-list-item>
           </v-list-group>
 
           <v-list-group>
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" prepend-icon="mdi-account-outline" title="пользователь"></v-list-item>
             </template>
-            <v-list-item class='group-elem' @click="router.push('/teacher/add-new-student')"
+            <v-list-item class='group-elem' @click.stop="router.push('/teacher/add-new-student'); rail = !rail"
               prepend-icon="mdi-account-box-plus-outline" title="добавить пользователя" value="6"></v-list-item>
             <v-list-item class='group-elem' prepend-icon="mdi-account-group-outline" title="пользователи"
               value="7"></v-list-item>

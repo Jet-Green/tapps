@@ -6,4 +6,7 @@ export interface Lesson {
   videos: string[],
   homework: [],
   course: string,
+  images: {
+    logo: string
+  },
 }

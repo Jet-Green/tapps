@@ -61,7 +61,7 @@ async function submit() {
     let uplRes = await courseStore.uploadImages(imagesFormData, res.data.value._id)
     if (uplRes.status.value == 'success') {
       loading.value = false
-      toast("Урок создан", {
+      toast("Курс создан", {
         type: "success",
         autoClose: 500,
         onClose: () => {

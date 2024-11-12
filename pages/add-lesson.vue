@@ -2,6 +2,7 @@
 import { toast } from "vue3-toastify"
 
 const courseStore = useCourse()
+const lessonStore = useLesson()
 const route = useRoute()
 const router = useRouter()
 
@@ -10,6 +11,21 @@ let form = ref<{ name: string; shortDescription: string }>({
   shortDescription: "",
 })
 
+let imagesFormData = new FormData()
+
+let photoPreview = ref()
+function uploadLogo(file: File) {
+  // example filename: logo_216262666.jpg
+  imagesFormData.set('logo', file, 'logo_' + String(Date.now()) + '.jpg')
+  // make a preview
+  let reader = new FileReader();
+  reader.onloadend = function () {
+    photoPreview.value = reader.result
+  }
+  reader.readAsDataURL(file);
+}
+
+
 let loading = ref(false)
 async function submit() {
   loading.value = true
@@ -17,22 +33,30 @@ async function submit() {
   if (courseId) {
     let res = await courseStore.createLesson(form.value, courseId)
     if (res.status.value == "success") {
-      loading.value = false
-      toast("Урок создан", {
-        type: "success",
-        autoClose: 500,
-        onClose: () => {
-          router.back()
-        },
-      })
-    } else {
-      toast("Ошибка при создании", {
-        type: "error",
-        autoClose: 2000,
-        onClose: () => {
-          window.location.reload()
-        },
-      })
+      let lessonsFromCourse = await courseStore.getLessonsByCourseId(courseId)
+      if (lessonsFromCourse.status.value == "success") {
+        let lesson_id = lessonsFromCourse.data.value.lessons.pop()._id
+        let uplRes = await lessonStore.uploadImages(imagesFormData, lesson_id)
+        if (uplRes.status.value == 'success') {
+          loading.value = false
+          toast("Урок создан", {
+            type: "success",
+            autoClose: 500,
+            onClose: () => {
+              router.back()
+            },
+          })
+        } else {
+          console.log(uplRes);
+          toast("Ошибка при создании", {
+            type: "error",
+            autoClose: 2000,
+            onClose: () => {
+              window.location.reload()
+            },
+          })
+        }
+      }
     }
   }
 }
@@ -51,6 +75,12 @@ async function submit() {
       </v-col>
       <v-col cols="12">
         <v-textarea v-model="form.shortDescription" label="Описание" variant="outlined"></v-textarea>
+      </v-col>
+      <v-col cols="12">
+        <ImageInput @uploadImage="uploadLogo" />
+        <div class="logo" v-if="photoPreview">
+          <img :src="photoPreview" alt="">
+        </div>
       </v-col>
       <v-col cols="12">
         <i>videos are coming soon...</i>

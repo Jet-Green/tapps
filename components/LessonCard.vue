@@ -9,13 +9,14 @@ const authStore = useAuth();
 let { lesson } = defineProps<{
   lesson: Lesson,
 }>()
+
 </script>
 <template>
   <div class="border rounded-lg relative cursor-pointer h-100"
     @click="router.push(`lesson?_id=${lesson._id}&course_id=${route.params?._id}`)">
     <v-col cols="12" class="flex justify-center">
       <img class="w-50"
-        src="https://img.freepik.com/free-photo/beautiful-kitten-with-colorful-clouds_23-2150752964.jpg" />
+        :src="lesson.images?.logo" />
       <v-btn v-if="authStore.user?.roles[0] == 'teacher'" variant="text"
         @click.stop="router.push({ name: 'lesson-manage', query: { lesson_id: lesson._id, course_id: route.params?._id } })"
         class="ma-2 z-50" icon="mdi-pencil-outline"></v-btn>

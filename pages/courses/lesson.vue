@@ -31,9 +31,30 @@ if (route.query.course_id) {
 }
 
 await courseStore.getCourseByIdWithLessons(String(route.query.course_id))
+
+let breadcrums = ref([
+  {
+    title: `${currentCourse.value?.name}`,
+    disabled: false,
+    href: `/`,
+  },
+  {
+    title: `${currentLesson.value?.name}`,
+    disabled: false,
+    href: `${currentCourse.value?._id}`,
+  },
+])
+
 </script>
 <template>
-  <v-container class="mt-5" v-if="currentLesson?._id">
+  <v-container v-if="currentLesson?._id">
+    <v-row>
+      <v-col cols="12">
+        <BackButton />
+        <v-breadcrumbs :items="breadcrums" class="text-xs md:text-base"
+        </v-breadcrumbs>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col cols="12" md="6">
         <video class="w-full h-100 md:max-h-[500px]" controls>

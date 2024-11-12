@@ -14,10 +14,13 @@ export const useLesson = defineStore('lesson', () => {
   async function newSolution(solution: any) {
     return await LessonApi.newSolution(solution)
   }
+  async function uploadImages(formData: FormData, lessonId: string) {
+    return await LessonApi.uploadImages(formData, lessonId)
+  }
 
   return {
     // functions
-    updateLesson, uploadVideo, newSolution,
+    updateLesson, uploadVideo, newSolution, uploadImages,
     // variables
   }
 })

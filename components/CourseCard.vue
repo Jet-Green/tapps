@@ -12,8 +12,6 @@ const props = defineProps<{
 }>()
 
 let { course } = props
-
-console.log()
 </script>
 <template>
   <div class="border relative rounded-lg cursor-pointer h-100" @click="router.push(`/courses/${course._id}`)">
