@@ -59,7 +59,26 @@ function addNewHomework() {
     hwText: "",
   })
 }
+async function uploadFileInChunks(file: File, lessonId: string) {
+  const chunkSize = 1024 * 1024 * 50 // 5 MB
+  const totalChunks = Math.ceil(file.size / chunkSize)
+  let response: any
+  const uploadDate = Date.now()
+  for (let chunkIndex: number = 0; chunkIndex < totalChunks; chunkIndex++) {
+    const start = chunkIndex * chunkSize
+    const end = Math.min(start + chunkSize, file.size)
+    const chunk = file.slice(start, end)
 
+    const formData = new FormData()
+    formData.append("file", chunk, `${uploadDate}_${lessonId}_${file.name.replaceAll(' ', '_')}`)
+    formData.append("filename", `${uploadDate}_${lessonId}_${file.name.replaceAll(' ', '_')}`)
+    formData.append("chunkIndex", chunkIndex.toString())
+    formData.append("totalChunks", totalChunks.toString())
+    response = await lessonStore.uploadVideo(formData, lessonId)
+    console.log(response)
+  }
+  return response
+}
 let loading = ref<boolean>(false)
 async function submit() {
   if (!selectedCourse.value || !selectedLesson.value) return
@@ -85,11 +104,11 @@ async function submit() {
   if (videos.value.length > 0 && res.status.value == "success") {
     let videosFormData = new FormData()
 
-    videosFormData.append(`video`, videos.value[0], `video_${res.data.value._id}.mp4`)
+    // videosFormData.append(`video`, videos.value[0], ``)
 
-    res = await lessonStore.uploadVideo(videosFormData, res.data.value._id)
+    let response = await uploadFileInChunks(videos.value[0], res.data.value._id)
 
-    if (res.status.value == "success") {
+    if (response?.status?.value == "success") {
       loading.value = false
       toast("Успешно", {
         type: "success",
