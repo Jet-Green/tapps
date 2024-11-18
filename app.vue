@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 onMounted(() => {
   console.log('Ооо, привет, я смотрю, ты заполз куда надо, у нас есть вакансии по адресу https://t.me/eternity_strange_man, будем ждать тебя, сладкий!')
 })
