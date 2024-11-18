@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Homework } from '~/types/homework.interface';
+import type { Homework } from "~/types/homework.interface"
 
 definePageMeta({
   middleware: ["auth"],
@@ -8,7 +8,7 @@ definePageMeta({
 
 const runtimeConfig = useRuntimeConfig()
 const courseStore = useCourse()
-const router = useRouter();
+const router = useRouter()
 const route = useRoute()
 const lessonId = route.query._id
 
@@ -25,14 +25,14 @@ let currentLesson = computed(() => {
 
 if (route.query.course_id) {
   let res = await courseStore.getHomeworksByCourses([String(route.query.course_id)])
-  if (res.status.value == 'success') {
-    homeworks.value = res.data.value;
+  if (res.status.value == "success") {
+    homeworks.value = res.data.value
   }
 }
 
 await courseStore.getCourseByIdWithLessons(String(route.query.course_id))
 
-let breadcrums = ref([
+let breadcrumbs = ref([
   {
     title: `${currentCourse.value?.name}`,
     disabled: false,
@@ -44,22 +44,23 @@ let breadcrums = ref([
     href: `${currentCourse.value?._id}`,
   },
 ])
-
 </script>
 <template>
   <v-container v-if="currentLesson?._id">
     <v-row>
       <v-col cols="12">
         <BackButton />
-        <v-breadcrumbs :items="breadcrums" class="text-xs md:text-base"
-        </v-breadcrumbs>
+        <v-breadcrumbs :items="breadcrumbs" class="text-xs md:text-base"></v-breadcrumbs>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" md="6">
-        <video class="w-full h-100 md:max-h-[500px]" controls>
-          <source :src="currentLesson?.videos[currentLesson?.videos.length - 1]" type="video/mp4">
-        </video>
+        <!-- <video class="w-full h-100 md:max-h-[500px]" controls>
+          <source :src="currentLesson?.videos[currentLesson?.videos.length - 1]" type="video/mp4" />
+        </video> -->
+        <M3U8Player
+          src="https://factum-videos.website.yandexcloud.net/lesson-videos/lesson-67299c1c9df1505d8c87143b/playlist.m3u8"
+        />
       </v-col>
       <v-col cols="12" md="3">
         <p class="text-4xl font-semibold mb-5">
@@ -78,8 +79,12 @@ let breadcrums = ref([
         <p class="text-4xl font-semibold mb-5">Домашнее задание</p>
         <v-row>
           <v-col cols="12" md="6" v-for="task in homeworks">
-            <div class="border rounded-lg cursor-pointer h-100"
-              @click="router.push(`/add-solution?homework_id=${task._id}&lesson_id=${task.lesson}&course_id=${task.course}`)">
+            <div
+              class="border rounded-lg cursor-pointer h-100"
+              @click="
+                router.push(`/add-solution?homework_id=${task._id}&lesson_id=${task.lesson}&course_id=${task.course}`)
+              "
+            >
               <v-col cols="12" class="d-flex justify-space-between">
                 <p class="text-2xl font-semibold">{{ task.name }}</p>
               </v-col>
