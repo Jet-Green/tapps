@@ -10,7 +10,7 @@ const savedTheme = useCookie('theme')
 let drawer = ref(true);
 let drawer2 = ref(false);
 let rail = ref(true);
-let dialog = ref(false)
+let dialog = ref(false);
 
 if (['light', 'dark'].includes(String(savedTheme.value))) {
   theme.global.name.value = String(savedTheme.value);
