@@ -30,11 +30,11 @@ async function logOut() {
     <v-app-bar :elevation="0" class="border-b-1">
       <v-container>
         <v-row>
-          <v-col class="logo hidden md:flex" cols="6">
+          <v-col @click="router.push('/')" class="logo hidden md:flex cursor-pointer" cols="6">
             <img class="h-[35px]" src="/assets/images/factum-logo.svg" />
           </v-col>
 
-          <v-col class="md:hidden flex mt-1" cols="6">
+          <v-col @click="router.push('/')" class="md:hidden flex mt-1 cursor-pointer" cols="6">
             <img class="h-[35px]" src="/assets/images/factum-logo.svg" />
           </v-col>
 

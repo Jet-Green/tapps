@@ -40,11 +40,11 @@ if (fullPath.startsWith("/courses")) {
     <v-app-bar :elevation="0">
       <v-container>
         <v-row>
-          <v-col cols="3" class="hidden md:flex">
+          <v-col @click="router.push('/')" cols="3" class="hidden md:flex cursor-pointer">
             <img class="h-[35px]" src="../assets/images/factum-logo.svg" alt="" />
           </v-col>
 
-          <v-col cols="6" class="md:hidden flex">
+          <v-col @click="router.push('/')" cols="6" class="md:hidden flex cursor-pointer">
             <img class="h-[35px]" src="../assets/images/factum-logo.svg" alt="" />
           </v-col>
 

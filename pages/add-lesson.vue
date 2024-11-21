@@ -12,17 +12,23 @@ let form = ref<{ name: string; shortDescription: string }>({
 })
 
 let imagesFormData = new FormData()
+let visibleCropperModal = ref(false)
+let dialog = ref(false);
 
 let photoPreview = ref()
 function uploadLogo(file: File) {
-  // example filename: logo_216262666.jpg
   imagesFormData.set('logo', file, 'logo_' + String(Date.now()) + '.jpg')
-  // make a preview
   let reader = new FileReader();
   reader.onloadend = function () {
     photoPreview.value = reader.result
   }
   reader.readAsDataURL(file);
+  visibleCropperModal.value = false;
+}
+
+function deletePreview() {
+  imagesFormData.set('logo', ' ')
+  photoPreview.value = null
 }
 
 
@@ -64,24 +70,63 @@ async function submit() {
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
-        <p class="text-2xl font-semibold">Создать урок</p>
+      <v-col cols="12" class="mb-4">
+        <p class="text-4xl font-semibold">Создать урок</p>
+        <BackButton class="mt-4"></BackButton>
       </v-col>
-    </v-row>
 
-    <v-row>
-      <v-col cols="6">
-        <v-text-field v-model="form.name" label="Название" variant="outlined"></v-text-field>
+      <v-col cols="12" md="8">
+        <v-row>
+          <v-col cols="12">
+            <v-text-field v-model="form.name" label="Название" variant="outlined"></v-text-field>
+            <v-textarea v-model="form.shortDescription" label="Описание" variant="outlined"></v-textarea>
+          </v-col>
+        </v-row>
       </v-col>
-      <v-col cols="12">
-        <v-textarea v-model="form.shortDescription" label="Описание" variant="outlined"></v-textarea>
-      </v-col>
-      <v-col cols="12">
-        <ImageInput @uploadImage="uploadLogo" />
-        <div class="logo" v-if="photoPreview">
-          <img :src="photoPreview" alt="">
+
+      <v-col cols="12" md="4" class="pb-8">
+        <div @click="visibleCropperModal = true" class="h-100">
+          <label for="uploadLogo">
+            <div class="h-100 flex flex-col align-center justify-center border rounded">
+              <v-icon icon="mdi mdi-cloud-upload-outline" class="icon" />
+              <span class="explanation text-center">Загрузить обложку урока</span>
+            </div>
+          </label>
         </div>
+
+        <v-dialog v-model="dialog" width="auto">
+          <v-card max-width="400" title="Удалить фото">
+            <template v-slot:actions>
+              <v-btn text="нет" @click="dialog = false;"></v-btn>
+              <v-btn text="да" @click="dialog = false; deletePreview()"></v-btn>
+            </template>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="visibleCropperModal">
+          <v-row class="justify-center">
+            <v-col cols="12" md="8" lg="6">
+              <v-card class="pa-4 rounded-lg">
+                <ImageCropper @uploadImage="uploadLogo" />
+
+                <v-card-actions>
+                  <v-btn @click="visibleCropperModal = false" color="error" class="btn ml-auto">
+                    закрыть
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-dialog>
       </v-col>
+
+      <v-col cols="12">
+        <v-img class="my-2 relative z-0 overflow-visible rounded" :src="photoPreview" width="200" v-if="photoPreview">
+          <v-btn class="absolute -top-7 z-50 btn border" @click="dialog = true"
+            icon="mdi mdi-trash-can-outline"></v-btn>
+        </v-img>
+      </v-col>
+
       <v-col cols="12">
         <i>videos are coming soon...</i>
       </v-col>
@@ -91,3 +136,31 @@ async function submit() {
     </v-row>
   </v-container>
 </template>
+
+<style>
+.btn {
+  background-color: white !important;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0)
+}
+
+.icon {
+  font-size: 128px;
+  font-weight: 100;
+}
+
+@media only screen and (max-width: 600px) {
+  .icon {
+    font-size: 32px;
+    font-weight: 100;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .icon {
+    font-size: 64px;
+    font-weight: 100;
+  }
+}
+</style>
