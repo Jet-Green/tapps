@@ -11,7 +11,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 			global: {
 				ripple: false,
 			},
-		}
+		},
+		ssr: true,
 	})
 
 	nuxtApp.vueApp.use(vuetify)
