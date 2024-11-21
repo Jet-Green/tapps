@@ -168,7 +168,7 @@ async function logOut() {
             </template>
             <v-list-item class='group-elem' @click.stop="router.push('/teacher/add-new-student'); rail = !rail"
               prepend-icon="mdi-account-box-plus-outline" title="добавить пользователя" value="6"></v-list-item>
-            <v-list-item class='group-elem' prepend-icon="mdi-account-group-outline" title="пользователи"
+            <v-list-item class='group-elem' @click.stop="router.push('/all-users'); rail = !rail" prepend-icon="mdi-account-group-outline" title="пользователи"
               value="7"></v-list-item>
           </v-list-group>
         </v-list>
