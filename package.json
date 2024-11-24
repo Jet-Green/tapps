@@ -13,6 +13,8 @@
     "@mdi/font": "^7.4.47",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.5.1",
+    "fluent-ffmpeg": "^2.1.3",
+    "formidable": "^3.5.2",
     "lodash": "^4.17.21",
     "nuxt": "^3.11.2",
     "pinia": "^2.2.4",
@@ -24,6 +26,8 @@
     "vue3-toastify": "^0.2.4"
   },
   "devDependencies": {
+    "@types/fluent-ffmpeg": "^2.1.27",
+    "@types/formidable": "^3.4.5",
     "@types/lodash": "^4.17.12",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
