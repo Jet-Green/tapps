@@ -18,7 +18,7 @@ export const useCourse = defineStore('course', () => {
     // когда обычный пользователь только свои курсы
     
     let res;
-    if (auth.user?.roles[0] == 'teacher') {
+    if (auth.user?.roles[0] == 'teacher' || auth.user?.roles[0] == 'admin') {
       res = await CourseApi.getAll(null)
     } else {
       res = await CourseApi.getAll(auth.user?.courses)

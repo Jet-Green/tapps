@@ -4,7 +4,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   
   if (isAuth) {
     abortNavigation();
-    // navigate to login page, now it's on /
-    return navigateTo('/courses')
+    if (isAuth && authStore.user?.roles[0] == 'teacher') {
+      return navigateTo('/teacher')
+    }
+    if (isAuth && authStore.user?.roles[0] == 'admin') {
+      return navigateTo('/admin')
+    }
+    if (isAuth && authStore.user?.roles[0] == 'student') {
+      return navigateTo('/student')
+    }
   }
 })

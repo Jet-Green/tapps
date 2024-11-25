@@ -9,6 +9,7 @@ const savedTheme = useCookie('theme')
 const userStore = useAuth();
 
 let drawer = ref(false);
+let dialog = ref(false);
 
 if (['light', 'dark'].includes(String(savedTheme.value))) {
   theme.global.name.value = String(savedTheme.value);
@@ -19,7 +20,12 @@ let activeTab = ref<string>()
 
 function setActiveTab(tabPath: string) {
   activeTab.value = tabPath
-  router.push(tabPath)
+  if (tabPath == '/courses') {
+    router.push(`/student`)
+  } else {
+    router.push(`/student/tasks`)
+  }
+
 }
 
 function toggleTheme() {
@@ -27,11 +33,15 @@ function toggleTheme() {
   savedTheme.value = theme.global.name.value
 }
 
+async function logOut() {
+  await userStore.logout()
+}
+
 // set current active tab
 const fullPath = router.currentRoute.value.fullPath
-if (fullPath.startsWith("/courses")) {
+if (fullPath.endsWith('/student')) {
   activeTab.value = "/courses"
-} else if (fullPath.startsWith("/tasks")) {
+} else if (fullPath.endsWith("/tasks")) {
   activeTab.value = "/tasks"
 }
 </script>
@@ -40,12 +50,14 @@ if (fullPath.startsWith("/courses")) {
     <v-app-bar :elevation="0">
       <v-container>
         <v-row>
-          <v-col @click="router.push('/')" cols="3" class="hidden md:flex cursor-pointer">
-            <img class="h-[35px]" src="../assets/images/factum-logo.svg" alt="" />
+          <v-col @click="router.push(`/${userStore.user?.roles[0]}`)" class="logo hidden mt-1 md:flex cursor-pointer"
+            cols="3">
+            <img class="h-[35px]" src="/assets/images/factum-logo.svg" />
           </v-col>
 
-          <v-col @click="router.push('/')" cols="6" class="md:hidden flex cursor-pointer">
-            <img class="h-[35px]" src="../assets/images/factum-logo.svg" alt="" />
+          <v-col @click="router.push(`/${userStore.user?.roles[0]}`)" class="md:hidden flex mt-1 cursor-pointer"
+            cols="6">
+            <img class="h-[35px]" src="/assets/images/factum-logo.svg" />
           </v-col>
 
           <v-col cols="6" class="hidden md:flex justify-center align-center">
@@ -66,7 +78,7 @@ if (fullPath.startsWith("/courses")) {
           </v-col>
           <v-spacer>
           </v-spacer>
-          <v-col cols="2" class="hidden md:flex align-center justify-between px-10">
+          <v-col cols="3" lg="2" class="hidden md:flex px-0 md:px-10 align-center justify-between">
             <button @click="toggleTheme" type="button"
               class="text-zinc-700 border border-zinc-700 hover:bg-zinc-400 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:hover:bg-zinc-700">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
@@ -77,8 +89,10 @@ if (fullPath.startsWith("/courses")) {
                     clip-rule="evenodd"></path>
                 </svg></svg>
             </button>
-            <v-avatar
-              image="https://shapka-youtube.ru/wp-content/uploads/2024/08/kartinka-na-avatarki-so-sviney.jpg"></v-avatar>
+            <div
+              class="w-10 h-10 relative inline-flex items-center justify-center overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+              <span class="font-medium text-gray-600 dark:text-gray-300">{{ userStore.user?.name[0] }}</span>
+            </div>
             {{ userStore.user?.name }} <br />
             {{ userStore.user?.roles[0] }}
             <v-menu>
@@ -87,12 +101,13 @@ if (fullPath.startsWith("/courses")) {
               </template>
               <v-list>
                 <v-col class='flex justify-start' cols='12'>
-                  <v-btn @click="router.push('/settings')" class="" rounded="xl" variant="outlined">
+                  <v-btn @click="router.push(`/${userStore.user?.roles[0]}/settings`)" class="" rounded="xl"
+                    variant="outlined">
                     настройки
                   </v-btn>
                 </v-col>
-                <v-col class='flex pt-0 justify-start' cols='12'>
-                  <v-btn class="" rounded="xl" variant="outlined" @click="userStore.logout()">
+                <v-col @click="dialog = true;" class='flex pt-0 justify-start' cols='12'>
+                  <v-btn class="" rounded="xl" variant="outlined">
                     выйти
                   </v-btn>
                 </v-col>
@@ -102,6 +117,15 @@ if (fullPath.startsWith("/courses")) {
           <v-col cols="6" class="md:hidden flex align-center justify-end">
             <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           </v-col>
+
+          <v-dialog v-model="dialog" width="auto">
+            <v-card max-width="400" title="Выйти из аккаунта?">
+              <template v-slot:actions>
+                <v-btn text="нет" @click="dialog = false;"></v-btn>
+                <v-btn text="да" @click="dialog = false; logOut()"></v-btn>
+              </template>
+            </v-card>
+          </v-dialog>
         </v-row>
       </v-container>
     </v-app-bar>

@@ -175,6 +175,7 @@ if (typeof route.query.course_id === "string") {
     <v-row>
       <v-col cols="12">
         <p class="text-2xl font-semibold">Редактировать урок</p>
+        <BackButton class="mt-4" />
       </v-col>
       <v-col cols="6">
         <v-select

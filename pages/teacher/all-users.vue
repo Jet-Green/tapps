@@ -33,7 +33,7 @@ if (res.status = 200) {
                 поменять роль
               </v-btn>
               <v-btn class="me-2 text-none" prepend-icon="mdi mdi-trash-can-outline" variant="flat">
-                удалить нахуй
+                удалить пользователя
               </v-btn>
             </div>
           </v-col>

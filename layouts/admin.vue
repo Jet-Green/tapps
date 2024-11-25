@@ -4,6 +4,7 @@ import { useTheme } from "vuetify"
 const userStore = useAuth();
 
 const router = useRouter()
+const route = useRoute()
 const theme = useTheme()
 const savedTheme = useCookie('theme')
 
@@ -30,11 +31,13 @@ async function logOut() {
     <v-app-bar :elevation="0" class="border-b-1">
       <v-container>
         <v-row>
-          <v-col @click="router.push('/')" class="logo hidden md:flex cursor-pointer" cols="6">
+          <v-col @click="router.push(`/${userStore.user?.roles[0]}`)" class="logo hidden md:flex cursor-pointer"
+            cols="6">
             <img class="h-[35px]" src="/assets/images/factum-logo.svg" />
           </v-col>
 
-          <v-col @click="router.push('/')" class="md:hidden flex mt-1 cursor-pointer" cols="6">
+          <v-col @click="router.push(`/${userStore.user?.roles[0]}`)" class="md:hidden flex mt-1 cursor-pointer"
+            cols="6">
             <img class="h-[35px]" src="/assets/images/factum-logo.svg" />
           </v-col>
 
@@ -62,16 +65,16 @@ async function logOut() {
                 <v-btn icon="mdi-dots-vertical" variant="text" v-bind="props"></v-btn>
               </template>
               <v-list>
-                <v-col class='flex justify-start' cols='12'>
-                  <v-btn @click="router.push('/settings')" class="" rounded="xl" variant="outlined">
+                <v-list-item><v-btn @click="router.push(`/${userStore.user?.roles[0]}/settings`)" class="" rounded="xl"
+                    variant="outlined">
                     настройки
                   </v-btn>
-                </v-col>
-                <v-col @click="dialog = true;" class='flex pt-0 justify-start' cols='12'>
-                  <v-btn class="" rounded="xl" variant="outlined">
+                </v-list-item>
+                <v-list-item>
+                  <v-btn @click="dialog = true;" class="" rounded="xl" variant="outlined">
                     выйти
                   </v-btn>
-                </v-col>
+                </v-list-item>
               </v-list>
             </v-menu>
           </v-col>
@@ -85,7 +88,7 @@ async function logOut() {
 
     <div v-if="drawer2">
       <v-navigation-drawer v-model="drawer2" location="right" temporary>
-        <template v-slot:prepend>
+        <template>
           <div class="flex flex-row align-center">
             <div
               class="ml-3 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
@@ -108,12 +111,12 @@ async function logOut() {
 
         <v-divider></v-divider>
         <v-col class='flex justify-start' cols='12'>
-          <v-btn @click="router.push('/settings')" class="" rounded="xl" variant="outlined">
+          <v-btn @click="router.push(`/${userStore.user?.roles[0]}/settings`)" class="" rounded="xl" variant="outlined">
             настройки
           </v-btn>
         </v-col>
         <v-col class='flex pt-0 justify-start' cols='12'>
-          <v-btn @click="dialog = true;" class="" rounded="xl" variant="outlined">
+          <v-btn @click="dialog = true" class="" rounded="xl" variant="outlined">
             выйти
           </v-btn>
         </v-col>
@@ -130,49 +133,55 @@ async function logOut() {
     </v-dialog>
 
     <div v-if="drawer">
-      <v-navigation-drawer v-model="drawer" :rail="rail" permanent persistent @click="rail = false">
-        <v-row>
-          <v-col class="border-b-1 flex justify-center" v-if="rail == true" cols="12">
-            <v-btn icon="mdi-chevron-right" variant="text" @click.stop="rail = !rail; drawer2 = false"></v-btn>
-          </v-col>
-          <v-col @click.stop="rail = !rail" v-else cols="12" class="flex justify-between align-center border-b-1">
-            <p class="ml-5 font-medium w-50"> закрыть </p>
-            <v-btn icon="mdi-chevron-left" variant="text" @click.stop="rail = !rail"></v-btn>
-          </v-col>
-        </v-row>
+      <ClientOnly>
+        <v-navigation-drawer v-model="drawer" :rail="rail" permanent persistent @click="rail = false">
+          <v-row>
+            <v-col class="border-b-1 flex justify-center" v-if="rail == true" cols="12">
+              <v-btn icon="mdi-chevron-right" variant="text" @click.stop="rail = !rail; drawer2 = false"></v-btn>
+            </v-col>
+            <v-col @click.stop="rail = !rail" v-else cols="12" class="flex justify-between align-center border-b-1">
+              <p class="ml-5 font-medium w-50"> закрыть </p>
+              <v-btn icon="mdi-chevron-left" variant="text" @click.stop="rail = !rail"></v-btn>
+            </v-col>
+          </v-row>
 
-        <v-divider></v-divider>
+          <v-divider></v-divider>
 
-        <v-list density="compact" nav>
-          <v-list-group>
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" prepend-icon="mdi-cog-outline" title="настройки"></v-list-item>
-            </template>
-            <v-list-item @click.stop="router.push('/settings'); rail = !rail" class="group-elem"
-              prepend-icon="mdi-account-cog-outline" title="настройки аккаунта" value="2"></v-list-item>
-          </v-list-group>
+          <v-list density="compact" nav>
+            <v-list-group>
+              <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" prepend-icon="mdi-cog-outline" title="настройки"></v-list-item>
+              </template>
+              <v-list-item @click.stop="router.push(`/${userStore.user?.roles[0]}/settings`); rail = !rail"
+                class="group-elem" prepend-icon="mdi-account-cog-outline" title="настройки аккаунта"
+                value="2"></v-list-item>
+            </v-list-group>
 
-          <v-list-group>
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" prepend-icon="mdi-book-education-outline" title="курс"></v-list-item>
-            </template>
-            <v-list-item class='group-elem' @click.stop="router.push('/add-course'); rail = !rail"
-              prepend-icon="mdi-book-plus-outline" title="добавить курс" value="4"></v-list-item>
-            <v-list-item class='group-elem' @click.stop="router.push('/courses'); rail = !rail"
-              prepend-icon="mdi-book-multiple-outline" title="курсы" value="8"></v-list-item>
-          </v-list-group>
+            <v-list-group>
+              <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" prepend-icon="mdi-book-education-outline" title="курс"></v-list-item>
+              </template>
+              <v-list-item class='group-elem'
+                @click.stop="router.push(`/${userStore.user?.roles[0]}/add-course`); rail = !rail"
+                prepend-icon="mdi-book-plus-outline" title="добавить курс" value="4"></v-list-item>
+              <v-list-item class='group-elem' @click.stop="router.push(`/${userStore.user?.roles[0]}`); rail = !rail"
+                prepend-icon="mdi-book-multiple-outline" title="курсы" value="8"></v-list-item>
+            </v-list-group>
 
-          <v-list-group>
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" prepend-icon="mdi-account-outline" title="пользователь"></v-list-item>
-            </template>
-            <v-list-item class='group-elem' @click.stop="router.push('/teacher/add-new-student'); rail = !rail"
-              prepend-icon="mdi-account-box-plus-outline" title="добавить пользователя" value="6"></v-list-item>
-            <v-list-item class='group-elem' @click.stop="router.push('/all-users'); rail = !rail" prepend-icon="mdi-account-group-outline" title="пользователи"
-              value="7"></v-list-item>
-          </v-list-group>
-        </v-list>
-      </v-navigation-drawer>
+            <v-list-group>
+              <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" prepend-icon="mdi-account-outline" title="пользователь"></v-list-item>
+              </template>
+              <v-list-item class='group-elem'
+                @click.stop="router.push(`/${userStore.user?.roles[0]}/add-new-student`); rail = !rail"
+                prepend-icon="mdi-account-box-plus-outline" title="добавить пользователя" value="6"></v-list-item>
+              <v-list-item class='group-elem'
+                @click.stop="router.push(`/${userStore.user?.roles[0]}/all-users`); rail = !rail"
+                prepend-icon="mdi-account-group-outline" title="пользователи" value="7"></v-list-item>
+            </v-list-group>
+          </v-list>
+        </v-navigation-drawer>
+      </ClientOnly>
     </div>
 
 

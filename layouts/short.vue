@@ -4,6 +4,7 @@ import { useTheme } from "vuetify"
 const theme = useTheme()
 const savedTheme = useCookie('theme')
 const router = useRouter()
+const userStore = useAuth();
 
 if (['light', 'dark'].includes(String(savedTheme.value))) {
   theme.global.name.value = String(savedTheme.value);
@@ -19,7 +20,7 @@ function toggleTheme() {
     <v-app-bar :elevation="0">
       <v-container>
         <v-row class="flex align-center justify-between">
-          <v-col class="cursor-pointer" cols="6" @click="router.push('/')">
+          <v-col class="cursor-pointer" cols="6" @click="router.push(`/${userStore.user?.roles[0]}`)">
             <img class="h-[35px]" src="/assets/images/factum-logo.svg" />
           </v-col>
           <v-col cols="6" md="2" class="flex justify-end items-center">
