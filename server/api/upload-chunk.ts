@@ -22,32 +22,36 @@ export default defineEventHandler(async (event) => {
         return reject(err);
       }
 
-      const fileName = fields.fileName
-      const chunk = files.file[0]; 
+      const fileName = String(fields.fileName)
+      const lessonId = String(fields.lessonId);
+      const chunk = files.file[0];
       const chunkIndex = parseInt(fields.chunkIndex as string, 10);
       const totalChunks = parseInt(fields.totalChunks as string, 10);
-
+      
       // Сохраняем чанки во временные файлы
-      const uploadDir = path.join(process.cwd(), 'public', 'lesson-videos');
+      const uploadDir = path.join(process.cwd().toString(), 'public', 'lesson-videos', String(lessonId));
       const chunkPath = path.join(uploadDir, `chunk-${chunkIndex}`);
+      
+      fs.mkdir(uploadDir, { recursive: true })
+      
       await fs.rename(chunk.filepath, chunkPath);
 
       // После последнего чанка объединяем все чанки в один файл
       if (chunkIndex === totalChunks - 1) {
         const finalFilePath = path.join(uploadDir, fileName);
         const writeStream = createWriteStream(finalFilePath);
-        
+
         for (let i = 0; i < totalChunks; i++) {
           const pathToChunk = path.join(uploadDir, `chunk-${i}`);
           const chunkData = await fs.readFile(pathToChunk);
-          await writeStream.write(chunkData);
+          writeStream.write(chunkData);
           await fs.unlink(pathToChunk); // Удаляем временный чанк
         }
 
         await writeStream.end();
-        resolve({ message: 'File uploaded and merged successfully' });
+        resolve({ message: 'File uploaded and merged successfully', uploadDir });
       } else {
-        resolve({ message: 'Chunk received' });
+        resolve({ message: 'Chunk received', uploadDir });
       }
     });
   });

@@ -1,10 +1,12 @@
-
 <script setup>
 const route = useRoute()
 
 const uploadStatus = ref('');
 const uploadProgress = ref(null);
 const chunkSize = 1024 * 1024 * 5; // 1 MB
+let mp4Path = '';
+
+const emit = defineEmits(['upload-finished'])
 
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
@@ -27,6 +29,7 @@ const uploadFileInChunks = async (file) => {
     formData.append('chunkIndex', chunkIndex);
     formData.append('totalChunks', totalChunks);
     formData.append('fileName', fileName);
+    formData.append('lessonId', route.query.lesson_id)
     
     try {
       const response = await fetch('/api/upload-chunk', {
@@ -36,23 +39,32 @@ const uploadFileInChunks = async (file) => {
 
       if (response.ok) {
         uploadProgress.value = Math.round(((chunkIndex + 1) / totalChunks) * 100);
+        if (chunkIndex == totalChunks - 1) {
+          // mp4Path = response;
+          // console.log(response);
+          
+          // emit('upload-finished', response)
+          return
+        }
       } else {
-        uploadStatus.value = 'Chunk upload failed!';
+        uploadStatus.value = 'Ошибка при загрузке чанка!';
         break;
       }
     } catch (error) {
       console.error('Error uploading chunk:', error);
-      uploadStatus.value = 'An error occurred during chunk upload.';
+      uploadStatus.value = 'Возникла ошибка при загрузке чанка! Нажмите F12 и отправьте её разработчику';
       break;
     }
   }
 
-  uploadStatus.value = 'File uploaded successfully!';
+  uploadStatus.value = 'Видео загружено!';
 };
 </script>
 
 <template>
   <div>
+    <!-- <v-file-input label="Видео" show-size variant="outlined" accept="video/*" v-model="videos"></v-file-input> -->
+
     <h1>Upload Video by Chunks</h1>
     <input type="file" accept="video/*" @change="handleFileUpload" />
     <div v-if="uploadProgress !== null">

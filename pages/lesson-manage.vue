@@ -225,7 +225,6 @@ if (typeof route.query.course_id === "string") {
       </v-col>
 
       <v-col cols="12">
-        <v-file-input label="Видео" show-size variant="outlined" accept="video/*" v-model="videos"></v-file-input>
         <UploadVideo />
       </v-col>
 
