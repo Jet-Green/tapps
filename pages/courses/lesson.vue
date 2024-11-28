@@ -59,7 +59,7 @@ let breadcrumbs = ref([
           <source :src="currentLesson?.videos[currentLesson?.videos.length - 1]" type="video/mp4" />
         </video> -->
         <M3U8Player
-          src="https://factum-videos.website.yandexcloud.net/lesson-videos/lesson-67299c1c9df1505d8c87143b/playlist.m3u8"
+          :src="currentLesson?.videos[0]"
         />
       </v-col>
       <v-col cols="12" md="3">

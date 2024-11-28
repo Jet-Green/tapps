@@ -3,15 +3,12 @@ import fs from 'fs';
 import path from 'path';
 
 function getFilePathsFromLocalHLS(filePath: string): string[] {
-    try {
-        console.log(filePath);
-        
+    try {        
         // Читаем содержимое HLS файла
         const m3u8Content = fs.readFileSync(filePath, 'utf-8');
 
         // Разбиваем содержимое на строки
         const lines = m3u8Content.split('\n');
-        // console.log(lines);
         
         // Фильтруем строки, которые содержат пути к сегментам
         const filePaths = lines
@@ -44,7 +41,7 @@ export default defineEventHandler(async (event) => {
                 if (err) {
                     return reject(`Ошибка чтения файла: ${err.message}`);
                 }
-                console.log(path.basename(fullPath));
+
                 const uploadPath = path.join('lesson-videos', lessonId, path.basename(fullPath));
                 const params = {
                     Bucket: 'factum-videos',                 // Название вашего бакета
@@ -63,7 +60,6 @@ export default defineEventHandler(async (event) => {
 
     try {
         const results = await Promise.all(uploadPromises);
-        console.log(results);
         
         return { success: true, results }; // Возвращаем успешные результаты
     } catch (error) {

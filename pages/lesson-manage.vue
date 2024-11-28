@@ -10,13 +10,13 @@ const lessonStore = useLesson()
 const router = useRouter()
 const route = useRoute()
 
+let videoUploadedPath = ref<string | null>()
 let form = ref<any>({
   name: "",
   shortDescription: "",
   links: [],
   homework: [],
 })
-let videos = ref([])
 
 let newLink = ref<string>("")
 
@@ -59,25 +59,8 @@ function addNewHomework() {
     hwText: "",
   })
 }
-async function uploadFileInChunks(file: File, lessonId: string) {
-  const chunkSize = 1024 * 1024 * 50 // 5 MB
-  const totalChunks = Math.ceil(file.size / chunkSize)
-  let response: any
-  const uploadDate = Date.now()
-  for (let chunkIndex: number = 0; chunkIndex < totalChunks; chunkIndex++) {
-    const start = chunkIndex * chunkSize
-    const end = Math.min(start + chunkSize, file.size)
-    const chunk = file.slice(start, end)
-
-    const formData = new FormData()
-    formData.append("file", chunk, `${uploadDate}_${lessonId}_${file.name.replaceAll(' ', '_')}`)
-    formData.append("filename", `${uploadDate}_${lessonId}_${file.name.replaceAll(' ', '_')}`)
-    formData.append("chunkIndex", chunkIndex.toString())
-    formData.append("totalChunks", totalChunks.toString())
-    response = await lessonStore.uploadVideo(formData, lessonId)
-    console.log(response)
-  }
-  return response
+async function uploadFinished(uploadPath: string) {
+  videoUploadedPath.value = "https://factum-videos.website.yandexcloud.net/" + uploadPath
 }
 let loading = ref<boolean>(false)
 async function submit() {
@@ -100,24 +83,21 @@ async function submit() {
     homeworksToSend[i].lessonName = selectedLesson.value.name
   }
 
+  // add new video
+  if (videoUploadedPath.value) {
+    toSend.videos = [videoUploadedPath.value]
+  }
+  
   let res = await lessonStore.updateLesson(toSend, homeworksToSend)
-  if (videos.value.length > 0 && res.status.value == "success") {
-    let videosFormData = new FormData()
-
-    // videosFormData.append(`video`, videos.value[0], ``)
-
-    let response = await uploadFileInChunks(videos.value[0], res.data.value._id)
-
-    if (response?.status?.value == "success") {
-      loading.value = false
-      toast("Успешно", {
-        type: "success",
-        autoClose: 600,
-        onClose: () => {
-          router.back()
-        },
-      })
-    }
+  if (res.status.value == "success") {
+    loading.value = false
+    toast("Успешно", {
+      type: "success",
+      autoClose: 600,
+      onClose: () => {
+        router.back()
+      },
+    })
   }
 }
 
@@ -225,7 +205,7 @@ if (typeof route.query.course_id === "string") {
       </v-col>
 
       <v-col cols="12">
-        <UploadVideo />
+        <UploadVideo @upload-finished="uploadFinished" />
       </v-col>
 
       <v-col cols="12">

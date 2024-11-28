@@ -18,7 +18,7 @@ const handleFileUpload = async (event: any) => {
 }
 
 const uploadToYandexCloud = async () => {
-  const response = await fetch("/api/hls-to-yandex-cloud", {
+  const response = await $fetch("/api/hls-to-yandex-cloud", {
     method: "POST",
     headers: {
       "Content-Type": "application/json", // Specify the content type
@@ -27,6 +27,10 @@ const uploadToYandexCloud = async () => {
       lessonId: route.query.lesson_id
     }), // Convert the body to a JSON string
   })
+  if (response.success) {
+    // console.log(response);
+    emit('upload-finished', `lesson-videos/${route.query.lesson_id}/playlist.m3u8`)
+  }
 }
 
 const convertVideo = async () => {
