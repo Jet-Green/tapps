@@ -8,28 +8,35 @@ let mp4FileName = ""
 
 const emit = defineEmits(["upload-finished"])
 
+let loading = ref<boolean>(false)
+
 const handleFileUpload = async (event: any) => {
   const file = event.target.files[0]
   if (file) {
+    loading.value = true
     await uploadFileInChunks(file)
     await convertVideo()
     await uploadToYandexCloud()
+    loading.value = false
   }
 }
 
 const uploadToYandexCloud = async () => {
+  uploadStatus.value = "Загрузка в облако..."
+
   const response = await $fetch("/api/hls-to-yandex-cloud", {
     method: "POST",
     headers: {
       "Content-Type": "application/json", // Specify the content type
     },
     body: JSON.stringify({
-      lessonId: route.query.lesson_id
+      lessonId: route.query.lesson_id,
     }), // Convert the body to a JSON string
   })
   if (response.success) {
     // console.log(response);
-    emit('upload-finished', `lesson-videos/${route.query.lesson_id}/playlist.m3u8`)
+    uploadStatus.value = "Загрузка завершена, можете продолжать работу"
+    emit("upload-finished", `lesson-videos/${route.query.lesson_id}/playlist.m3u8`)
   }
 }
 
@@ -39,6 +46,7 @@ const convertVideo = async () => {
     mp4FileName,
     lessonId,
   }
+  uploadStatus.value = "Конвертация! Пожалуйста, подождите"
 
   const response = await fetch("/api/convert", {
     method: "POST",
@@ -46,15 +54,15 @@ const convertVideo = async () => {
       "Content-Type": "application/json", // Specify the content type
     },
     body: JSON.stringify(body), // Convert the body to a JSON string
-  })  
-  
+  })
+
   if (response.ok) {
-    console.log("Конвертация завершена!")
+    uploadStatus.value = "Конвертация завершена!"
   }
 }
 
 const uploadFileInChunks = async (file: File) => {
-  if (!route.query.lesson_id) return;
+  if (!route.query.lesson_id) return
 
   const totalChunks = Math.ceil(file.size / chunkSize)
   const fileName = route.query.lesson_id + "_" + file.name
@@ -84,6 +92,9 @@ const uploadFileInChunks = async (file: File) => {
           // mp4Path = response;
 
           // emit('upload-finished', response)
+          setTimeout(() => {
+            uploadProgress.value = null
+          }, 1000)
           return
         }
       } else {
@@ -105,11 +116,11 @@ const uploadFileInChunks = async (file: File) => {
   <div>
     <!-- <v-file-input label="Видео" show-size variant="outlined" accept="video/*" v-model="videos"></v-file-input> -->
 
-    <h1>Upload Video by Chunks</h1>
     <input type="file" accept="video/*" @change="handleFileUpload" />
     <div v-if="uploadProgress !== null">
       <p>Upload Progress: {{ uploadProgress }}%</p>
     </div>
     <div v-if="uploadStatus">{{ uploadStatus }}</div>
+    <v-progress-circular indeterminate :size="40" v-if="loading"></v-progress-circular>
   </div>
 </template>

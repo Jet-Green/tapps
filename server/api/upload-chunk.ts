@@ -31,8 +31,8 @@ export default defineEventHandler(async (event) => {
       // Сохраняем чанки во временные файлы
       const uploadDir = path.join(process.cwd().toString(), 'public', 'lesson-videos', String(lessonId));
       const chunkPath = path.join(uploadDir, `chunk-${chunkIndex}`);
-
-      fs.mkdir(uploadDir, { recursive: true })
+      
+      await fs.mkdir(uploadDir, { recursive: true })
 
       await fs.rename(chunk.filepath, chunkPath);
 
@@ -48,7 +48,7 @@ export default defineEventHandler(async (event) => {
           await fs.unlink(pathToChunk); // Удаляем временный чанк
         }
 
-        await writeStream.end();
+        writeStream.end();
         resolve({ message: 'File uploaded and merged successfully', uploadDir });
       } else {
         resolve({ message: 'Chunk received', uploadDir });
