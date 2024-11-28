@@ -3,13 +3,13 @@ import fs from 'fs';
 import path from 'path';
 
 function getFilePathsFromLocalHLS(filePath: string): string[] {
-    try {        
+    try {
         // Читаем содержимое HLS файла
         const m3u8Content = fs.readFileSync(filePath, 'utf-8');
 
         // Разбиваем содержимое на строки
         const lines = m3u8Content.split('\n');
-        
+
         // Фильтруем строки, которые содержат пути к сегментам
         const filePaths = lines
             .filter(line => line && !line.startsWith('#')) // Исключаем пустые строки и комментарии
@@ -26,9 +26,9 @@ function getFilePathsFromLocalHLS(filePath: string): string[] {
 }
 
 export default defineEventHandler(async (event) => {
-    const {  lessonId } = await readBody(event); // Ожидаем массив путей к файлам
+    const { lessonId } = await readBody(event); // Ожидаем массив путей к файлам
     const hlsPath = path.join(process.cwd(), 'public', 'lesson-videos', lessonId, 'playlist.m3u8')
-    
+
     let files: string[] = getFilePathsFromLocalHLS(hlsPath);
     files.push(hlsPath); // include playlist.m3u8
 
@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
                     Body: data,                              // Содержимое файла
                     ContentType: 'application/octet-stream', // Тип контента
                 };
-                
+
                 S3.upload(params)
                     .promise()
                     .then(() => resolve({ uploadPath: uploadPath, status: 'загружен' }))
@@ -60,6 +60,8 @@ export default defineEventHandler(async (event) => {
 
     try {
         const results = await Promise.all(uploadPromises);
+
+        fs.rmSync(path.join(process.cwd(), 'public', 'lesson-videos', lessonId), { recursive: true, force: true });
         
         return { success: true, results }; // Возвращаем успешные результаты
     } catch (error) {
