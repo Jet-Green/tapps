@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody, sendError, createError } from 'h3';
+import { defineEventHandler, readBody, send, sendError, createError } from 'h3';
 import formidable from 'formidable';
 import { promises as fs } from 'fs';
 import { createWriteStream } from 'fs';
@@ -27,13 +27,13 @@ export default defineEventHandler(async (event) => {
       const chunk = files.file[0];
       const chunkIndex = parseInt(fields.chunkIndex as string, 10);
       const totalChunks = parseInt(fields.totalChunks as string, 10);
-      
+
       // Сохраняем чанки во временные файлы
       const uploadDir = path.join(process.cwd().toString(), 'public', 'lesson-videos', String(lessonId));
       const chunkPath = path.join(uploadDir, `chunk-${chunkIndex}`);
-      
+
       fs.mkdir(uploadDir, { recursive: true })
-      
+
       await fs.rename(chunk.filepath, chunkPath);
 
       // После последнего чанка объединяем все чанки в один файл
