@@ -14,7 +14,7 @@ function uploadImage() {
 </script>
 <template>
   <div>
-    <input type="file" accept="image/*" ref="logoInput" id="uploadLogo" @change="uploadImage" style="display: none">
+    <!-- <input type="file" accept="image/*" ref="logoInput" id="uploadLogo" @change="uploadImage" style="display: none"> -->
     <label for="uploadLogo">
       <div class="file-input-label">
         <v-icon icon="mdi-camera" size="x-large" />

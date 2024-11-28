@@ -72,6 +72,7 @@ onMounted(() => {
     <v-row>
       <v-col cols="12">
         <p class="text-2xl font-semibold">Редактировать курс</p>
+        <BackButton class="mt-4" />
       </v-col>
       <v-col cols="12" md="6">
         <v-select label="выбрать курс" :items="coursesToSelect" variant="outlined"

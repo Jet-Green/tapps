@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toast } from "vue3-toastify"
-import UploadApi from "../api/UploadApi"
+import UploadApi from "../../api/UploadApi"
 
 const route = useRoute()
 const router = useRouter()
@@ -192,6 +192,7 @@ async function submit() {
     <v-row>
       <v-col cols="12">
         <p class="text-2xl font-semibold">Добавить решение</p>
+        <BackButton class="mt-4"></BackButton>
       </v-col>
       <v-col cols="12">
         <v-text-field label="Ссылки" v-model="form.links" variant="outlined"></v-text-field>
