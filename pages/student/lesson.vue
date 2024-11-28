@@ -58,9 +58,9 @@ let breadcrums = ref([
     </v-row>
     <v-row>
       <v-col cols="12" md="6">
-        <video class="w-full h-100 md:max-h-[500px]" controls>
-          <source :src="currentLesson?.videos[currentLesson?.videos.length - 1]" type="video/mp4">
-        </video>
+        <M3U8Player
+          :src="currentLesson?.videos[0]"
+        />
       </v-col>
       <v-col cols="12" md="3">
         <p class="text-4xl font-semibold mb-5">
