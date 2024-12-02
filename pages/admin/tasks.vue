@@ -2,7 +2,7 @@
 import type { Homework } from '~/types/homework.interface';
 
 definePageMeta({
-  middleware: ["auth"]
+  middleware: ["admin"],
 })
 
 const courseStore = useCourse()

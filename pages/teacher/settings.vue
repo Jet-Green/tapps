@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { Course } from '~/types/course.interface';
-import type { User } from '~/types/user.interface';
-
-const courseStore = useCourse()
-const authStore = useAuth()
+definePageMeta({
+  middleware: ["teacher"]
+  // or middleware: 'auth'
+})
 
 </script>
 <template>

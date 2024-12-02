@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"]
+  // or middleware: 'auth'
+})
 import { toast } from "vue3-toastify"
 import UploadApi from "../../api/UploadApi"
 

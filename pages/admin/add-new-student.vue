@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["admin"],
+})
+
 import { useField, useForm } from 'vee-validate'
 
 import _ from 'lodash'

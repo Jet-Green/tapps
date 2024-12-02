@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+definePageMeta({
+  middleware: ["admin"],
+})
+
 let userStore = useAuth();
 
 let users = ref();

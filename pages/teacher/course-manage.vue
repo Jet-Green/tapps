@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["teacher"]
+  // or middleware: 'auth'
+})
+
 import type { Course } from '~/types/course.interface';
 import type { User } from '~/types/user.interface';
 

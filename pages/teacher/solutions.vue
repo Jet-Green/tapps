@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["teacher"]
+  // or middleware: 'auth'
+})
+
 const router = useRouter()
 const solutionStore = useSolutions()
 

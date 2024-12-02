@@ -2,9 +2,9 @@
 import type { Homework } from "~/types/homework.interface"
 
 definePageMeta({
-  middleware: ["auth"],
-  // or middleware: 'auth'
+  middleware: ["admin"],
 })
+
 
 const runtimeConfig = useRuntimeConfig()
 const courseStore = useCourse()

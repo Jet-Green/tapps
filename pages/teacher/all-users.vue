@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+definePageMeta({
+  middleware: ["teacher"]
+  // or middleware: 'auth'
+})
+
 let userStore = useAuth();
 
 let users = ref();

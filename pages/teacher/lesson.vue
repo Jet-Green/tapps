@@ -2,7 +2,7 @@
 import type { Homework } from '~/types/homework.interface';
 
 definePageMeta({
-  middleware: ["auth"],
+  middleware: ["teacher"]
   // or middleware: 'auth'
 })
 
