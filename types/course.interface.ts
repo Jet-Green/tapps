@@ -1,4 +1,5 @@
 import type { Lesson } from './lesson.interface'
+import type { User } from './user.interface'
 
 export interface Course {
   _id: string,
@@ -8,5 +9,6 @@ export interface Course {
   name: string,
   shortDescription: string,
   lessons: Lesson[],
-  students: string[]
+  students: string[],
+  teacher: string | any,
 }

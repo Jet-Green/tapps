@@ -10,6 +10,7 @@ const authStore = useAuth()
 
 const router = useRouter()
 
+import type { CourseToDb } from "~/types/course.to-db.interface";
 import type { User } from "~/types/user.interface"
 
 let imagesFormData = new FormData()
@@ -64,8 +65,14 @@ if (response.status.value == "success") {
 
 let loading = ref(false)
 async function submit() {
+  if (!authStore.user?._id) return;
+  
   loading.value = true
-  let res = await courseStore.createCourse(form.value)
+  let toSend: CourseToDb = {
+    ...form.value,
+    teacher: authStore.user?._id,
+  }
+  let res = await courseStore.createCourse(toSend)
   if (res.status.value == "success") {
     let uplRes = await courseStore.uploadImages(imagesFormData, res.data.value._id)
     if (uplRes.status.value == 'success') {
