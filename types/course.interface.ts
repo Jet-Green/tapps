@@ -1,5 +1,4 @@
 import type { Lesson } from './lesson.interface'
-import type { User } from './user.interface'
 
 export interface Course {
   _id: string,
