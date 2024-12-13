@@ -36,13 +36,6 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
-    server: {
-      hmr: {
-        protocol: 'wss',
-        clientPort: 443,
-        path: 'hmr/'
-      }
-    }
   },
   postcss: {
     plugins: {
