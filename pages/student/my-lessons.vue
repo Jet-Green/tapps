@@ -10,9 +10,7 @@ let lessonByCourses = ref<any[]>([])
 
 let res = await courseStore.getUserLessonsGroupedByCourse();
 if (res.status.value == 'success') {
-  lessonByCourses.value = res.data.value;
-  console.log(res.data.value);
-  
+  lessonByCourses.value = res.data.value;  
 }
 </script>
 <template>
