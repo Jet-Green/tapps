@@ -47,5 +47,13 @@ export default {
       method: 'POST',
       body: body,
     })
+  },
+  getUserLessonsGroupedByCourse(userCourses: string[]): Promise<any> {
+    return useApiFetch(`/courses/student/get-my-lessons-by-courses`, {
+      method: 'POST',
+      body: {
+        userCourses
+      },
+    })
   }
 }

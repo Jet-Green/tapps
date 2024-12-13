@@ -75,10 +75,18 @@ export const useCourse = defineStore('course', () => {
     return await CourseApi.updateCourse({ course, courseId }, role)
   }
 
+  async function getUserLessonsGroupedByCourse() {
+    let user = useAuth()?.user;
+    if (!user) return [];
+    let userCourses = user.courses;
+    
+    return await CourseApi.getUserLessonsGroupedByCourse(userCourses);
+  }
+
   return {
     // functions
     getAll, getCourseByIdWithLessons, addUserToCourse, createLesson, createCourse,
-    getLessonsByCourseId, getHomeworksByCourses, uploadImages, updateCourse,
+    getLessonsByCourseId, getHomeworksByCourses, uploadImages, updateCourse, getUserLessonsGroupedByCourse,
     // variables
     courses, currentCourse,
   }

@@ -22,10 +22,11 @@ function setActiveTab(tabPath: string) {
   activeTab.value = tabPath
   if (tabPath == '/courses') {
     router.push(`/student`)
-  } else {
+  } else if (tabPath == '/tasks') {
     router.push(`/student/tasks`)
+  } else if (tabPath == "/student/my-lessons") {
+    router.push(tabPath)
   }
-
 }
 
 function toggleTheme() {
@@ -43,6 +44,8 @@ if (fullPath.endsWith('/student')) {
   activeTab.value = "/courses"
 } else if (fullPath.endsWith("/tasks")) {
   activeTab.value = "/tasks"
+} else if (fullPath.endsWith("/my-lessons")) {
+  activeTab.value = "/student/my-lessons"
 }
 </script>
 <template>
@@ -63,17 +66,24 @@ if (fullPath.endsWith('/student')) {
           <v-col cols="6" class="hidden md:flex justify-center align-center">
             <div class="select-item" @click="setActiveTab('/courses')" :class="{
               'active-item': activeTab == '/courses',
-              'black-border': activeTab == '/courses' && theme.global.name.value == 'light',
+              'black-border': activeTab == '' && theme.global.name.value == 'light',
               'white-border': activeTab == '/courses' && theme.global.name.value == 'dark',
             }">
-              Мои курсы
+              Доступные курсы
+            </div>
+            <div class="select-item" @click="setActiveTab('/student/my-lessons')" :class="{
+              'active-item': activeTab == '/student/my-lessons',
+              'black-border': activeTab == '/student/my-lessons' && theme.global.name.value == 'light',
+              'white-border': activeTab == '/student/my-lessons' && theme.global.name.value == 'dark',
+            }">
+              Доступные уроки
             </div>
             <div class="select-item" @click="setActiveTab('/tasks')" :class="{
               'active-item': activeTab == '/tasks',
               'black-border': activeTab == '/tasks' && theme.global.name.value == 'light',
               'white-border': activeTab == '/tasks' && theme.global.name.value == 'dark',
             }">
-              Задания
+              Доступные задания
             </div>
           </v-col>
           <v-spacer>
