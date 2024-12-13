@@ -15,7 +15,7 @@ const CourseProps = defineProps<{
 let { course } = CourseProps
 </script>
 <template>
-  <div class="border relative rounded-lg cursor-pointer h-100" @click="router.push(`${authStore.user?.roles[0]}/${course._id}`)">
+  <div class="border relative cursor-pointer h-100" @click="router.push(`${authStore.user?.roles[0]}/${course._id}`)" style="border-radius: 36px; padding: 12px 24px;">
     <v-col cols="12" class="flex justify-center">
       <img class="w-50 mt-5" :src="course.images?.logo" />
       <v-btn v-if="authStore.user?.roles[0] == 'teacher' || authStore.user?.roles[0] == 'admin'"
