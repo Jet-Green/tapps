@@ -36,6 +36,13 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
+    server: {
+      hmr: {
+        protocol: 'wss',
+        clientPort: 443,
+        path: 'hmr/'
+      }
+    }
   },
   postcss: {
     plugins: {
@@ -45,7 +52,7 @@ export default defineNuxtConfig({
   },
   devServer: {
     port: 3011,
-    host: "127.0.0.1"
+    host: "127.0.0.1",
   },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
