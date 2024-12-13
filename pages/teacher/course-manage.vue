@@ -72,7 +72,6 @@ async function submit() {
 
   let res = await courseStore.updateCourse(form.value, selectedCourseId.value, authStore.user.roles[0])  
   if (res.status.value == "success") {
-    console.log(res);
     loading.value = false;
     toast("Курс успешно обновлён!", {
       type: "success"
