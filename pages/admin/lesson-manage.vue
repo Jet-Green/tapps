@@ -157,8 +157,8 @@ if (typeof route.query.course_id === "string") {
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
-        <p class="text-2xl font-semibold">Редактировать урок</p>
+      <v-col cols="12" class="mb-4">
+        <p class="text-4xl font-semibold">Редактировать урок</p>
         <BackButton class="mt-4" />
       </v-col>
       <v-col cols="6">

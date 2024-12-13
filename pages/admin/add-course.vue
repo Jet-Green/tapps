@@ -66,7 +66,7 @@ if (response.status.value == "success") {
 let loading = ref(false)
 async function submit() {
   if (!authStore.user?._id) return;
-  
+
   loading.value = true
   let toSend: CourseToDb = {
     ...form.value,
@@ -114,14 +114,14 @@ async function submit() {
         </v-row>
       </v-col>
       <v-col cols="12" md="4" class="pb-8">
-        <div @click="visibleCropperModal = true" class="h-100">
-          <label for="uploadLogo">
-            <div class="h-100 flex flex-col align-center justify-center border rounded">
-              <v-icon icon="mdi mdi-cloud-upload-outline" class="icon" />
-              <span class="explanation text-center">Загрузить обложку курса</span>
-            </div>
-          </label>
-        </div>
+          <div @click="visibleCropperModal = true" class="h-100">
+            <label for="uploadLogo">
+              <div class="h-100 flex flex-col align-center justify-center rounded border-opacity-25	border-sm">
+                <v-icon icon="mdi mdi-cloud-upload-outline" class="icon" />
+                <span class="explanation text-center">Загрузить обложку курса</span>
+              </div>
+            </label>
+          </div>
 
         <v-dialog v-model="dialog" width="auto">
           <v-card max-width="400" title="Удалить фото">
@@ -139,7 +139,7 @@ async function submit() {
                 <ImageCropper @uploadImage="uploadLogo" />
 
                 <v-card-actions>
-                  <v-btn @click="visibleCropperModal = false" color="error" class="btn ml-auto">
+                  <v-btn @click="visibleCropperModal = false" variant="tonal" size="large" class="btn ml-auto">
                     закрыть
                   </v-btn>
                 </v-card-actions>
@@ -178,7 +178,6 @@ async function submit() {
 
 <style lang="scss" scoped>
 .btn {
-  background-color: white !important;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0)

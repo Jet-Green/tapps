@@ -114,7 +114,7 @@ async function submit() {
                 <ImageCropper @uploadImage="uploadLogo" />
 
                 <v-card-actions>
-                  <v-btn @click="visibleCropperModal = false" color="error" class="btn ml-auto">
+                  <v-btn @click="visibleCropperModal = false" class="btn ml-auto">
                     закрыть
                   </v-btn>
                 </v-card-actions>
@@ -143,7 +143,6 @@ async function submit() {
 
 <style>
 .btn {
-  background-color: white !important;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0)

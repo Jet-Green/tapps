@@ -15,11 +15,11 @@ let { lesson } = defineProps<{
   <div class="border rounded-lg relative cursor-pointer h-100"
     @click="router.push(`lesson?_id=${lesson._id}&course_id=${route.params?.course_id}`)">
     <v-col cols="12" class="flex justify-center">
-      <img class="w-50"
+      <img class="w-50 mt-5"
         :src="lesson.images?.logo" />
-      <v-btn v-if="authStore.user?.roles[0] == 'teacher' || authStore.user?.roles[0] == 'admin'" variant="text"
+      <v-btn v-if="authStore.user?.roles[0] == 'teacher' || authStore.user?.roles[0] == 'admin'"
         @click.stop="router.push(`/${authStore.user?.roles[0]}/lesson-manage?lesson_id=${lesson._id}&course_id=${route.params?.course_id}`)"
-        class="ma-2 z-50" icon="mdi-pencil-outline"></v-btn>
+        class="absolute -top-6 z-50 btn border" icon="mdi-pencil-outline"></v-btn>
     </v-col>
     <v-col cols="12">
       <p class="text-2xl font-semibold">{{ lesson.name }}</p>
@@ -32,9 +32,10 @@ let { lesson } = defineProps<{
   </div>
 </template>
 <style lang="css" scoped>
-.v-btn {
+.btn {
   position: absolute;
-  right: 0%;
-  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
+
 </style>

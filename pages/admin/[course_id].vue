@@ -37,7 +37,7 @@ let breadcrums = ref([
         </v-breadcrumbs>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="ga-3 ga-md-0">
       <v-col cols="12" sm="6" md="4" lg="3">
         <div class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
           @click="router.push(`add-lesson?course_id=${route.params.course_id}`)" style="font-size: 40px;">

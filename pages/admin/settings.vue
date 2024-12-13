@@ -13,8 +13,9 @@ const authStore = useAuth()
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
-        <p class="text-2xl font-semibold">Настройки</p>
+      <v-col cols="12" class="mb-4">
+        <p class="text-4xl font-semibold">Настройки</p>
+        <BackButton class="mt-4"></BackButton>
       </v-col>
       <v-col cols="12">
         <v-row>
