@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["teacher"]
+  // or middleware: 'auth'
+})
+
 import { toast } from "vue3-toastify"
 
 const courseStore = useCourse()

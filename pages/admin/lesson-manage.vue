@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["admin"],
+})
+
 import type { Course } from "~/types/course.interface"
 import type { Lesson } from "~/types/lesson.interface"
 
@@ -10,13 +14,13 @@ const lessonStore = useLesson()
 const router = useRouter()
 const route = useRoute()
 
+let videoUploadedPath = ref<string | null>()
 let form = ref<any>({
   name: "",
   shortDescription: "",
   links: [],
   homework: [],
 })
-let videos = ref([])
 
 let newLink = ref<string>("")
 
@@ -59,25 +63,8 @@ function addNewHomework() {
     hwText: "",
   })
 }
-async function uploadFileInChunks(file: File, lessonId: string) {
-  const chunkSize = 1024 * 1024 * 50 // 5 MB
-  const totalChunks = Math.ceil(file.size / chunkSize)
-  let response: any
-  const uploadDate = Date.now()
-  for (let chunkIndex: number = 0; chunkIndex < totalChunks; chunkIndex++) {
-    const start = chunkIndex * chunkSize
-    const end = Math.min(start + chunkSize, file.size)
-    const chunk = file.slice(start, end)
-
-    const formData = new FormData()
-    formData.append("file", chunk, `${uploadDate}_${lessonId}_${file.name.replaceAll(' ', '_')}`)
-    formData.append("filename", `${uploadDate}_${lessonId}_${file.name.replaceAll(' ', '_')}`)
-    formData.append("chunkIndex", chunkIndex.toString())
-    formData.append("totalChunks", totalChunks.toString())
-    response = await lessonStore.uploadVideo(formData, lessonId)
-    console.log(response)
-  }
-  return response
+async function uploadFinished(uploadPath: string) {
+  videoUploadedPath.value = "https://factum-videos.website.yandexcloud.net/" + uploadPath
 }
 let loading = ref<boolean>(false)
 async function submit() {
@@ -100,24 +87,21 @@ async function submit() {
     homeworksToSend[i].lessonName = selectedLesson.value.name
   }
 
+  // add new video
+  if (videoUploadedPath.value) {
+    toSend.videos = [videoUploadedPath.value]
+  }
+  
   let res = await lessonStore.updateLesson(toSend, homeworksToSend)
-  if (videos.value.length > 0 && res.status.value == "success") {
-    let videosFormData = new FormData()
-
-    // videosFormData.append(`video`, videos.value[0], ``)
-
-    let response = await uploadFileInChunks(videos.value[0], res.data.value._id)
-
-    if (response?.status?.value == "success") {
-      loading.value = false
-      toast("Успешно", {
-        type: "success",
-        autoClose: 600,
-        onClose: () => {
-          router.back()
-        },
-      })
-    }
+  if (res.status.value == "success") {
+    loading.value = false
+    toast("Успешно", {
+      type: "success",
+      autoClose: 600,
+      onClose: () => {
+        router.back()
+      },
+    })
   }
 }
 
@@ -175,16 +159,26 @@ if (typeof route.query.course_id === "string") {
     <v-row>
       <v-col cols="12">
         <p class="text-2xl font-semibold">Редактировать урок</p>
-        <BackButton class="mt-4"></BackButton>
+        <BackButton class="mt-4" />
       </v-col>
       <v-col cols="6">
-        <v-select label="выбрать курс" :items="coursesToSelect" variant="outlined" v-model="selectedCourseId"
-          hide-details></v-select>
+        <v-select
+          label="выбрать курс"
+          :items="coursesToSelect"
+          variant="outlined"
+          v-model="selectedCourseId"
+          hide-details
+        ></v-select>
         <span class="text-caption">Сначала выберите курс, а затем урок, который хотите отредактировать</span>
       </v-col>
       <v-col cols="6" v-if="lessonsToSelect?.length > 0">
-        <v-select label="выбрать урок" :items="lessonsToSelect" variant="outlined" v-model="selectedLessonId"
-          hide-details></v-select>
+        <v-select
+          label="выбрать урок"
+          :items="lessonsToSelect"
+          variant="outlined"
+          v-model="selectedLessonId"
+          hide-details
+        ></v-select>
       </v-col>
     </v-row>
     <v-row v-if="selectedLesson?._id">
@@ -205,28 +199,38 @@ if (typeof route.query.course_id === "string") {
         </v-chip>
       </v-col>
       <v-col cols="12" class="d-flex">
-        <v-text-field v-model="newLink" hide-details max-width="500" variant="outlined"
-          density="compact"></v-text-field>
+        <v-text-field
+          v-model="newLink"
+          hide-details
+          max-width="500"
+          variant="outlined"
+          density="compact"
+        ></v-text-field>
         <v-btn class="ml-4" icon="mdi-plus" size="small" @click="form.links.push(newLink), (newLink = '')"></v-btn>
       </v-col>
 
       <v-col cols="12">
-        <v-file-input label="Видео" show-size variant="outlined" accept="video/*" v-model="videos"></v-file-input>
+        <UploadVideo @upload-finished="uploadFinished" />
       </v-col>
 
       <v-col cols="12">
         <p class="text-1xl font-semibold">Домашнее задание</p>
       </v-col>
       <v-col cols="3">
-        <div class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
-          @click="newHomeworkDialog = true" style="font-size: 40px">
+        <div
+          class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
+          @click="newHomeworkDialog = true"
+          style="font-size: 40px"
+        >
           <v-icon class="text-zinc-600 ma-8" icon="mdi-plus"></v-icon>
         </div>
       </v-col>
 
       <v-col v-if="form.homework.length > 0" v-for="(hw, index) of form.homework" :key="hw._id" cols="3">
-        <div class="border rounded-lg cursor-pointer h-100 d-flex flex-column justify-center align-center"
-          style="min-height: 200px">
+        <div
+          class="border rounded-lg cursor-pointer h-100 d-flex flex-column justify-center align-center"
+          style="min-height: 200px"
+        >
           <p class="text-1xl font-semibold">
             {{ hw.name }}
           </p>
@@ -236,8 +240,10 @@ if (typeof route.query.course_id === "string") {
         </div>
       </v-col>
       <v-col v-if="homeworks.length > 0" v-for="(hw, index) of homeworks" :key="index" cols="3">
-        <div class="border rounded-lg cursor-pointer h-100 d-flex flex-column justify-center align-center"
-          style="position: relative; min-height: 200px">
+        <div
+          class="border rounded-lg cursor-pointer h-100 d-flex flex-column justify-center align-center"
+          style="position: relative; min-height: 200px"
+        >
           <div style="position: absolute; top: -12px; right: -12px; color: red">
             <v-icon icon="mdi-circle-medium"></v-icon>
           </div>
@@ -256,18 +262,24 @@ if (typeof route.query.course_id === "string") {
     </v-row>
 
     <v-dialog v-model="newHomeworkDialog" fullscreen>
-
       <v-card prepend-icon="mdi-plus" title="Домашнее задание">
         <v-card-text>
           <v-row>
             <v-col cols="12">
-              <BackButton class="mb-4"></BackButton>
-              <v-text-field label="Название задания" hide-details variant="outlined"
-                v-model="newHomework.name"></v-text-field>
+              <v-text-field
+                label="Название задания"
+                hide-details
+                variant="outlined"
+                v-model="newHomework.name"
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-textarea label="Текст задания" variant="outlined" hide-details
-                v-model="newHomework.hwText"></v-textarea>
+              <v-textarea
+                label="Текст задания"
+                variant="outlined"
+                hide-details
+                v-model="newHomework.hwText"
+              ></v-textarea>
             </v-col>
             <v-col cols="12">
               <p class="text-1xl font-semibold">Материалы</p>

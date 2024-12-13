@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["admin"],
+})
+
 import { toast } from "vue3-toastify"
 
 const courseStore = useCourse()

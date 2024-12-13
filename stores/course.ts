@@ -5,6 +5,7 @@ import { useAuth } from './auth';
 
 // interfaces
 import type { Course } from "../types/course.interface"
+import type { CourseToDb } from "~/types/course.to-db.interface";
 
 
 export const useCourse = defineStore('course', () => {
@@ -14,16 +15,23 @@ export const useCourse = defineStore('course', () => {
   async function getAll() {
     if (courses.value && courses.value?.length > 0) return null
     const auth = useAuth();
-    // когда админ - получает все курсы
+
+    // когда админ или учитель - получает все курсы
     // когда обычный пользователь только свои курсы
+    const roles = auth.user?.roles;
+    
+    if (!roles) return null;
     
     let res;
-    if (auth.user?.roles[0] == 'teacher' || auth.user?.roles[0] == 'admin') {
-      res = await CourseApi.getAll(null)
+    if (roles.indexOf('teacher') != -1) {
+      res = await CourseApi.getAll('teacher', null)
+    } else if (roles.indexOf('admin') != -1) {
+      res = await CourseApi.getAll('admin', null)
+    } else if (roles.indexOf('student') != -1 && auth.user != null) {
+      res = await CourseApi.getAll('student', auth.user.courses)
     } else {
-      res = await CourseApi.getAll(auth.user?.courses)
+      res = await CourseApi.getAll('student', [])
     }
-    // console.log(res.data.value);
 
     courses.value = res.data.value
 
@@ -50,7 +58,7 @@ export const useCourse = defineStore('course', () => {
     return await CourseApi.createLesson({ lesson: form, courseId })
   }
 
-  async function createCourse(course: any) {
+  async function createCourse(course: CourseToDb) {
     return await CourseApi.createCourse(course)
   }
 

@@ -5,6 +5,7 @@ export function useApiFetch<T>(
   options: UseFetchOptions<T> = {}
 ) {
   const headers = useRequestHeaders(['cookie'])
+  
   options = Object.assign(options, { headers })
 
   return useFetch(url, {
