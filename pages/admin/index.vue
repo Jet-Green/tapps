@@ -15,7 +15,7 @@ await courseStore.getAll()
   <v-container>
     <v-row class="ga-3 ga-md-0 mt-5">
       <v-col cols="12" sm="6" md="4" lg="3">
-        <div class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center" @click="router.push(`admin/add-course`)" style="font-size: 40px;">
+        <div class="border cursor-pointer h-100 d-flex justify-center align-center" @click="router.push(`admin/add-course`)" style="font-size: 40px; border-radius: 36px;">
           <v-icon class="text-zinc-600 ma-8" icon="mdi-plus"></v-icon>
         </div>
       </v-col>
