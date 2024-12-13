@@ -41,5 +41,11 @@ export default {
         courses
       }
     })
+  },
+  updateCourse(body: any, role: string): Promise<any> {
+    return useApiFetch(`/courses/${role}/update`, {
+      method: 'POST',
+      body: body,
+    })
   }
 }

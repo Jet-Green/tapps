@@ -9,3 +9,10 @@ a {
     margin: 2px;
     text-decoration: underline;
 }
+$primary-color: #1481F5;
+
+.submit-button {
+    background-color: $primary-color !important;
+    color: white !important;
+    border-radius: 1000px !important;
+}
