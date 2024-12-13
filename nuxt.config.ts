@@ -15,7 +15,6 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },
-    websocketUrl: process.env.WEBSOCKET_URL,
   },
   modules: [
     (_options, nuxt) => {
@@ -46,7 +45,6 @@ export default defineNuxtConfig({
   },
   devServer: {
     port: 3011,
-    host: "127.0.0.1",
   },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
