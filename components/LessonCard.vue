@@ -41,7 +41,7 @@ let { lesson } = defineProps<{
     </v-col>
   </div>
 </template>
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .btn {
   position: absolute;
   left: 50%;
