@@ -4,11 +4,24 @@ definePageMeta({
   // or middleware: 'auth'
 })
 
-import type { Course } from "~/types/course.interface"
-import type { User } from "~/types/user.interface"
-
 const courseStore = useCourse()
 const authStore = useAuth()
+
+let form = reactive({
+  name: '',
+  surname: '',
+  email: '',
+  password: '',
+})
+let passwordAgain = ref<string>('')
+
+let blobImageData: Blob | null = null
+function uploadAvatar(imgData: Blob) {
+  blobImageData = imgData
+}
+async function submit() {
+  // let res = await authStore.updateUser(form)
+}
 </script>
 <template>
   <v-container>
@@ -24,35 +37,25 @@ const authStore = useAuth()
           <v-card-text>
             <v-row>
               <v-col cols="12" md="4">
-                <AddAvatar/>
+                <AddAvatar @upload-image="uploadAvatar" />
               </v-col>
-              <v-col cols="12" md="8">
+
+              <v-col cols="12" md="8" class="d-flex align-center">
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field variant="outlined" hide-details="auto" label="Фамилия*" clearable></v-text-field>
+                    <v-text-field v-model="form.surname" variant="outlined" hide-details="auto" label="Фамилия*" clearable></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field variant="outlined" hide-details="auto" label="Имя*" clearable></v-text-field>
+                    <v-text-field v-model="form.name" variant="outlined" hide-details="auto" label="Имя*" clearable></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
-                    <v-text-field variant="outlined" hide-details="auto" label="Отчество*" clearable></v-text-field>
+                    <v-text-field disabled variant="outlined" hide-details="auto" label="Отчество*" clearable></v-text-field>
                   </v-col>
                   <v-col cols="12">
-                    <v-text-field variant="outlined" hide-details="auto" label="Логин*" clearable></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field variant="outlined" hide-details="auto" label="Пароль*" clearable></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                      variant="outlined"
-                      hide-details="auto"
-                      label="Повтор пароля*"
-                      clearable
-                    ></v-text-field>
+                    <v-text-field v-model="form.email" variant="outlined" hide-details="auto" label="Почта*" clearable></v-text-field>
                   </v-col>
                   <v-col cols="12" class="d-flex justify-end">
-                    <v-btn class="submit-button">Принять изменения <v-icon>mdi-check</v-icon></v-btn>
+                    <v-btn class="submit-button" @click="submit">Принять изменения <v-icon>mdi-check</v-icon></v-btn>
                   </v-col>
                 </v-row>
               </v-col>

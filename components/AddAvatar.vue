@@ -9,6 +9,8 @@ let previewImage = ref(null)
 let imageInput = ref(null)
 let cropper
 
+let isAvatarHovered = ref(false)
+
 const emit = defineEmits(["uploadImage"])
 
 function uploadImage() {
@@ -25,7 +27,7 @@ function uploadImage() {
     preview.value = null
   }
 }
-async function crop() {
+async function crop() {  
   if (cropper) {
     await cropper
       .getCroppedCanvas({
@@ -39,7 +41,7 @@ async function crop() {
         (blob) => {
           emit("uploadImage", blob)
           try {
-            loadedImages.value = []
+            // loadedImages.value = []
           } catch (err) {
             console.log(err)
           }
@@ -64,10 +66,9 @@ watch(preview, () => {
     // maxCanvasHeight: 300,
     guides: true,
     center: true,
-    // crop(event) {
-    //     // croppedImage = event.target.currentSrc;
-    //     console.log(event);
-    // }
+    cropend() {
+      crop();
+    }
     // ready: function () {
     //     console.log('ready');
     //     cropperReady.value = true;
@@ -90,23 +91,32 @@ watch(preview, () => {
               class="d-flex justify-center align-center flex-column"
               style="height: 50vh; cursor: pointer"
             >
-              <div
-                class="inline-flex items-center justify-center overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600"
-                style="height: 90%; aspect-ratio: 1;"
-              >
-                <span class="font-medium text-gray-600 dark:text-gray-300">
+              <div class="circle" @mouseover="isAvatarHovered = true" @mouseleave="isAvatarHovered = false">
+                <v-icon v-if="isAvatarHovered">mdi-cloud-upload</v-icon>
+                <span v-else class="text-gray-600 dark:text-gray-300">
                   <v-icon>mdi-account</v-icon>
                 </span>
               </div>
             </div>
           </label>
         </v-col>
-        <v-col cols="12">
-          <div class="d-flex justify-center" v-if="loadedImages.length">
-            <v-btn @click="crop" color="accent"> Обрезать </v-btn>
-          </div>
-        </v-col>
       </v-row>
     </v-col>
   </v-row>
 </template>
+<style scoped lang="scss">
+.circle {
+  height: 90%;
+  aspect-ratio: 1;
+  background-color: #4b5563;
+  border-radius: 99999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  transition: 0.2s ease;
+}
+.circle:hover {
+  background-color: #2072e5;
+}
+</style>
