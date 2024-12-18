@@ -240,7 +240,7 @@ if (typeof route.query.course_id === "string") {
       <v-col cols="12">
         <p class="text-2xl font-semibold">Домашнее задание</p>
       </v-col>
-      <!-- <v-col cols="3">
+      <v-col cols="3">
         <div
           class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
           @click="newHomeworkDialog = true"
@@ -248,9 +248,9 @@ if (typeof route.query.course_id === "string") {
         >
           <v-icon class="text-zinc-600 ma-8" icon="mdi-plus"></v-icon>
         </div>
-      </v-col> -->
+      </v-col>
 
-      <!-- <v-col v-if="form.homework.length > 0" v-for="(hw, index) of form.homework" :key="hw._id" cols="3">
+      <v-col v-if="form.homework.length > 0" v-for="(hw, index) of form.homework" :key="hw._id" cols="3">
         <div
           class="border rounded-lg cursor-pointer h-100 d-flex flex-column justify-center align-center"
           style="min-height: 200px"
@@ -278,14 +278,14 @@ if (typeof route.query.course_id === "string") {
             {{ hw.hwText }}
           </p>
         </div>
-      </v-col> -->
+      </v-col>
 
       <v-col cols="12" class="d-flex justify-center">
         <v-btn size="large" class="mt-6" @click="submit">отправить</v-btn>
       </v-col>
     </v-row>
 
-    <!-- <v-dialog v-model="newHomeworkDialog" fullscreen>
+    <v-dialog v-model="newHomeworkDialog" fullscreen>
       <v-card prepend-icon="mdi-plus" title="Домашнее задание">
         <v-card-text>
           <v-row>
@@ -346,7 +346,7 @@ if (typeof route.query.course_id === "string") {
           <v-btn class="mx-auto mb-5" @click="addNewHomework" size="x-large" variant="tonal">Добавить</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog> -->
+    </v-dialog>
   </v-container>
 </template>
 <style lang="scss">
