@@ -286,7 +286,15 @@ if (typeof route.query.course_id === "string") {
     </v-row>
 
     <v-dialog v-model="newHomeworkDialog" fullscreen>
-      <v-card prepend-icon="mdi-plus" title="Домашнее задание">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between">
+          <div class="d-flex align-center">
+            <v-icon class="mr-4">mdi-plus</v-icon>
+            Домашнее задание
+          </div>
+
+          <v-icon @click="newHomeworkDialog = false" class="cursor-pointer pa-2">mdi-close</v-icon>
+        </v-card-title>
         <v-card-text>
           <v-row>
             <v-col cols="12">
@@ -306,10 +314,9 @@ if (typeof route.query.course_id === "string") {
               ></v-textarea>
             </v-col>
             <v-col cols="12">
-              <p class="text-2xl font-semibold">Материалы</p>
+              <!-- <p class="text-2xl font-semibold">Материалы</p> -->
 
-
-              <v-row>
+              <!-- <v-row>
                 <v-col cols="12">
                   <p class="text-1xl font-semibold mb-4">Загрузка кода</p>
                   <div class="folder-input-container border rounded-lg cursor-pointer">
@@ -334,10 +341,7 @@ if (typeof route.query.course_id === "string") {
                 </v-col>
 
 
-              </v-row>
-
-
-
+              </v-row> -->
             </v-col>
           </v-row>
         </v-card-text>
