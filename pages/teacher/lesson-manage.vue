@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["teacher"]
+  middleware: ["teacher"],
   // or middleware: 'auth'
 })
 
@@ -56,6 +56,29 @@ if (courses.value) {
   }
 }
 
+// upload code
+let codeFiles = ref<any>()
+let codeFilesNames = ref<string>()
+let codeFilesLength = ref<number>(0)
+async function onCodeFilesChange(event: any) {
+  const files = event.target.files
+  if (files.length <= 40) {
+    codeFiles.value = files
+    let names: string[] = []
+    for (let f of files) {
+      names.push(f.name)
+    }
+    codeFilesNames.value = names.join(",")
+  } else {
+    toast("Максимум 40 файлов!", {
+      type: "warning",
+    })
+    return
+  }
+  codeFilesLength.value = files.length
+}
+// upload code
+
 function addNewHomework() {
   homeworks.value.push(Object.assign({}, newHomework.value))
   newHomeworkDialog.value = false
@@ -92,7 +115,7 @@ async function submit() {
   if (videoUploadedPath.value) {
     toSend.videos = [videoUploadedPath.value]
   }
-  
+
   let res = await lessonStore.updateLesson(toSend, homeworksToSend)
   if (res.status.value == "success") {
     loading.value = false
@@ -159,7 +182,7 @@ if (typeof route.query.course_id === "string") {
   <v-container>
     <v-row>
       <v-col cols="12">
-        <p class="text-2xl font-semibold">Редактировать урок</p>
+        <p class="text-4xl font-semibold">Редактировать урок</p>
         <BackButton class="mt-4" />
       </v-col>
       <v-col cols="6">
@@ -215,9 +238,9 @@ if (typeof route.query.course_id === "string") {
       </v-col>
 
       <v-col cols="12">
-        <p class="text-1xl font-semibold">Домашнее задание</p>
+        <p class="text-2xl font-semibold">Домашнее задание</p>
       </v-col>
-      <v-col cols="3">
+      <!-- <v-col cols="3">
         <div
           class="border rounded-lg cursor-pointer h-100 d-flex justify-center align-center"
           @click="newHomeworkDialog = true"
@@ -225,9 +248,9 @@ if (typeof route.query.course_id === "string") {
         >
           <v-icon class="text-zinc-600 ma-8" icon="mdi-plus"></v-icon>
         </div>
-      </v-col>
+      </v-col> -->
 
-      <v-col v-if="form.homework.length > 0" v-for="(hw, index) of form.homework" :key="hw._id" cols="3">
+      <!-- <v-col v-if="form.homework.length > 0" v-for="(hw, index) of form.homework" :key="hw._id" cols="3">
         <div
           class="border rounded-lg cursor-pointer h-100 d-flex flex-column justify-center align-center"
           style="min-height: 200px"
@@ -255,14 +278,14 @@ if (typeof route.query.course_id === "string") {
             {{ hw.hwText }}
           </p>
         </div>
-      </v-col>
+      </v-col> -->
 
       <v-col cols="12" class="d-flex justify-center">
         <v-btn size="large" class="mt-6" @click="submit">отправить</v-btn>
       </v-col>
     </v-row>
 
-    <v-dialog v-model="newHomeworkDialog" fullscreen>
+    <!-- <v-dialog v-model="newHomeworkDialog" fullscreen>
       <v-card prepend-icon="mdi-plus" title="Домашнее задание">
         <v-card-text>
           <v-row>
@@ -283,8 +306,38 @@ if (typeof route.query.course_id === "string") {
               ></v-textarea>
             </v-col>
             <v-col cols="12">
-              <p class="text-1xl font-semibold">Материалы</p>
-              что такое материалы?
+              <p class="text-2xl font-semibold">Материалы</p>
+
+
+              <v-row>
+                <v-col cols="12">
+                  <p class="text-1xl font-semibold mb-4">Загрузка кода</p>
+                  <div class="folder-input-container border rounded-lg cursor-pointer">
+                    <input
+                      type="file"
+                      multiple
+                      @change="onCodeFilesChange"
+                      accept=".cs,.cpp,.js,.ts,.java,.py,.rb,.php,.go,.swift,.kt,.html,.css,.xml,.json,.sql,.r,.pl,.sh,.bash,.vue,.asm,.dart,.csproj,.proj,.sln,.ipynb,.m,.lock"
+                      class="cursor-pointer"
+                    />
+                    <v-icon
+                      class="centered"
+                      icon="upload-icon mdi-code-block-braces"
+                      v-if="codeFilesLength == 0"
+                    ></v-icon>
+                    <div v-else class="centered">
+                      <b>
+                        {{ codeFilesNames }}
+                      </b>
+                    </div>
+                  </div>
+                </v-col>
+
+
+              </v-row>
+
+
+
             </v-col>
           </v-row>
         </v-card-text>
@@ -293,6 +346,33 @@ if (typeof route.query.course_id === "string") {
           <v-btn class="mx-auto mb-5" @click="addNewHomework" size="x-large" variant="tonal">Добавить</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
   </v-container>
 </template>
+<style lang="scss">
+.folder-input-container {
+  height: 100px;
+  input {
+    opacity: 0;
+    // display: none;
+    width: 100%;
+    height: 100%;
+  }
+  position: relative;
+  .upload-icon {
+    font-size: 40px;
+  }
+  .centered {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+  }
+}
+</style>

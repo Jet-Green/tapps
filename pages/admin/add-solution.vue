@@ -208,7 +208,7 @@ async function submit() {
       <v-col cols="12">
         <p class="text-1xl font-semibold mb-4">Загрузка кода</p>
         <div class="folder-input-container border rounded-lg cursor-pointer">
-          <input type="file" multiple @change="onCodeFilesChange" accept=".cs,.cpp,.js,.ts,.java,.json,.mvn,.xml,.pom,.sql,.sh,.bat,.env,.psd" class="cursor-pointer" />
+          <input type="file" multiple @change="onCodeFilesChange" accept=".cs,.cpp,.js,.ts,.java,.py,.rb,.php,.go,.swift,.kt,.html,.css,.xml,.json,.sql,.r,.pl,.sh,.bash,.vue,.asm,.dart,.csproj,.proj,.sln,.ipynb,.m,.lock" class="cursor-pointer" />
           <v-icon class="centered" icon="upload-icon mdi-code-block-braces" v-if="codeFilesLength == 0"></v-icon>
           <div v-else class="centered">
             <b>
@@ -299,6 +299,7 @@ async function submit() {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: -1;
   }
 }
 </style>
