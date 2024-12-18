@@ -116,9 +116,15 @@ export const useAuth = defineStore('auth', () => {
     } catch { }
   }
 
-  async function updateUser(new_user: any) {
+  async function updateUser(newUser: any, userId: string) {
     try {
-      user.value = (await AuthAPI.updateUser(new_user)).data
+      let res = await AuthAPI.updateUser(newUser, userId);
+
+      if (res.status.value == 'success') {
+        user.value = res.data.value;
+      }
+
+      return res
     } catch { }
   }
 
@@ -138,12 +144,20 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
+  async function uploadAvatar(fd: FormData, userId: string) {
+    try {
+      return await AuthAPI.uploadAvatar(fd, userId);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return {
     // variables
     user,
     // functions
     registration, login, checkAuth, logout,
     updateUser, sendResetLink, resetPassword, registerStudent,
-    getAllUsers,
+    getAllUsers, uploadAvatar,
   }
 })

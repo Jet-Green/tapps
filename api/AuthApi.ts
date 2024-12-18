@@ -14,8 +14,8 @@ export default {
   logout(): Promise<any> {
     return useApiFetch('/auth/logout', { method: 'POST' })
   },
-  updateUser(user: any): Promise<any> {
-    return useApiFetch('/auth/update', { method: 'POST', body: { user } })
+  updateUser(user: any, userId: string): Promise<any> {
+    return useApiFetch('/auth/update', { method: 'POST', body: { user, userId } })
   },
   sendResetLink(email: string) {
     return useApiFetch('/auth/send-reset-link', {
@@ -33,5 +33,8 @@ export default {
     return useApiFetch('/auth/get-all-users', {
       method: 'GET',
     })
+  },
+  uploadAvatar(formData: FormData, userId: string) {
+    return useApiFetch(`/auth/upload-avatar?user_id=${userId}`, { method: 'POST', headers: { 'Content-Type': 'multipart/form-data' }, body: formData })
   }
 }
