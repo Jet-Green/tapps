@@ -7,6 +7,19 @@ definePageMeta({
 import type { Course } from "~/types/course.interface"
 import type { Lesson } from "~/types/lesson.interface"
 
+interface Link {
+  name: string
+  value: string
+}
+interface Homework {}
+
+interface Form {
+  name: string
+  shortDescription: string
+  links: Link[]
+  homework: Homework[]
+}
+
 import { toast } from "vue3-toastify"
 
 const courseStore = useCourse()
@@ -16,14 +29,12 @@ const router = useRouter()
 const route = useRoute()
 
 let videoUploadedPath = ref<string | null>()
-let form = ref<any>({
+let form = ref<Form>({
   name: "",
   shortDescription: "",
   links: [],
   homework: [],
 })
-
-let newLink = ref<string>("")
 
 let newHomeworkDialog = ref<boolean>(false)
 let homeworks = ref<any>([])
@@ -78,6 +89,62 @@ async function onCodeFilesChange(event: any) {
   codeFilesLength.value = files.length
 }
 // upload code
+let currentLink = ref({
+  name: "",
+  value: "",
+})
+let addLinkDialog = ref<boolean>(false)
+function addLink() {
+  addLinkDialog.value = true
+}
+
+function addLinkAndClose() {
+  let copy = Object.assign({}, currentLink.value)
+  // save current link
+  form.value.links.push(copy)
+  // clear current link
+  currentLink.value.name = ""
+  currentLink.value.value = ""
+  addLinkDialog.value = false
+}
+
+let editLinkDialog = ref<boolean>(false)
+
+let currentIndex = ref<number | null>(null)
+function openEditLinkDialog(linkIndex: number) {
+  try {
+    currentLink.value.name = form.value.links[linkIndex].name
+    currentLink.value.value = form.value.links[linkIndex].value
+
+    currentIndex.value = linkIndex
+    editLinkDialog.value = true
+  } catch (error) {}
+}
+
+function closeEditLink() {
+  // clear
+  currentIndex.value = null
+
+  currentLink.value.name = ""
+  currentLink.value.value = ""
+
+  editLinkDialog.value = false
+}
+
+function editLinkAndClose() {
+  if (currentIndex.value == null) return
+
+  form.value.links[currentIndex.value].name = currentLink.value.name
+  form.value.links[currentIndex.value].value = currentLink.value.value
+
+  // clear
+  currentIndex.value = null
+
+  currentLink.value.name = ""
+  currentLink.value.value = ""
+
+  editLinkDialog.value = false
+}
 
 function addNewHomework() {
   homeworks.value.push(Object.assign({}, newHomework.value))
@@ -215,7 +282,7 @@ if (typeof route.query.course_id === "string") {
         <v-textarea variant="outlined" label="Описание" v-model="form.shortDescription" hide-details></v-textarea>
       </v-col>
 
-      <v-col cols="12">
+      <!-- <v-col cols="12">
         <p class="text-1xl font-semibold">Ссылки</p>
         <v-chip v-for="(link, index) of form.links" :key="index" class="ma-1">
           <NuxtLink :to="link" target="_blank">{{ link }}</NuxtLink>
@@ -231,7 +298,105 @@ if (typeof route.query.course_id === "string") {
           density="compact"
         ></v-text-field>
         <v-btn class="ml-4" icon="mdi-plus" size="small" @click="form.links.push(newLink), (newLink = '')"></v-btn>
+      </v-col> -->
+
+      <v-col cols="12" md="6" class="border" style="border-radius: 36px">
+        <p class="font-bold text-2xl ma-2">Прикреплённые ссылки</p>
+
+        <v-row>
+          <v-col
+            v-for="(link, index) of form.links"
+            :key="index"
+            cols="12"
+            class="d-flex align-center justify-space-between ma-2"
+          >
+            <div class="link-container">
+              <div>
+                Имя ссылки: <b>{{ link.name }}</b>
+              </div>
+              <div>
+                Адрес ссылки:
+                <b
+                  ><a :href="link.value">{{ link.value }}</a></b
+                >
+              </div>
+            </div>
+
+            <div class="d-flex">
+              <v-btn
+                class="default-btn mx-2"
+                variant="tonal"
+                prepend-icon="mdi-pencil"
+                @click="openEditLinkDialog(index)"
+                >Изменить ссылку</v-btn
+              >
+              <v-btn
+                class="default-btn mx-2"
+                variant="tonal"
+                prepend-icon="mdi-delete-outline"
+                @click="form.links.splice(index, 1)"
+                >Открепить ссылку</v-btn
+              >
+            </div>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols="12">
+            <v-btn @click="addLink" class="default-btn" variant="tonal" block prepend-icon="mdi-plus"
+              >Добавить ссылку</v-btn
+            >
+          </v-col>
+        </v-row>
       </v-col>
+
+      <v-dialog max-width="600" v-model="addLinkDialog" persistent>
+        <v-card title="Добавить" prepend-icon="mdi-plus">
+          <v-card-text>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  variant="outlined"
+                  label="Имя ссылки"
+                  v-model="currentLink.name"
+                  hide-details
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field variant="outlined" label="Адрес" v-model="currentLink.value" hide-details></v-text-field>
+              </v-col>
+            </v-row>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn class="default-btn" variant="tonal" color="error" @click="addLinkDialog = false">Отмена</v-btn>
+            <v-btn class="default-btn" variant="tonal" color="success" @click="addLinkAndClose">Готово</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog max-width="600" v-model="editLinkDialog" persistent>
+        <v-card title="Изменить" prepend-icon="mdi-pencil">
+          <v-card-text>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  variant="outlined"
+                  label="Имя ссылки"
+                  v-model="currentLink.name"
+                  hide-details
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field variant="outlined" label="Адрес" v-model="currentLink.value" hide-details></v-text-field>
+              </v-col>
+            </v-row>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn class="default-btn" variant="tonal" color="error" @click="closeEditLink">Отмена</v-btn>
+            <v-btn class="default-btn" variant="tonal" color="success" @click="editLinkAndClose">Готово</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
       <v-col cols="12">
         <UploadVideo @upload-finished="uploadFinished" />
@@ -378,5 +543,8 @@ if (typeof route.query.course_id === "string") {
     align-items: center;
     z-index: -1;
   }
+}
+.link-container {
+  overflow: hidden;
 }
 </style>
