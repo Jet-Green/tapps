@@ -27,10 +27,10 @@ function getRole(roles: string[]): string {
       <v-col cols="12">
         <p class="text-4xl font-semibold">Доступные мне уроки</p>
       </v-col>
-      <v-col cols="12" v-for="(course, index) of lessonByCourses" :key="index">
+      <v-col v-if="lessonByCourses.length > 0" cols="12" v-for="(course, index) of lessonByCourses" :key="index">
         <v-row>
           <v-col cols="auto">
-            <img :src="course.images.logo" alt="картинка;)" style="border-radius: 12px; max-height: 200px" />
+            <img :src="course.images?.logo" alt="картинка;)" style="border-radius: 12px; max-height: 200px" />
           </v-col>
           <v-col cols="8" class="course-info">
             <v-row>
