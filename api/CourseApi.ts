@@ -1,6 +1,5 @@
 export default {
-  getAll(role: string, courses: string[]|null): Promise<any> {
-    
+  getAll(role: string, courses: string[]|null): Promise<any> {    
     return useApiFetch(`/courses/${role}/get-all`, { method: 'POST', body: { courses } })
   },
   uploadImages(formData: FormData, _id: string): Promise<any> {

@@ -23,17 +23,17 @@ export const useCourse = defineStore('course', () => {
     if (!roles) return null;
 
     let res;
-    if (roles.indexOf('teacher') != -1) {
-      res = await CourseApi.getAll('teacher', null)
+    if (roles.indexOf('teacher') != -1 && auth.user != null) {      
+      res = await CourseApi.getAll('teacher', auth.user?.createdCourses)
     } else if (roles.indexOf('admin') != -1) {
       res = await CourseApi.getAll('admin', null)
     } else if (roles.indexOf('student') != -1 && auth.user != null) {
-      res = await CourseApi.getAll('student', auth.user.courses)
+      res = await CourseApi.getAll('student', auth.user.myCourses)
     } else {
       res = await CourseApi.getAll('student', [])
     }
-
-    courses.value = res.data.value
+    
+    courses.value = res.data?.value
 
     return res
   }
@@ -78,9 +78,9 @@ export const useCourse = defineStore('course', () => {
   async function getUserLessonsGroupedByCourse() {
     let user = useAuth()?.user;
     if (!user) return [];
-    let userCourses = user.courses;
+    let myCourses = user.myCourses;
     
-    return await CourseApi.getUserLessonsGroupedByCourse(userCourses);
+    return await CourseApi.getUserLessonsGroupedByCourse(myCourses);
   }
 
   return {
