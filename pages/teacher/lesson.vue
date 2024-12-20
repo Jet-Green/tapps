@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { Homework } from '~/types/homework.interface';
+import type { Homework } from "~/types/homework.interface"
 
 definePageMeta({
-  middleware: ["teacher"]
+  middleware: ["teacher"],
   // or middleware: 'auth'
 })
 
 const runtimeConfig = useRuntimeConfig()
 const courseStore = useCourse()
-const router = useRouter();
+const router = useRouter()
 const route = useRoute()
 const lessonId = route.query._id
 
@@ -25,8 +25,8 @@ let currentLesson = computed(() => {
 
 if (route.query.course_id) {
   let res = await courseStore.getHomeworksByCourses([String(route.query.course_id)])
-  if (res.status.value == 'success') {
-    homeworks.value = res.data.value;
+  if (res.status.value == "success") {
+    homeworks.value = res.data.value
   }
 }
 
@@ -44,22 +44,18 @@ let breadcrums = ref([
     href: `${currentCourse.value?._id}`,
   },
 ])
-
 </script>
 <template>
   <v-container v-if="currentLesson?._id">
     <v-row>
       <v-col cols="12">
         <BackButton />
-        <v-breadcrumbs :items="breadcrums" class="text-xs md:text-base"
-        </v-breadcrumbs>
+        <v-breadcrumbs :items="breadcrums" class="text-xs md:text-base"></v-breadcrumbs>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" md="6">
-        <M3U8Player
-          :src="currentLesson?.videos[0]"
-        />
+        <M3U8Player :src="currentLesson?.videos[0]" />
       </v-col>
       <v-col cols="12" md="3">
         <p class="text-4xl font-semibold mb-5">
@@ -70,16 +66,29 @@ let breadcrums = ref([
         </p>
       </v-col>
       <v-col cols="12" md="3">
-        <NuxtLink v-for="link of currentLesson.links" :to="link" target="blank">
-          <v-btn class="ma-1 w-100 border" variant="text" rounded="lg">{{ link }}</v-btn>
-        </NuxtLink>
+        <p class="font-bold text-2xl mb-4">Прикреплённые ссылки</p>
+        <v-row>
+          <v-col cols="12" v-for="link of currentLesson.links" class="pa-2">
+            <NuxtLink :to="link.value" target="blank">
+              <v-btn class="default-btn" variant="tonal"
+                ><b>{{ link.name }}</b></v-btn
+              >
+            </NuxtLink>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col cols="12" md="6">
         <p class="text-4xl font-semibold mb-5">Домашнее задание</p>
         <v-row>
           <v-col cols="12" md="6" v-for="task in homeworks">
-            <div class="border rounded-lg cursor-pointer h-100"
-              @click="router.push(`/teacher/add-solution?homework_id=${task._id}&lesson_id=${task.lesson}&course_id=${task.course}`)">
+            <div
+              class="border rounded-lg cursor-pointer h-100"
+              @click="
+                router.push(
+                  `/teacher/add-solution?homework_id=${task._id}&lesson_id=${task.lesson}&course_id=${task.course}`
+                )
+              "
+            >
               <v-col cols="12" class="d-flex justify-space-between">
                 <p class="text-2xl font-semibold">{{ task.name }}</p>
               </v-col>
