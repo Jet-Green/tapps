@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 * {
     font-family: Montserrat !important;
 }
@@ -9,7 +5,7 @@ a {
     margin: 2px;
     text-decoration: underline;
 }
-$primary-color: #1481F5;
+$primary-color: #1481F6;
 
 .submit-button {
     background-color: $primary-color !important;

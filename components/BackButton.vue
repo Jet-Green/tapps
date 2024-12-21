@@ -16,7 +16,7 @@ const { buttonText } = defineProps({
     <div class="d-flex cursor-pointer ma-2" @click="router.back()">
       <v-icon>mdi-chevron-left</v-icon>
 
-      <div class="text-body-4 ml-1 font-semibold">{{ buttonText ? buttonText : "Вернуться назад" }}</div>
+      <div class="text-body-4 ml-1 font-semibold">{{ buttonText ? buttonText : "Назад" }}</div>
     </div>
   </div>
 </template>

@@ -57,7 +57,7 @@ export const useAuth = defineStore('auth', () => {
       } else {
         return false
       }
-    } catch (error) {
+    } catch (error) {      
       await logout()
       return false
     }
