@@ -11,7 +11,7 @@ const auth = useAuth();
             <v-btn prepend-icon="mdi-home" @click="router.push('/')">Главная</v-btn>
           </v-col>
           <v-col cols="3" class="d-flex justify-center align-center">
-            <v-btn prepend-icon="mdi-database-import-outline" @click="router.push('/import-miniapps')">Импорт miniapps</v-btn>
+            <v-btn prepend-icon="mdi-database-import-outline" @click="router.push('/import-tapps')">Импорт miniapps</v-btn>
           </v-col>
           <v-col cols="3"  class="d-flex justify-end align-center">
             <v-btn prepend-icon="mdi-account-outline" @click="router.push('/account')">Аккаунт</v-btn>
@@ -23,6 +23,5 @@ const auth = useAuth();
     <div class="mt-16 pb-20">
       <slot />
     </div>
-    <Footer />
   </v-app>
 </template>

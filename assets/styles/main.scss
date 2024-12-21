@@ -7,11 +7,18 @@ a {
 }
 $primary-color: #1481F6;
 
-.submit-button {
+.submit-btn {
     background-color: $primary-color !important;
     color: white !important;
     border-radius: 1000px !important;
 }
 .default-btn {
     border-radius: 1000px !important;
+}
+.colored-text {
+    color: $primary-color;
+}
+
+.v-icon {
+    font-size: 24px !important;
 }
