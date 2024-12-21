@@ -5,6 +5,6 @@ definePageMeta({
 </script>
 <template>
   <v-container>
-    лендинг
+    account
   </v-container>
 </template>

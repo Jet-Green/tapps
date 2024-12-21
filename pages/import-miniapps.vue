@@ -4,7 +4,5 @@ definePageMeta({
 })
 </script>
 <template>
-  <v-container>
-    лендинг
-  </v-container>
+  <v-container> import miniapps </v-container>
 </template>
