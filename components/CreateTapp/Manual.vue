@@ -44,14 +44,14 @@ function closeEdit() {
 </script>
 <template>
   <v-row>
-    <v-col cols="6">
+    <v-col cols="12" md="6">
       <v-col cols="12">
         <h2>Название</h2>
-        <v-text-field variant="outlined"></v-text-field>
+        <v-text-field v-model="form.name" variant="outlined"></v-text-field>
       </v-col>
       <v-col cols="12">
         <h2>Ссылка на логотип</h2>
-        <v-text-field variant="outlined"></v-text-field>
+        <v-text-field v-model="form.logoLink" variant="outlined"></v-text-field>
       </v-col>
       <v-col cols="12">
         <h2 class="mb-5">Кнопки</h2>
@@ -78,7 +78,7 @@ function closeEdit() {
       </v-col>
     </v-col>
 
-    <v-col cols="6" class="d-flex justify-center align-start">
+    <v-col cols="12" md="6" class="d-flex justify-center align-start">
       <TappPreview :data="form" />
     </v-col>
 
