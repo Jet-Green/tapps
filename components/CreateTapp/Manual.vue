@@ -10,10 +10,36 @@ let form = ref<Tapp>({
 
 let addButtonDialog = ref<boolean>(false)
 let editButtonDialog = ref<boolean>(false)
+let buttonToEdit = ref<Button>(null)
+let buttonIndexToEdit = -1
 
 function addButton(newButton: Button) {
   form.value.buttons.push(newButton)
   addButtonDialog.value = false
+}
+
+function startEditButton(index: number) {
+  buttonIndexToEdit = index;
+  buttonToEdit.value = form.value.buttons[index];
+  editButtonDialog.value = true;
+}
+
+function clearEdit() {
+  buttonIndexToEdit = -1;
+  buttonToEdit.value = null;
+}
+
+function editButton(editedButton: Button) {
+  form.value.buttons[buttonIndexToEdit].name = editedButton.name;
+  form.value.buttons[buttonIndexToEdit].link = editedButton.link;
+
+  editButtonDialog.value = false;
+  clearEdit()
+}
+
+function closeEdit() {
+  editButtonDialog.value = false;
+  clearEdit()
 }
 </script>
 <template>
@@ -33,10 +59,15 @@ function addButton(newButton: Button) {
           <v-col cols="12" class="d-flex" v-for="(btn, index) of form.buttons" :key="index">
             <div>
               Надпись: <b>{{ btn.name }}</b> <br />
-              Ссылка: <a :href="btn.link" target="_blank"><b>{{ btn.link }}</b></a>
+              Ссылка:
+              <a :href="btn.link" target="_blank"
+                ><b>{{ btn.link }}</b></a
+              >
             </div>
             <div class="ml-6">
-              <v-btn class="default-btn" variant="tonal" prepend-icon="mdi-pencil" @click="editButtonDialog = true">Редактировать</v-btn>
+              <v-btn class="default-btn" variant="tonal" prepend-icon="mdi-pencil" @click="startEditButton(index)"
+                >Редактировать</v-btn
+              >
             </div>
           </v-col>
         </v-row>
@@ -56,7 +87,7 @@ function addButton(newButton: Button) {
     </v-dialog>
 
     <v-dialog v-model="editButtonDialog" max-width="600">
-      <CreateTappEditButton />
+      <CreateTappEditButton :data="buttonToEdit" @edit-button="editButton" @close="closeEdit" />
     </v-dialog>
   </v-row>
 </template>

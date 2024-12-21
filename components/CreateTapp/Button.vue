@@ -35,7 +35,7 @@ const submitForm = handleSubmit((values) => {
     <v-card>
       <v-card-title class="d-flex justify-space-between">
         <div class="d-flex align-center">
-          <v-icon>mdi-plus</v-icon>
+          <v-icon class="mr-3">mdi-plus</v-icon>
           Добавить кнопку
         </div>
 
