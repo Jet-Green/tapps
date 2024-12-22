@@ -29,12 +29,10 @@ export default {
       body: { password, userId, token }
     })
   },
-  getAllUsers() {
-    return useApiFetch('/auth/get-all-users', {
-      method: 'GET',
-    })
-  },
   uploadAvatar(formData: FormData, userId: string) {
     return useApiFetch(`/auth/upload-avatar?user_id=${userId}`, { method: 'POST', headers: { 'Content-Type': 'multipart/form-data' }, body: formData })
+  },
+  getMyTapps(userId: string) {
+    return useApiFetch(`/tapp/get-my-tapps?user_id=${userId}`, { method: 'GET' })
   }
 }

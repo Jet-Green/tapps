@@ -50,24 +50,16 @@ export const useAuth = defineStore('auth', () => {
         return true
       }
       const response = await AuthAPI.refresh()
-      
+
       if (response.data.value?._id) {
         user.value = response.data.value
         return true
       } else {
         return false
       }
-    } catch (error) {      
+    } catch (error) {
       await logout()
       return false
-    }
-  }
-
-  async function getAllUsers(): Promise<any> {
-    try {
-      return await AuthAPI.getAllUsers()
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -152,12 +144,22 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
+  async function getMyTapps(): Promise<any> {
+    try {      
+      if (user.value?._id) {
+        return await AuthAPI.getMyTapps(user.value._id)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return {
     // variables
     user,
     // functions
     registration, login, checkAuth, logout,
     updateUser, sendResetLink, resetPassword, registerStudent,
-    getAllUsers, uploadAvatar,
+    uploadAvatar, getMyTapps, 
   }
 })
