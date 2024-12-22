@@ -13,9 +13,13 @@ export const useTapp = defineStore('tapp', () => {
     return res
   }
 
+  async function getById(tappId: string): Promise<any> {
+    return await TappApi.getById(tappId);
+  }
+
   return {
     // variables
     // functions
-    createTapp,
+    createTapp, getById,
   }
 })
