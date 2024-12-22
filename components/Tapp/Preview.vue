@@ -17,7 +17,7 @@ let data = ref(props.data)
           {{ data.name }}
         </h1>
 
-        <img class="logo" v-if="data.logoLink.length > 0" :src="data.logoLink" alt="" />
+        <img class="logo" v-if="data.logoLink?.length > 0" :src="data.logoLink" alt="" />
       </div>
       <div class="buttons">
         <NuxtLink v-for="(btn, index) of data.buttons" :to="btn.link" target="_blank">
@@ -63,9 +63,6 @@ let data = ref(props.data)
     /* font-weight: 600; */
     font-size: 25px;
     transition: 0.2s ease;
-    /* font-family: "blisspro-medium"; */
-    font-family: "Reforma Grotesk Demi", sans-serif;
-    letter-spacing: 1px;
     color: #c05d00;
     border: 0px;
     border-radius: 20px;

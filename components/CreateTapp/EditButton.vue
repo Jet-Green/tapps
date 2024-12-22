@@ -9,7 +9,6 @@ const props = defineProps<{
   data: Button | null
 }>()
 
-function setFromProps() {}
 // Определение схемы валидации с использованием Yup
 const schema = yup.object({
   name: yup.string().required("Надпись на кнопке обязательна").min(3, "Надпись должна содержать не менее 3 символов"),
