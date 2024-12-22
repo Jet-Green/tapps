@@ -6,7 +6,7 @@ import * as yup from "yup"
 const emit = defineEmits(["close", "edit-button"])
 
 const props = defineProps<{
-  data: Button
+  data: Button | null
 }>()
 
 function setFromProps() {}

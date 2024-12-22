@@ -10,7 +10,7 @@ let form = ref<Tapp>({
 
 let addButtonDialog = ref<boolean>(false)
 let editButtonDialog = ref<boolean>(false)
-let buttonToEdit = ref<Button>(null)
+let buttonToEdit = ref<Button | null>(null)
 let buttonIndexToEdit = -1
 
 function addButton(newButton: Button) {
@@ -19,26 +19,26 @@ function addButton(newButton: Button) {
 }
 
 function startEditButton(index: number) {
-  buttonIndexToEdit = index;
-  buttonToEdit.value = form.value.buttons[index];
-  editButtonDialog.value = true;
+  buttonIndexToEdit = index
+  buttonToEdit.value = form.value.buttons[index]
+  editButtonDialog.value = true
 }
 
 function clearEdit() {
-  buttonIndexToEdit = -1;
-  buttonToEdit.value = null;
+  buttonIndexToEdit = -1
+  buttonToEdit.value = null
 }
 
 function editButton(editedButton: Button) {
-  form.value.buttons[buttonIndexToEdit].name = editedButton.name;
-  form.value.buttons[buttonIndexToEdit].link = editedButton.link;
+  form.value.buttons[buttonIndexToEdit].name = editedButton.name
+  form.value.buttons[buttonIndexToEdit].link = editedButton.link
 
-  editButtonDialog.value = false;
+  editButtonDialog.value = false
   clearEdit()
 }
 
 function closeEdit() {
-  editButtonDialog.value = false;
+  editButtonDialog.value = false
   clearEdit()
 }
 </script>
