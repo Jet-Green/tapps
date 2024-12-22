@@ -35,6 +35,7 @@ let data = ref(props.data)
   width: 414px;
   border: 1px solid black;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 .container {
   display: flex;
@@ -69,7 +70,7 @@ let data = ref(props.data)
     border: 0px;
     border-radius: 20px;
     padding: 20px;
-    background-color: #EFEFEF;
+    background-color: #efefef;
     margin-top: 26px;
   }
   .button:active {
