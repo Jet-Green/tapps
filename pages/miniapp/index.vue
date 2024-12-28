@@ -20,8 +20,8 @@ function initTelegram() {
   const hash = window.location.hash.slice(1);
   // alert(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
 
-  const params = new URLSearchParams(hash);
-  alert(tg.value.initData);
+  const params = new URLSearchParams(tg.value.initData);
+  alert(params.get('start_param'));
 }
 
 onMounted(() => {
