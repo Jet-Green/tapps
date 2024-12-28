@@ -2,16 +2,7 @@
 definePageMeta({
   layout: "app-page",
 })
-
-// useHead({
-//   script: [{
-//     src: 'https://telegram.org/js/telegram-web-app.js?56',
-//     tagPosition: "head",
-//     type: "text/javascript",
-//     async: true
-//   }]
-// })
-
+const router = useRouter();
 let tg = ref<any>();
 
 function initTelegram() {
@@ -21,7 +12,10 @@ function initTelegram() {
   // alert(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
 
   const params = new URLSearchParams(tg.value.initData);
-  alert(params.get('start_param'));
+  let miniappId = params.get('start_param')
+  if (miniappId) {
+    router.push(`miniapp/${miniappId}`)
+  }
 }
 
 onMounted(() => {
