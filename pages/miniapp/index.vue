@@ -17,8 +17,9 @@ let tg = ref<any>();
 function initTelegram() {
   tg.value = window?.Telegram?.WebApp;
   // console.log(tg);
-  alert(JSON.stringify(tg.value.initData))
+  alert(JSON.stringify(tg.value.tgWebAppStartParam))
 }
+
 onMounted(() => {
   initTelegram();
 })

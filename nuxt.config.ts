@@ -57,7 +57,7 @@ export default defineNuxtConfig({
         src: 'https://telegram.org/js/telegram-web-app.js?56',
         tagPosition: 'head',
         type: "text/javascript",
-        async: true,
+        // async: true,
       }]
     }
   }
