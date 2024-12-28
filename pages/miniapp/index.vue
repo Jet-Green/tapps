@@ -21,7 +21,7 @@ function initTelegram() {
   // alert(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
 
   const params = new URLSearchParams(hash);
-  alert(tg.value.initData.start_param);
+  alert(tg.value.initData);
 }
 
 onMounted(() => {
