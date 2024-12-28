@@ -18,10 +18,10 @@ function initTelegram() {
   tg.value = window?.Telegram?.WebApp;
   // console.log(tg);
   const hash = window.location.hash.slice(1);
-  alert(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
+  // alert(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
 
   const params = new URLSearchParams(hash);
-  alert(params.get('tgWebAppVersion')); // "6.2"
+  alert(params.get('tgWebAppStartParam')); // "6.2"
 }
 
 onMounted(() => {
