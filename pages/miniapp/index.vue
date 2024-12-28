@@ -3,19 +3,31 @@ definePageMeta({
   layout: "app-page",
 })
 
-useHead({
-  script: [{
-    src: 'https://telegram.org/js/telegram-web-app.js?56',
-  }]
+// useHead({
+//   script: [{
+//     src: 'https://telegram.org/js/telegram-web-app.js?56',
+//     tagPosition: "head",
+//     type: "text/javascript",
+//     async: true
+//   }]
+// })
+
+let tg = ref<any>();
+
+function initTelegram() {
+  tg.value = window?.Telegram?.WebApp;
+  // console.log(tg);
+  alert(tg.value.initData)
+}
+onMounted(() => {
+  initTelegram();
 })
-const w = window;
-console.log();
 </script>
 <template>
-  <ClientOnly>
+  <div>
     <div>
-      {{ w?.Telegram }}
+      <!-- {{ tg }} -->
       Неверный miniapp
     </div>
-  </ClientOnly>
+  </div>
 </template>

@@ -5,11 +5,11 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 export default defineNuxtConfig({
   css: ['~/assets/styles/main.scss'],
   devtools: { enabled: true },
-  routeRules: {
-    '/miniapp/**': {
-      ssr: false,
-    }
-  },
+  // routeRules: {
+  //   '/miniapp/**': {
+  //     ssr: false,
+  //   }
+  // },
   build: {
     transpile: ['vuetify'],
   },
@@ -52,5 +52,13 @@ export default defineNuxtConfig({
   },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
+    head: {
+      script: [{
+        src: 'https://telegram.org/js/telegram-web-app.js?56',
+        tagPosition: 'head',
+        type: "text/javascript",
+        async: true,
+      }]
+    }
   }
 })
