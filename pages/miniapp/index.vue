@@ -17,7 +17,11 @@ let tg = ref<any>();
 function initTelegram() {
   tg.value = window?.Telegram?.WebApp;
   // console.log(tg);
-  alert(JSON.stringify(tg.value.tgWebAppStartParam))
+  const hash = window.location.hash.slice(1);
+  alert(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
+
+  const params = new URLSearchParams(hash);
+  alert(params.get('tgWebAppVersion')); // "6.2"
 }
 
 onMounted(() => {
