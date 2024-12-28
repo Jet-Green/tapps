@@ -1,14 +1,21 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: "app-page",
+})
+
 useHead({
   script: [{
     src: 'https://telegram.org/js/telegram-web-app.js?56',
   }]
 })
-
-console.log(window.Telegram.initData);
+const w = window;
+console.log();
 </script>
 <template>
-  <div>
-    Неверный miniapp
-  </div>
+  <ClientOnly>
+    <div>
+      {{ w?.Telegram }}
+      Неверный miniapp
+    </div>
+  </ClientOnly>
 </template>
