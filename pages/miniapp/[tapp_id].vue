@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "app-page",
+  layout: "mini-app",
 })
 
 const route = useRoute()

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "app-page",
+  layout: "mini-app",
 })
 const router = useRouter();
 let tg = ref<any>();
 
-function initTelegram() {
+async function initTelegram() {
   tg.value = window?.Telegram?.WebApp;
   // console.log(tg);
   const hash = window.location.hash.slice(1);
