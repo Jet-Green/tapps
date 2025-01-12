@@ -8,13 +8,10 @@ import { useWebAppTheme } from "vue-tg"
 const tg = useWebApp()
 const theme = useWebAppTheme()
 const router = useRouter()
-console.log(theme)
 
 function setTheme() {
-  theme.setBackgroundColor("", '#ffffff', "")
+  // theme.setBackgroundColor("", '#ffffff', "")
 }
-
-setTheme()
 
 // let tg = ref<any>()
 
@@ -30,6 +27,20 @@ setTheme()
 //     router.push(`miniapp/${miniappId}`)
 //   }
 // }
+
+onMounted(() => {
+  tg.ready()
+  setTheme()
+
+  const initData = tg.initData
+  console.log('initData', initData);
+  
+  const params = new URLSearchParams(initData)
+  let miniappId = params.get("start_param")
+  if (miniappId) {
+    router.push(`miniapp/${miniappId}`)
+  }
+})
 </script>
 <template>
   <div>asdfdf</div>
