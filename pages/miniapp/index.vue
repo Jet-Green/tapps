@@ -11,7 +11,7 @@ const router = useRouter()
 console.log(theme)
 
 function setTheme() {
-  theme.setBackgroundColor({ secondary_bg_color: "#ffffff" })
+  theme.setBackgroundColor("", '#ffffff', "")
 }
 
 setTheme()
