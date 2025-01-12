@@ -13,20 +13,7 @@ function setTheme() {
   // theme.setBackgroundColor("", '#ffffff', "")
 }
 
-// let tg = ref<any>()
-
-// async function initTelegram() {
-//   tg.value = window?.Telegram?.WebApp
-//   // console.log(tg);
-//   const hash = window.location.hash.slice(1)
-//   // alert(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
-
-//   const params = new URLSearchParams(tg.value.initData)
-//   let miniappId = params.get("start_param")
-//   if (miniappId) {
-//     router.push(`miniapp/${miniappId}`)
-//   }
-// }
+let isMiniappCorrect = ref<boolean>(true)
 
 onMounted(() => {
   tg.ready()
@@ -39,9 +26,23 @@ onMounted(() => {
   let miniappId = params.get("start_param")
   if (miniappId) {
     router.push(`miniapp/${miniappId}`)
+  } else {
+    isMiniappCorrect.value = false
   }
 })
 </script>
 <template>
-  <div>asdfdf</div>
+  <div class="wrong-miniapp" v-if="!isMiniappCorrect">
+    <h1>
+      Неверный miniapp 😭
+    </h1>
+  </div>
 </template>
+<style scoped lang="scss">
+.wrong-miniapp {
+  min-height: 80dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
