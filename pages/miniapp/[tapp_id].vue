@@ -2,9 +2,11 @@
 definePageMeta({
   layout: "mini-app",
 })
+
 import { BackButton as TgBackButton } from 'vue-tg'
 
 const route = useRoute()
+const router = useRouter()
 const tappStore = useTapp()
 
 let tapp = ref<any>()
@@ -21,7 +23,7 @@ if (tappId) {
 }
 
 function handleBackButton() {
-  alert('back');
+  router.push('/miniapp')
 }
 </script>
 <template>
