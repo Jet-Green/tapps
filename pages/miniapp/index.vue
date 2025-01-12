@@ -10,7 +10,7 @@ const theme = useWebAppTheme()
 const router = useRouter()
 
 function setTheme() {
-  theme.setBackgroundColor(undefined, '#ffffff')
+  theme.setBackgroundColor('#ffffff', 'ffffff')
   // theme.backgroundColor.value = '#ffffff';
 }
 
