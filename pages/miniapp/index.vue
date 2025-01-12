@@ -2,31 +2,35 @@
 definePageMeta({
   layout: "mini-app",
 })
-const router = useRouter();
-let tg = ref<any>();
+import { useWebApp } from "vue-tg"
+import { useWebAppTheme } from "vue-tg"
 
-async function initTelegram() {
-  tg.value = window?.Telegram?.WebApp;
-  // console.log(tg);
-  const hash = window.location.hash.slice(1);
-  // alert(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
+const tg = useWebApp()
+const theme = useWebAppTheme()
+const router = useRouter()
+console.log(theme)
 
-  const params = new URLSearchParams(tg.value.initData);
-  let miniappId = params.get('start_param')
-  if (miniappId) {
-    router.push(`miniapp/${miniappId}`)
-  }
+function setTheme() {
+  theme.setBackgroundColor({ secondary_bg_color: "#ffffff" })
 }
 
-onMounted(() => {
-  initTelegram();
-})
+setTheme()
+
+// let tg = ref<any>()
+
+// async function initTelegram() {
+//   tg.value = window?.Telegram?.WebApp
+//   // console.log(tg);
+//   const hash = window.location.hash.slice(1)
+//   // alert(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
+
+//   const params = new URLSearchParams(tg.value.initData)
+//   let miniappId = params.get("start_param")
+//   if (miniappId) {
+//     router.push(`miniapp/${miniappId}`)
+//   }
+// }
 </script>
 <template>
-  <div>
-    <div>
-      <!-- {{ tg }} -->
-      Неверный miniapp
-    </div>
-  </div>
+  <div>asdfdf</div>
 </template>

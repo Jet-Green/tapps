@@ -3,8 +3,13 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
+  routeRules: {
+    '/miniapp/**': {
+      ssr: false
+    }
+  },
   css: ['~/assets/styles/main.scss'],
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   // routeRules: {
   //   '/miniapp/**': {
   //     ssr: false,
@@ -53,12 +58,7 @@ export default defineNuxtConfig({
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
     head: {
-      script: [{
-        src: 'https://telegram.org/js/telegram-web-app.js?56',
-        tagPosition: 'head',
-        type: "text/javascript",
-        // async: true,
-      }]
-    }
+      script: [{ src: 'https://telegram.org/js/telegram-web-app.js' }],
+    },
   }
 })
