@@ -23,7 +23,7 @@ if (tappId) {
 }
 
 function handleBackButton() {
-  router.push('/miniapp')
+  router.push('/miniapp/search')
 }
 </script>
 <template>
