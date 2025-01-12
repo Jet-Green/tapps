@@ -21,7 +21,7 @@ if (tappId) {
 }
 
 function handleBackButton() {
-  console.log('back');
+  alert('back');
 }
 </script>
 <template>
