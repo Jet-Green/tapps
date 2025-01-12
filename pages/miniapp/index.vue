@@ -10,7 +10,7 @@ const theme = useWebAppTheme()
 const router = useRouter()
 
 function setTheme() {
-  theme.setBackgroundColor('#ffffff', '#ffffff')
+  // theme.setBackgroundColor('#dddddd', '#ffffff')
   // theme.backgroundColor.value = '#ffffff';
 }
 
@@ -41,9 +41,10 @@ onMounted(() => {
 </template>
 <style scoped lang="scss">
 .wrong-miniapp {
-  min-height: 80dvh;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 </style>
