@@ -10,7 +10,7 @@ const theme = useWebAppTheme()
 const router = useRouter()
 
 function setTheme() {
-  // theme.setBackgroundColor("", '#ffffff', "")
+  theme.backgroundColor.value = '#ffffff';
 }
 
 let isMiniappCorrect = ref<boolean>(true)
